@@ -1,0 +1,237 @@
+{
+    "sr": {
+        "buttons": {
+            "save": "Sačuvaj",
+            "send_msg": "Pošalji"
+        },
+        "navigation": {
+            "home": "Početna",
+            "about": "O Autoru",
+            "contact": "Kontakt",
+            "lessons": "Kursevi",
+            "youtube": "YouTube",
+            "login": "Prijava",
+            "signup": "Registracija",
+            "login_forgot_password": "Zaboravili ste lozinku?",
+            "logout": "Odjava",
+            "profile": "Profil",
+            "reset_password": "Resetuj lozinku",
+            "login_btn": "Prijavi se",
+            "signup_btn": "Registruj se"
+        },
+        "hero": {
+            "title": "Lekcije iz oblasti IT-a",
+            "subtitle": "Pretražite lekcije iz IT oblasti potpuno besplatno. Registrujte se i proverite vaše znanje"
+        },
+        "benefits": {
+            "benefit_title": "Zašto se registrovati?",
+            "benefit_title_1": "Pristup PDF materijalima",
+            "benefit_text_1": "Pored videa, učite uz dopunsku literaturu u vidu PDF-a",
+            "benefit_title_2": "Proverite vaše znanje",
+            "benefit_text_2": "Na kraju lekcija i kurseva možete proveriti Vaše znanje uz pomoć naših upitnika",
+            "benefit_title_3": "Besplatno je",
+            "benefit_text_3": "Da, pristup svim oblastima platforme je potpuno besplatan. Nema skrivenih troškova"
+        },
+        "footer": {
+            "title": "Naši najnoviji klipovi na YouTube-u"
+        },
+        "courses": {
+            "title": "Kursevi",
+            "started": "Započeti kursevi"
+        },
+        "lessons": {
+            "progress": "Napredak",
+            "tab_1_lessons": "Lekcije",
+            "tab_2_notes": "Beleške",
+            "tab_3_reviews": "Recenzije",
+            "duration": "Trajanje",
+            "add_note": "Sačuvaj belešku",
+            "add_review": "Recenziraj",
+            "save_review": "Sačuvaj recenziju",
+            "save_review_error": "Morate oceniti kurs",
+            "enter_text": "Vaša recenzija...",
+            "pdf": "Dodatna literatura",
+            "finish_lesson": "Završi lekciju",
+            "lesson_finished": "Lekcija završena",
+            "mark_as_complete": "Obeleži kao završeno",
+            "take_test": "Pokreni test",
+            "submit_test": "Završi test",
+            "test_results": "Broj tačnih odgovora",
+            "test_close": "Zatvori test"
+        },
+        "input_fields": {
+            "email": "Vaša elektronska pošta",
+            "current_password": "Vaša trenutna lozinka",
+            "password": "Vaša lozinka",
+            "password_repeat": "Ponovite Vašu lozinku",
+            "name": "Ime",
+            "last_name": "Prezime",
+            "message": "Vaša poruka"
+        },
+        "input_field_errors": {
+            "email": "Elektronska pošta mora biti odgovarajućeg formata.",
+            "password_repeat": "Željene lozinke moraju biti iste.",
+            "required": "Ovo polje je obavezno.",
+            "min-3": "Morate uneti makar 3 karaktera.",
+            "min-8": "Morate uneti makar 8 karaktera.",
+            "current_password_error": "Trenutna lozinka nije validna!"
+        },
+        "notifications": {
+            "wait": "Please wait...",
+            "general_error": "Došlo je do greške. Molimo Vas pokušajte kasnije.",
+            "logging_in": "Prijavljivanje...",
+            "login_success": "Dobro došli nazad",
+            "login_error": "Pogrešan e-mail ili lozinka",
+            "register_success": "Uspešno ste se registrovali! Molimo Vas potvrdite nalog posećivanjem vašeg e-mail sandučeta",
+            "confirm_account_success": "Uspešno potvrđen nalog!",
+            "confirm_account_first": "Pre prijave na sistem, molimo Vas da potvrdite Vaš nalog.",
+            "edit_profile_success": "Uspešno izmenjen profil!",
+            "saved_note": "Bleške sačuvane!",
+            "saved_review": "Recenzija sačuvana!",
+            "no_translation": "Nema prevoda",
+            "login_notification": "Morate biti logovani za pregled kurseva",
+            "email_exists": "Korisnik sa datim email-om već postoji",
+            "reset_email_sent": "Za resetovanje lozinke proverite Vaše poštansko sanduče",
+            "message_sent": "Poruka uspešno poslata!"
+        },
+        "questions": {
+            "start_course": "Da li ste sigurni da želite da pohađate ovaj kurs?"
+        },
+        "answers": {
+            "yes": "Da",
+            "no": "Ne"
+        },
+        "about":  {
+            "p1": "Sa programiranjem se prvi put susreo u srednjoj školi gde je između ostalog pohađao predmete koji obuhvataju programske jezike C i C#. Takođe se u to vreme između ostalog upoznao i sa SQL Server bazama podataka kao i osnovnim konceptima razvoja veb aplikacija.",
+            "p2": "2016. upisuje Univerzitet Metropolitan smer Informacionih Tehnologija. Već nakon završene prve godine studija dobija stipendiju Univerziteta i biva zaposlen u razvojnom timu fakulteta kao programer.",
+            "p3": "Radeći u razvojnom timu univerziteta susreo se sa širokom paletom različitih tehnologija kao što su: <ul><li>Java + Spring</li><li>MySQL</li><li>PHP + Codeigniter</li><li>Angular 2+</li><li>HTML + CSS + JS + Bootstrap</li></ul>",
+            "p4": "Učestvovao u održavanju i razvoju informacionih sistema Univerziteta a koji uključuju:<ul><li>ISUM - Informacioni sistem Univerziteta Metropolitan</li><li>LAMS - Learning Activity Management System (e-learning sistem)</li></ul>",
+            "p5": "Učestvovao u izradi novih sistema koji uključuju: <ul><li>LAMS Manager</li></ul>",
+            "p6": "Kao lead frontend developer radio na sledećim projektima:<ul><li>Metropolitan esDnevnik - klon esdnevnika</li><li>Metropolitan bibliografija</li><li>Metropolitan projekti</li><li>Razvoj novog ISUM-a</li></ul>",
+            "p7": "Kao saradnik u nastavi vodio laboratorijske vežbe na predmetima:<ul><li>IT370 - Interakcija čovek računar (2018/2019)</li><li>IT210 - Osnove Informacionih Sistema (2019/2020)</li></ul>",
+            "p8": "Krajem 2019. prelazi u startap kompaniju Zanix gde radi kao software developer. Trenutno radi na projektima koji uključuju dominantno PHP, Laravel, Wordpress i različite vrste front end tehnologija kao što su VueJS, jQuery i Bootstrap",
+            "p9": "Tečno govori, čita i piše Engleski jezik"
+        },
+        "contact": {
+            "heading": "Kontakt"
+        }
+
+    },
+    "en": {
+        "buttons": {
+            "save": "Save",
+            "send_msg": "Send"
+        },
+        "navigation": {
+            "home": "Home",
+            "about": "About Us",
+            "contact": "Contact",
+            "lessons": "Courses",
+            "youtube": "YouTube",
+            "login": "Sign In",
+            "signup": "Sign Up",
+            "login_forgot_password": "Forgot your password?",
+            "logout": "Log Out",
+            "profile": "Profile",
+            "reset_password": "Reset password",
+            "login_btn": "Sign in",
+            "signup_btn": "Sign Up"
+        },
+        "hero": {
+            "title": "Lessons in IT",
+            "subtitle": "Search for your desired IT lesson totally free of charge. Sign Up and test your knowledge."
+        },
+        "benefits": {
+            "benefit_title": "Why register?",
+            "benefit_title_1": "Get access to PDF materials",
+            "benefit_text_1": "Besides learning get access to additional PDF literature",
+            "benefit_title_2": "Put your knowledge to the test",
+            "benefit_text_2": "After each lesson or course, check your knowledge level using our questionares",
+            "benefit_title_3": "It's free",
+            "benefit_text_3": "Yes, you get access to all lessons for free. No hidden costs."
+        },
+        "footer": {
+            "title": "Our latest YouTube videos"
+        },
+        "courses": {
+            "title": "Courses",
+            "started": "Started Courses"
+        },
+        "lessons": {
+            "progress": "Progress",
+            "tab_1_lessons": "Lessons",
+            "tab_2_notes": "Notes",
+            "tab_3_reviews": "Reviews",
+            "duration": "Duration",
+            "add_note": "Save Note",
+            "add_review": "Add Review",
+            "save_review": "Save review",
+            "save_review_error": "You must give a course mark",
+            "enter_text": "Your review...",
+            "pdf": "Bonus literature",
+            "finish_lesson": "Finish lesson",
+            "lesson_finished": "Lesson completed",
+            "mark_as_complete": "Mark As Complete",
+            "take_test": "Take test",
+            "submit_test": "Submit test",
+            "test_results": "Number of correct answers",
+            "test_close": "Close test"
+        },
+        "input_fields": {
+            "email": "Enter your e-mail",
+            "current_password": "Enter your current password",
+            "password": "Enter your password",
+            "password_repeat": "Password repeat",
+            "name": "Name",
+            "last_name": "Last Name",
+            "message": "Your message"
+        },
+        "input_field_errors": {
+            "email": "E-mail is required and must be in valid format.",
+            "password_repeat": "Entered passwords must match.",
+            "required": "This is a required field.",
+            "min-3": "You must enter at least 3 characters.",
+            "min-8": "You must enter at least 8 characters.",
+            "current_password_error": "Current password is not valid!"
+        },
+        "notifications": {
+            "wait": "Please wait...",
+            "general_error": "There was a server error. Please try again later.",
+            "logging_in": "Logging you in...",
+            "login_success": "Welcome Back",
+            "login_error": "Wrong email or password",
+            "register_success": "Success! Please check your email to confirm your account",
+            "confirm_account_success": "Account confirmed!",
+            "confirm_account_first": "Please confirm your account first before logging in.",
+            "edit_profile_success": "Success. Profile info saved!",
+            "saved_note": "Notes saved!",
+            "saved_review": "Review saved!",
+            "no_translation": "No translation available",
+            "login_notification": "Please login to view courses",
+            "email_exists": "User with given email already exists",
+            "reset_email_sent": "To reset your password, check your email inbox",
+            "message_sent": "Message sent!"
+        },
+        "questions": {
+            "start_course": "Are you sure you want to start this course?"
+        },
+        "answers": {
+            "yes": "Yes",
+            "no": "No"
+        },
+        "about":  {
+            "p1": "First started programming in high school where he attended classes that evolved around programming languages like C and C#. During his high school days he also started learning about databases (SQL Server) and the basic concepts of developing web applications.",
+            "p2": "In 2016 he started attending the Metropolitan University with a major in Information Technology. After completing the freshman year he won a scholarship and got employed at the development team of the university as a programmer.",
+            "p3": "While working at the university he encountered a wide variety of technologies such as: <ul><li>Java + Spring</li><li>MySQL</li><li>PHP + Codeigniter</li><li>Angular 2+</li><li>HTML + CSS + JS + Bootstrap</li></ul>",
+            "p4": "He participated in maintenance and development of existing university Information Systems such as: <ul><li>ISUM - Information system of Metropolitan University</li><li>LAMS - Learning Activity Management System (e-learning system)</li></ul>",
+            "p5": "Also, he participated in development of new systems such as: <ul><li>LAMS Manager</li></ul>",
+            "p6": "As a lead frontend developer he worked on the following projects: <ul><li>Metropolitan class register</li><li>Metropolitan bibliography</li><li>Metropolitan projects</li><li>Development of a new University information system</li></ul>",
+            "p7": "As a teaching associate he thought the following subjects: <ul><li>IT370 - Human Computer Interaction (school year 2018/2019)</li><li>IT210 - Introduction to Information Systems (school year 2019/2020)</li></ul>",
+            "p8": "At the end of 2019 he got employed at a startup company Zanix where he currently works as a software developer.\nHe currently works on projects that evolve around PHP, Laravel, Wordpress and various types of frontend technologies like: VueJS, jQuery and Bootstrap.",
+            "p9": "He is fluent in English."
+        },
+        "contact": {
+            "heading": "Contact"
+        }
+    }
+}
