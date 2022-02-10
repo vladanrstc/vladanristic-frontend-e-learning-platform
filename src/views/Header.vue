@@ -136,15 +136,15 @@
 
                         </b-form-group>
 
-                        <b-form-group id="example-input-group-3" :label="$t('input_fields.last_name')"
+                        <b-form-group id="example-input-group-3" :label="$t('input_fields.lastName')"
                                       label-for="example-input-3">
 
                             <b-form-input
                                 id="example-input-3"
                                 name="example-input-3"
-                                :placeholder="$t('input_fields.last_name')"
-                                v-model="$v.register_form.last_name.$model"
-                                :state="validateState('last_name')"
+                                :placeholder="$t('input_fields.lastName')"
+                                v-model="$v.register_form.lastName.$model"
+                                :state="validateState('lastName')"
                                 aria-describedby="input-3-live-feedback"
                             ></b-form-input>
 
@@ -229,7 +229,7 @@ export default {
                 password: "",
                 password_repeat: "",
                 name: "",
-                last_name: ""
+                lastName: ""
             },
             reset_password: {
                 email: ""
@@ -246,7 +246,7 @@ export default {
             name: {
                 required,
             },
-            last_name: {
+            lastName: {
                 required,
             },
             password: {
@@ -338,12 +338,12 @@ export default {
                     this.$swal.showLoading();
                 }
             });
+            let formData = new FormData();
+            formData.append('email', this.form.email)
+            formData.append('password', this.form.password)
 
-            axios.post('/login', {
-                email: this.form.email,
-                password: this.form.password
-            }).then(response => {
-
+            axios.post('/login', formData).then(response => {
+                console.log(response)
                 if (response.data.flag == false) {
 
                     this.$swal.fire({
@@ -375,13 +375,14 @@ export default {
                 localStorage.setItem("ac_t", response.data.ac_t)
                 localStorage.setItem("rf_t", response.data.rf_t)
                 localStorage.setItem("fn", response.data.name)
-                localStorage.setItem("ln", response.data.last_name)
+                localStorage.setItem("ln", response.data.lastName)
 
                 this.getLoginStatus();
 
                 location.reload();
 
-            }).catch(() => {
+            }).catch((err) => {
+                console.log(err)
                 this.$swal.fire({
                     toast: true,
                     position: 'top-end',
@@ -424,7 +425,7 @@ export default {
                     this.$refs['login_modal'].hide()
 
                 }).catch(error => {
-
+                    console.log(error)
                     if (error.response.status == 401) {
                         this.$swal.fire({
                             toast: true,
