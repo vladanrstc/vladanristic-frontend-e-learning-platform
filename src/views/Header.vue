@@ -338,6 +338,7 @@ export default {
                     this.$swal.showLoading();
                 }
             });
+            
             let formData = new FormData();
             formData.append('email', this.form.email)
             formData.append('password', this.form.password)
@@ -372,7 +373,7 @@ export default {
 
                 this.$refs['login_modal'].hide()
 
-                localStorage.setItem("ac_t", response.data.ac_t)
+                localStorage.setItem("ac_t", response.data.access_token)
                 localStorage.setItem("rf_t", response.data.rf_t)
                 localStorage.setItem("fn", response.data.name)
                 localStorage.setItem("ln", response.data.lastName)
