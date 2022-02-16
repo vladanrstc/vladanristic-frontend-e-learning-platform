@@ -2,7 +2,7 @@
     <div>
         <b-dropdown id="dropdown-1" dropleft variant="light" class="m-md-2 p-0">
             <template slot="button-content">
-                <img :src="'https://eu.ui-avatars.com/api/?name=' + this.name+'+'+this.last_name" class="img-fluid rounded-circle"
+                <img :src="'https://eu.ui-avatars.com/api/?name=' + this.name + '+' + this.lastName" class="img-fluid rounded-circle"
                      style="width:25px;height:25px">
             </template>
             <b-dropdown-item @click="profileModal()">
@@ -55,9 +55,9 @@
                     <b-form-input
                         id="example-input-3"
                         name="example-input-3"
-                        :placeholder="$t('input_fields.last_name')"
-                        v-model="$v.user_form.last_name.$model"
-                        :state="validateState('last_name')"
+                        :placeholder="$t('input_fields.lastName')"
+                        v-model="$v.user_form.lastName.$model"
+                        :state="validateState('lastName')"
                         aria-describedby="input-3-live-feedback"
                     ></b-form-input>
 
@@ -75,8 +75,8 @@
                         id="example-input-14"
                         name="example-input-14"
                         :placeholder="$t('input_fields.current_password')"
-                        v-model="$v.user_form.current_password.$model"
-                        :state="validateState('current_password')"
+                        v-model="$v.user_form.currentPassword.$model"
+                        :state="validateState('currentPassword')"
                         aria-describedby="input-14-live-feedback"
                     ></b-form-input>
 
@@ -113,8 +113,8 @@
                         id="example-input-5"
                         name="example-input-5"
                         :placeholder="$t('input_fields.password_repeat')"
-                        v-model="$v.user_form.password_repeat.$model"
-                        :state="validateState('password_repeat')"
+                        v-model="$v.user_form.passwordRepeat.$model"
+                        :state="validateState('passwordRepeat')"
                         aria-describedby="input-5-live-feedback"
                     ></b-form-input>
 
@@ -144,20 +144,20 @@
         name: 'EditProfile',
         mounted() {
             this.name = localStorage.getItem("fn");
-            this.last_name = localStorage.getItem("ln");
+            this.lastName = localStorage.getItem("ln");
         },
         components: {},
         data() {
             return {
                 name: 'N',
-                last_name: 'A',
+                lastName: 'A',
                 user_form: {
                     email: "",
-                    current_password: "",
+                    currentPassword: "",
                     password: "",
-                    password_repeat: "",
+                    passwordRepeat: "",
                     name: "",
-                    last_name: ""
+                    lastName: ""
                 },
             }
         },
@@ -165,6 +165,8 @@
             getLoggedUser() {
                 axios.get("/logged/user").then(response => {
                     this.user_form = response.data
+                    console.log(this.user_form)
+                    console.log(response.data)
                     this.$refs['edit_profile'].show();
                 })
             },
@@ -182,7 +184,7 @@
             editProfile() {
                 if (!this.$v.user_form.$anyError) {
 
-                    if(this.user_form.password != this.user_form.password_repeat && this.user_form.password != '') {
+                    if(this.user_form.password != this.user_form.passwordRepeat && this.user_form.password != '') {
                         this.$swal.fire({
                             toast: true,
                             position: "top-end",
@@ -203,8 +205,10 @@
                         },
                     });
 
+                    console.log(this.user_form)
+
                     axios
-                        .patch("/logged/user", this.user_form)
+                        .put("/logged/user", this.user_form)
                         .then(() => {
                             creating.close();
                             this.$swal.fire({
@@ -220,6 +224,7 @@
 
                         })
                         .catch(error => {
+                            console.log(error)
                             if(error.response.status == 401) {
                                 this.$swal.fire({
                                     toast: true,
@@ -254,17 +259,17 @@
                     required,
                     minLength: minLength(3)
                 },
-                last_name: {
+                lastName: {
                     required,
                     minLength: minLength(3)
                 },
                 password: {
 
                 },
-                password_repeat: {
+                passwordRepeat: {
 
                 },
-                current_password: {
+                currentPassword: {
 
                 },
             }

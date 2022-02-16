@@ -358,9 +358,6 @@ export default {
 
                 }
 
-                this.logged_user_name = response.data.name;
-                this.$i18n.locale = response.data.language;
-
                 loggingIn.close();
                 this.$swal.fire({
                     toast: true,
@@ -374,13 +371,21 @@ export default {
                 this.$refs['login_modal'].hide()
 
                 localStorage.setItem("ac_t", response.data.access_token)
-                localStorage.setItem("rf_t", response.data.rf_t)
-                localStorage.setItem("fn", response.data.name)
-                localStorage.setItem("ln", response.data.lastName)
 
                 this.getLoginStatus();
 
-                location.reload();
+                axios.get('/logged/user').then(response => {
+                    console.log(response)
+                    localStorage.setItem("name", response.data.name)
+                    localStorage.setItem("fn", response.data.name)
+                    localStorage.setItem("lastName", response.data.lastName)
+                    localStorage.setItem("ln", response.data.lastName)
+                    this.logged_user_name = response.data.name;
+                    location.reload();
+                }).catch((err) => {
+
+                });
+
 
             }).catch((err) => {
                 console.log(err)
