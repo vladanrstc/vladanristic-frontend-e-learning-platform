@@ -10,8 +10,8 @@
                                 <div class="bg-f-image">
                                     <i class="fa fa-youtube-play" aria-hidden="true"></i>
                                 </div>
-                                <img :src="'https://i.ytimg.com/vi/' + video.lesson_video + '/mqdefault.jpg'">
-                                <h3 class="video-title">{{ video.lesson_name }}</h3>
+                                <img :src="'https://i.ytimg.com/vi/' + video.lessonVideoLink + '/mqdefault.jpg'">
+                                <h3 class="video-title">{{ video.lessonTitle }}</h3>
                             </div>
                         </div>
                     </div>
@@ -57,30 +57,30 @@
         methods: {
             getVideos() {
 
-                let primary_lang = this.lang;
+                /*let primary_lang = this.lang;
 
                 let secondary_lang = "";
                 if(primary_lang == "sr") {
                     secondary_lang = "en";
                 } else {
                     secondary_lang = "sr";
-                }
+                }*/
 
                 axios.get("/home/videos").then(response => {
                     console.log(response)
                     response.data.forEach((value, index) => {
                         console.log(value)
-                        if(value.lesson_video_link[primary_lang] != undefined && value.lesson_video_link[primary_lang] != null) {
-                            console.log(value.lesson_video_link[primary_lang])
+                        if(value.lessonVideoLink != undefined && value.lessonVideoLink != null) {
+                            console.log(value.lessonVideoLink)
                             let obj = {
-                                "lesson_name": value.lesson_title[primary_lang],
-                                "lesson_video": value.lesson_video_link[primary_lang],
+                                "lessonTitle": value.lessonTitle,
+                                "lessonVideoLink": value.lessonVideoLink,
                             }
                             this.videos.push(obj)
                         } else {
                             let obj = {
-                                "lesson_name": value.lesson_title[secondary_lang],
-                                "lesson_video": value.lesson_video_link[secondary_lang],
+                                "lessonTitle": value.lessonTitle,
+                                "lessonVideoLink": value.lessonVideoLink,
                             }
                             this.videos.push(obj)
                         }
