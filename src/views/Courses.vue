@@ -4,11 +4,12 @@
             <h1 v-if="this.courses.length > 0" class="mb-5 mt-4">{{ $t("courses.started") }}</h1>
             <b-row>
                 <!-- v-for="lesson in lessons" -->
-                <b-col v-for="course in this.courses" :key="course.course_id" cols="12" sm="6" md="4" lg="3" class="p-3">
+                <b-col v-for="course in this.courses" :key="course.courseId" cols="12" sm="6" md="4" lg="3" class="p-3">
                     <!--  -->
-                    <b-card style="height: 150px" @click="goTo(course.course_slug)"
-                            :title="course.course_name[lang]"
-                            :img-src="'/storage/' + course.course_image"
+                    {{course.courseSlug}}
+                    <b-card style="height: 150px" @click="goTo(course.courseSlug)"
+                            :title="course.courseName"
+                            :img-src="'/storage/' + course.courseImage"
                             img-alt="Card Image"
                             text-variant="dark"
                             img-top
@@ -20,11 +21,11 @@
             <h1 class="mb-5 mt-4">{{ $t("courses.title") }}</h1>
             <b-row>
                 <!-- v-for="lesson in lessons" -->
-                <b-col v-for="course in this.courses_not_started" :key="course.course_id" cols="12" sm="6" md="4" lg="3" class="p-3">
+                <b-col v-for="course in this.courses_not_started" :key="course.courseId" cols="12" sm="6" md="4" lg="3" class="p-3">
                     <!--  -->
                     <b-card style="height: 150px" @click="startCourse(course)"
-                            :title="course.course_name[lang]"
-                            :img-src="'/storage/' + course.course_image"
+                            :title="course.courseName"
+                            :img-src="'/storage/' + course.courseImage"
                             img-alt="Card Image"
                             text-variant="dark"
                             img-top

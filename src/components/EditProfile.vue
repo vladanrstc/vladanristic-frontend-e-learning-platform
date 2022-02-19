@@ -205,8 +205,6 @@
                         },
                     });
 
-                    console.log(this.user_form)
-
                     axios
                         .put("/logged/user", this.user_form)
                         .then(() => {
