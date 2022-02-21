@@ -5,26 +5,28 @@
             <div class="row">
 
                 <div class="col col-12 col-md-6">
-                    <img class="img-fluid" :src="'/storage/' + this.course.course_image">
+                    <img class="img-fluid" :src="'/storage/' + this.course.courseImage">
                 </div>
-
+                
                 <div class="col col-12 col-md-6 text-left d-flex align-items-start w-100">
                     <div class="w-100">
                         <h2 class="mb-0" v-if="this.course != ''">
-                            <template v-if="this.course.course_name[this.$root.$i18n.locale]">
-                                {{ this.course.course_name[this.$root.$i18n.locale] }}
+                            <template v-if="this.course.courseName">
+                                {{ this.course.courseName }}
                             </template>
                             <template v-else>
                                 {{ $t('notifications.no_translation') }}
                             </template>
                         </h2>
+                        <!--
                         <div class="rating">
-                            <b-form-rating readonly precision="2" variant="warning" id="rating-inline" inline
-                                           :value="course.course_average_mark" show-value></b-form-rating>
+                            <b-form-rating readonly precision="2" variant="warning" id="rating-inline" inline :value="course.courseAverageMark" show-value></b-form-rating>
                         </div>
+                        -->
+
                         <p class="mb-0" v-if="this.course != ''">
-                            <template v-if="this.course.course_description[this.$root.$i18n.locale]">
-                                {{ this.course.course_description[this.$root.$i18n.locale] }}
+                            <template v-if="this.course.courseDescription">
+                                {{ this.course.courseDescription }}
                             </template>
                             <template v-else>
                                 {{ $t('notifications.no_translation') }}
@@ -39,24 +41,25 @@
                     <h6 class="text-left text-uppercase font-weight-bold">{{ $t("lessons.progress") }}</h6>
                     <!-- <h6 class="text-left text-uppercase font-weight-bold">33%</h6> -->
                 </div>
-                <b-progress v-if="course.course_percentage_completed != false" :max="course.course_percentage_completed.lessons_count">
-                    <b-progress-bar :label="`${((course.course_percentage_completed.lessons_completed_count / course.course_percentage_completed.lessons_count) * 100).toFixed(2)}%`"
-                                    :value="course.course_percentage_completed.lessons_completed_count"
-                                    :max="course.course_percentage_completed.lessons_count"
+                <!--
+                    <b-progress v-if="course.coursePercentageCompleted != false" :max="course.coursePercentageCompleted.lessonsCount">
+                    <b-progress-bar :label="`${((course.coursePercentageCompleted.lessonsCompletedCount / course.coursePercentageCompleted.lessonsCount) * 100).toFixed(2)}%`"
+                                    :value="course.coursePercentageCompleted.lessonsCompletedCount"
+                                    :max="course.coursePercentageCompleted.lessonsCount"
                                     variant="success"></b-progress-bar>
-                </b-progress>
+                </b-progress>-->
             </div>
             <b-tabs class="pt-5" active-nav-item-class="font-weight-bold text-blue">
                 <b-tab :title="$t('lessons.tab_1_lessons')" active>
                     <div class="container-fluid py-4">
                         <div role="tablist">
-                            <b-card v-for="(sec, index) in this.course.sections" :key="sec.section_id" no-body
+                            <b-card v-for="(sec, index) in this.course.sectionList" :key="sec.sectionId" no-body
                                     class="mt-0">
                                 <div v-b-toggle="'accordion-' + index"
                                      class="d-flex justify-content-space-between section-accordion">
                                 <span>
-                                    <template v-if="sec.section_name[$root.$i18n.locale]">
-                                        {{ sec.section_name[$root.$i18n.locale] }}
+                                    <template v-if="sec.sectionName">
+                                        {{ sec.sectionName }}
                                     </template>
                                     <template v-else>
                                         {{ $t('notifications.no_translation') }}
@@ -66,13 +69,13 @@
                                 </div>
                                 <b-collapse :id="'accordion-' + index" accordion="my-accordion" role="tabpanel">
                                     <b-list-group class="border border-0 px-3">
-                                        <b-list-group-item class="py-0 item-lesson" button v-for="lesson in sec.lessons" :key="lesson.lesson_id">
+                                        <b-list-group-item class="py-0 item-lesson" button v-for="lesson in sec.lessons" :key="lesson.lessonId">
                                             <div class="d-flex align-items-center w-100 h-100" @click="getVideoData(lesson)">
                                                 <i class="fa fa-play-circle-o mr-2 checkmark-video-size"
                                                    aria-hidden="true"></i>
                                                 <span>
-                                                <template v-if="lesson.lesson_title[$root.$i18n.locale]">
-                                                    {{ lesson.lesson_title[$root.$i18n.locale] }}
+                                                <template v-if="lesson.lessonTitle">
+                                                    {{ lesson.lessonTitle }}
                                                 </template>
                                                 <template v-else>
                                                     {{ $t('notifications.no_translation') }}
@@ -80,10 +83,10 @@
                                                 </span>
                                             </div>
                                             <div class="d-flex align-items-center">
-                                                <div v-if="lesson.test != null && lesson.test != undefined && lesson.test.meets_requirements == true" @click="takeTest(lesson)">
+                                                <div v-if="lesson.test != null && lesson.test != undefined && lesson.test.meetsRequirements == true" @click="takeTest(lesson)">
                                                     <i class="fa fa-list-ol mr-3" v-b-tooltip.hover :title="$t('lessons.take_test')" aria-hidden="true"></i>
                                                 </div>
-                                                <template v-if="lesson.lesson_completed == true">
+                                                <template v-if="lesson.lessonCompleted == true">
                                                     <i class="fa fa-check-circle checkmark-video-size mark-completed"
                                                        v-b-tooltip.hover :title="$t('lessons.lesson_finished')"
                                                        aria-hidden="true"></i>
@@ -123,23 +126,21 @@
                                     {{ $t('lessons.add_review') }}
                                 </b-button>
                             </div>
-                            <div v-for="review in reviews.data" v-bind:key="review.user_course_started_id"
+                            <div v-for="review in reviews.data" v-bind:key="review.userCourseStartedId"
                                  class="col col-12 col-md-6 d-flex align-items-center justify-content-center mb-2">
                                 <div class="p-3">
                                     <i class="fa fa-graduation-cap" aria-hidden="true"></i>
                                 </div>
                                 <div class="review text-left">
 
-                                    <h4 class="mb-0">{{ review.user.name }} {{ review.user.last_name }}</h4>
+                                    <h4 class="mb-0">{{ review.user.name }} {{ review.user.lastName }}</h4>
                                     <div class="rating-user">
-                                        <b-form-rating inline variant="warning" readonly
-                                                       :value="review.user_course_started_review_mark"></b-form-rating>
+                                        <b-form-rating inline variant="warning" readonly :value="review.userCourseStartedReviewMark"></b-form-rating>
                                     </div>
-                                    <div v-html="review.user_course_started_review_text"></div>
+                                    <div v-html="review.userCourseStartedReviewText"></div>
                                 </div>
                             </div>
                             <div class="col col-12 pl-5 ml-md-5">
-                                <pagination :data="reviews" @pagination-change-page="getReviews"></pagination>
                             </div>
                         </div>
                     </div>
@@ -151,19 +152,19 @@
 
             <b-modal @hide="goBack()" size="lg" centered ref="video_modal" id="video_modal" hide-footer>
                 <template v-if="this.video != ''" v-slot:modal-title>
-                    {{ video.video_title }}
+                    {{ video.videoTitle }}
                 </template>
                 <div v-if="this.video != ''" class="d-block">
-                    <p>{{ video.video_description }}</p>
+                    <p>{{ video.videoDescription }}</p>
                     <b-embed
                         type="iframe"
                         aspect="16by9"
-                        :src="video.video_yt_link"
+                        :src="video.videoYtLink"
                         allowfullscreen
                     ></b-embed>
                     <p class="text-center mt-3">
                         <a @click="incrementCodeView(video.id)"
-                           v-if="video.video_code != null && video.video_code != ''" :href="video.video_code"
+                           v-if="video.videoCode != null && video.videoCode != ''" :href="video.videoCode"
                            target="_blank">
                             <svg class="bi bi-file-zip" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
                                  xmlns="http://www.w3.org/2000/svg">
@@ -179,9 +180,9 @@
                         </a>
                     </p>
                     <p class="text-center">
-                        <a @click="uradi(video.video_slug)"
-                           v-if="video.video_practice != null && video.video_practice != ''"
-                           :href="'/api/video/' + video.video_slug + '/practice'">
+                        <a @click="uradi(video.videoSlug)"
+                           v-if="video.videoPractice != null && video.videoPractice != ''"
+                           :href="'/api/video/' + video.videoSlug + '/practice'">
                             <svg class="bi bi-file-earmark-check" width="1em" height="1em" viewBox="0 0 16 16"
                                  fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -201,7 +202,7 @@
                     {{ $t('lessons.add_review') }}
                 </template>
                 <div class="rating">
-                    <b-form-rating v-model="review_mark" variant="warning" class="mb-2"></b-form-rating>
+                    <b-form-rating v-model="reviewMark" variant="warning" class="mb-2"></b-form-rating>
                 </div>
                 <b-form-textarea
                     id="textarea"
@@ -223,27 +224,27 @@
                 <b-embed
                     type="iframe"
                     aspect="16by9"
-                    :src="'https://www.youtube.com/embed/' + current_lesson.lesson_video_link[this.$root.$i18n.locale]"
+                    :src="'https://www.youtube.com/embed/' + currentLesson.lessonVideoLink"
                     allowfullscreen
                 ></b-embed>
                 <div class="py-3">
-                    <a target="_blank" :href="'/storage/'+current_lesson.lesson_practice[this.$root.$i18n.locale]">
+                    <a target="_blank" :href="'/storage/'+currentLesson.lessonPractice">
                         <h6 class="m-0"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> {{ $t('lessons.pdf') }}</h6>
                     </a>
                 </div>
-                <div class="py-1" v-if="current_lesson.lesson_code != null">
-                    <a target="_blank" :href="current_lesson.lesson_code">
+                <div class="py-1" v-if="currentLesson.lessonCode != null">
+                    <a target="_blank" :href="currentLesson.lessonCode">
                         <h6 class="m-0"><i class="fa fa-github" aria-hidden="true"></i> GitHub</h6>
                     </a>
                 </div>
-                <button v-if="current_lesson.lesson_completed == false" @click="finishLesson(current_lesson)" class="btn btn-success my-3">
+                <button v-if="currentLesson.lessonCompleted == false" @click="finishLesson(currentLesson)" class="btn btn-success my-3">
                     <i class="fa fa-check" aria-hidden="true"></i>
                     {{ $t('lessons.finish_lesson') }}
                 </button>
             </b-modal>
 
             <b-modal size="md" title="Test" centered ref="test_modal" id="test_modal" hide-footer>
-                <test v-on:closeTestDialog="closeTestDialog()" :lesson="this.lesson_test"></test>
+                <test v-on:closeTestDialog="closeTestDialog()" :lesson="this.lessonTest"></test>
             </b-modal>
 
         </b-container>
@@ -268,14 +269,14 @@ export default {
             "show": false,
             videos: [],
             video: {
-                video_title: "Title",
-                video_description: "Description",
-                video_yt_link: "https://www.youtube.com/embed/WmG3f1lHAPs"
+                videoTitle: "Title",
+                videoDescription: "Description",
+                videoYtLink: "https://www.youtube.com/embed/WmG3f1lHAPs"
             },
             loadingFlag: false,
-            lesson_name: '',
+            lessonName: '',
             text: ``,
-            review_mark: 0,
+            reviewMark: 0,
             editor: ClassicEditor,
             editorData: '',
             editorConfig: {
@@ -284,18 +285,18 @@ export default {
             reviews: {},
             // course.course_percentage_completed.lessons_count
             course: {
-                "course_percentage_completed": {
-                    "lessons_counted": 0
+                "coursePercentageCompleted": {
+                    "lessonsCount": 0
                 },
-                "course_name": "",
-                "course_description": ""
+                "courseName": "",
+                "courseDescription": ""
             },
-            current_lesson: {
-                "lesson_video_link": "",
-                "lesson_practice": "",
-                "current_lesson": ""
+            currentLesson: {
+                "lessonVideoLink": "",
+                "lessonPractice": "",
+                "currentLesson": ""
             },
-            lesson_test: null
+            lessonTest: null
         }
     },
     methods: {
@@ -303,11 +304,11 @@ export default {
             this.$refs['test_modal'].hide();
         },
         takeTest(lesson) {
-            this.lesson_test = lesson;
+            this.lessonTest = lesson;
             this.$refs['test_modal'].show();
         },
         finishLesson(lesson) {
-            axios.get("/lesson/finish/" + lesson.lesson_id)
+            axios.get("/lesson/finish/" + lesson.lessonId)
                 .then(response => {
                     this.$swal.fire({
                         toast: true,
@@ -333,14 +334,18 @@ export default {
         },
         getAllData() {
             this.getLessonsData();
-            this.getNotes();
-            this.getReview();
-            this.getReviews();
+            /*
+                this.getNotes();
+                this.getReview();
+                this.getReviews();
+            */
         },
         getLessonsData() {
             axios.get("/course/details/" + this.$route.params.course)
                 .then(response => {
                     this.course = response.data
+                    
+                    console.log(this.course)
                     console.log(response);
                 })
                 .catch(e => {
@@ -372,7 +377,7 @@ export default {
                 });
         },
         saveNote() {
-            let current_course = this.$route.params.course;
+            let currentCourse = this.$route.params.course;
             let creating = this.$swal.fire({
                 toast: true,
                 position: "top-end",
@@ -383,7 +388,7 @@ export default {
             });
             axios.patch("/courses/started/notes", {
                 "notes": this.editorData,
-                "course": current_course
+                "course": currentCourse
             })
                 .then(response => {
                     this.$swal.fire({
@@ -410,8 +415,8 @@ export default {
             axios.get("/courses/started/notes/" + this.$route.params.course)
                 .then(response => {
 
-                    if (response.data.user_course_started_note != null && response.data.user_course_started_note != undefined) {
-                        this.editorData = response.data.user_course_started_note
+                    if (response.data.userCourseStartedNote != null && response.data.userCourseStartedNote != undefined) {
+                        this.editorData = response.data.userCourseStartedNote
                     }
 
                 })
@@ -440,7 +445,7 @@ export default {
                 return;
             }
 
-            let current_course = this.$route.params.course;
+            let currentCourse = this.$route.params.course;
             let creating = this.$swal.fire({
                 toast: true,
                 position: "top-end",
@@ -451,9 +456,9 @@ export default {
             });
 
             axios.patch("/courses/started/review", {
-                "rating": this.review_mark,
+                "rating": this.reviewMark,
                 "review": this.text,
-                "course": current_course
+                "course": currentCourse
             })
                 .then(response => {
                     this.$swal.fire({
@@ -480,8 +485,8 @@ export default {
 
             axios.get("/courses/started/review/" + this.$route.params.course)
                 .then(response => {
-                    this.text = response.data.user_course_started_review_text
-                    this.review_mark = response.data.user_course_started_review_mark
+                    this.text = response.data.userCourseStartedReviewText
+                    this.reviewMark = response.data.userCourseStartedReviewMark
                 })
                 .catch(e => {
                     this.$swal.fire({
@@ -495,10 +500,10 @@ export default {
                 });
         },
         setRate(rate) {
-            this.review_mark = rate;
+            this.reviewMark = rate;
         },
         getVideoData(lesson) {
-            this.current_lesson = lesson;
+            this.currentLesson = lesson;
             this.$refs['lesson_modal'].show()
         },
         showModal() {

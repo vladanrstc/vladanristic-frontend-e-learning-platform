@@ -6,7 +6,7 @@
                 <!-- v-for="lesson in lessons" -->
                 <b-col v-for="course in this.courses" :key="course.courseId" cols="12" sm="6" md="4" lg="3" class="p-3">
                     <!--  -->
-                    {{course.courseSlug}}
+                    
                     <b-card style="height: 150px" @click="goTo(course.courseSlug)"
                             :title="course.courseName"
                             :img-src="'/storage/' + course.courseImage"
