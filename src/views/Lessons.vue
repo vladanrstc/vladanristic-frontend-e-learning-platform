@@ -18,11 +18,10 @@
                                 {{ $t('notifications.no_translation') }}
                             </template>
                         </h2>
-                        <!--
+                        
                         <div class="rating">
                             <b-form-rating readonly precision="2" variant="warning" id="rating-inline" inline :value="course.courseAverageMark" show-value></b-form-rating>
                         </div>
-                        -->
 
                         <p class="mb-0" v-if="this.course != ''">
                             <template v-if="this.course.courseDescription">
@@ -41,13 +40,13 @@
                     <h6 class="text-left text-uppercase font-weight-bold">{{ $t("lessons.progress") }}</h6>
                     <!-- <h6 class="text-left text-uppercase font-weight-bold">33%</h6> -->
                 </div>
-                <!--
-                    <b-progress v-if="course.coursePercentageCompleted != false" :max="course.coursePercentageCompleted.lessonsCount">
-                    <b-progress-bar :label="`${((course.coursePercentageCompleted.lessonsCompletedCount / course.coursePercentageCompleted.lessonsCount) * 100).toFixed(2)}%`"
-                                    :value="course.coursePercentageCompleted.lessonsCompletedCount"
-                                    :max="course.coursePercentageCompleted.lessonsCount"
+
+                    <b-progress :max="course.lessonsCount">
+                    <b-progress-bar :label="`${((course.lessonsCompletedCount / course.lessonsCount) * 100).toFixed(2)}%`"
+                                    :value="course.lessonsCompletedCount"
+                                    :max="course.lessonsCount"
                                     variant="success"></b-progress-bar>
-                </b-progress>-->
+                </b-progress>
             </div>
             <b-tabs class="pt-5" active-nav-item-class="font-weight-bold text-blue">
                 <b-tab :title="$t('lessons.tab_1_lessons')" active>
@@ -69,7 +68,7 @@
                                 </div>
                                 <b-collapse :id="'accordion-' + index" accordion="my-accordion" role="tabpanel">
                                     <b-list-group class="border border-0 px-3">
-                                        <b-list-group-item class="py-0 item-lesson" button v-for="lesson in sec.lessons" :key="lesson.lessonId">
+                                        <b-list-group-item class="py-0 item-lesson" button v-for="lesson in sec.lessonList" :key="lesson.lessonId">
                                             <div class="d-flex align-items-center w-100 h-100" @click="getVideoData(lesson)">
                                                 <i class="fa fa-play-circle-o mr-2 checkmark-video-size"
                                                    aria-hidden="true"></i>
