@@ -125,8 +125,7 @@
                                     {{ $t('lessons.add_review') }}
                                 </b-button>
                             </div>
-                            <div v-for="review in reviews.data" v-bind:key="review.userCourseStartedId"
-                                 class="col col-12 col-md-6 d-flex align-items-center justify-content-center mb-2">
+                            <div v-for="review in reviews" class="col col-12 col-md-6 d-flex align-items-center justify-content-center mb-2">
                                 <div class="p-3">
                                     <i class="fa fa-graduation-cap" aria-hidden="true"></i>
                                 </div>
@@ -136,10 +135,11 @@
                                     <div class="rating-user">
                                         <b-form-rating inline variant="warning" readonly :value="review.userCourseStartedReviewMark"></b-form-rating>
                                     </div>
-                                    <div v-html="review.userCourseStartedReviewText"></div>
+                                    <div v-html="review.userCourseStartedNote"></div>
                                 </div>
                             </div>
                             <div class="col col-12 pl-5 ml-md-5">
+                                
                             </div>
                         </div>
                     </div>
@@ -333,19 +333,13 @@ export default {
         },
         getAllData() {
             this.getLessonsData();
-            /*
-                this.getNotes();
-                this.getReview();
-                this.getReviews();
-            */
         },
         getLessonsData() {
             axios.get("/course/details/" + this.$route.params.course)
                 .then(response => {
                     this.course = response.data
-                    
-                    console.log(this.course)
-                    console.log(response);
+                    this.reviews = response.data.reviews;
+                    this.editorData = response.data.userNote
                 })
                 .catch(e => {
                     this.$swal.fire({
@@ -410,26 +404,6 @@ export default {
                     });
                 });
         },
-        getNotes() {
-            axios.get("/courses/started/notes/" + this.$route.params.course)
-                .then(response => {
-
-                    if (response.data.userCourseStartedNote != null && response.data.userCourseStartedNote != undefined) {
-                        this.editorData = response.data.userCourseStartedNote
-                    }
-
-                })
-                .catch(e => {
-                    this.$swal.fire({
-                        toast: true,
-                        position: "top-end",
-                        icon: "error",
-                        title: this.$t("notifications.general_error"),
-                        showConfirmButton: false,
-                        timer: 4500,
-                    });
-                });
-        },
         saveReview() {
 
             if (this.review_mark == 0 || this.review_mark == null) {
@@ -468,24 +442,6 @@ export default {
                         showConfirmButton: false,
                         timer: 4500,
                     });
-                })
-                .catch(e => {
-                    this.$swal.fire({
-                        toast: true,
-                        position: "top-end",
-                        icon: "error",
-                        title: this.$t("notifications.general_error"),
-                        showConfirmButton: false,
-                        timer: 4500,
-                    });
-                });
-        },
-        getReview() {
-
-            axios.get("/courses/started/review/" + this.$route.params.course)
-                .then(response => {
-                    this.text = response.data.userCourseStartedReviewText
-                    this.reviewMark = response.data.userCourseStartedReviewMark
                 })
                 .catch(e => {
                     this.$swal.fire({
