@@ -82,7 +82,8 @@
                                                 </span>
                                             </div>
                                             <div class="d-flex align-items-center">
-                                                <div v-if="lesson.test != null && lesson.test != undefined && lesson.test.meetsRequirements == true" @click="takeTest(lesson)">
+                                                <!--  && lesson.lessonTestId.meetsRequirements == true -->
+                                                <div v-if="lesson.lessonTestId != null && lesson.lessonTestId != undefined" @click="takeTest(lesson.lessonTestId)">
                                                     <i class="fa fa-list-ol mr-3" v-b-tooltip.hover :title="$t('lessons.take_test')" aria-hidden="true"></i>
                                                 </div>
                                                 <template v-if="lesson.lessonCompleted == true">
@@ -304,6 +305,7 @@ export default {
         },
         takeTest(lesson) {
             this.lessonTest = lesson;
+            console.log(this.lessonTest)
             this.$refs['test_modal'].show();
         },
         finishLesson(lesson) {

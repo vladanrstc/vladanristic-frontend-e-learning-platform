@@ -1,15 +1,14 @@
 <template>
     <div>
         <div class="test-container" v-if="results_in == false">
-            <div v-for="(question_spec, index) in this.test.questions" :key="question_spec.question_id">
-                <b-form-group v-if="question_spec.question_type =='multiple'">
-                    <span>{{ question_spec.question_text[$root.$i18n.locale] }}</span>
-                    <b-form-checkbox-group stacked class="px-3" id="checkbox-group-2" :name="'some-checkbox-'+index"
-                                           v-model="questions[question_spec.question_id]" > <!-- name="flavour-2"-->
-                        <b-form-checkbox v-for="answer in question_spec.answers" :key="answer.answer_id"
-                                         :value="answer.answer_id">
-                            <template v-if="answer.answer_text[$root.$i18n.locale]">
-                                {{ answer.answer_text[$root.$i18n.locale] }}
+            <div v-for="(question_spec, index) in this.test.questionList" :key="question_spec.questionId">
+                <b-form-group v-if="question_spec.questionType =='MULTIPLE'">
+                    <span>{{ question_spec.questionText }}</span>
+                    <b-form-checkbox-group stacked class="px-3" id="checkbox-group-2" :name="'some-checkbox-' + index" v-model="questions[question_spec.questionId]" > <!-- name="flavour-2"-->
+                        <b-form-checkbox v-for="answer in question_spec.answerList" :key="answer.answerId"
+                                         :value="answer.answerId">
+                            <template v-if="answer.answerText">
+                                {{ answer.answerText }}
                             </template>
                             <template v-else>
                                 {{ $t('notifications.no_translation') }}
@@ -18,13 +17,13 @@
                     </b-form-checkbox-group>
                 </b-form-group>
                 <b-form-group v-else>
-                    <span>{{ question_spec.question_text[$root.$i18n.locale] }}</span>
-                    <b-form-radio-group stacked class="px-3" v-model="questions[question_spec.question_id]">
-                        <b-form-radio name="some-radios" v-for="answer in question_spec.answers"
-                                      :key="answer.answer_id"
-                                      :value="answer.answer_id">
-                            <template v-if="answer.answer_text[$root.$i18n.locale]">
-                                {{ answer.answer_text[$root.$i18n.locale] }}
+                    <span>{{ question_spec.questionText }}</span>
+                    <b-form-radio-group stacked class="px-3" v-model="questions[question_spec.questionId]">
+                        <b-form-radio name="some-radios" v-for="answer in question_spec.answerList"
+                                      :key="answer.answerId"
+                                      :value="answer.answerId">
+                            <template v-if="answer.answerText">
+                                {{ answer.answerText }}
                             </template>
                             <template v-else>
                                 {{ $t('notifications.no_translation') }}
@@ -164,16 +163,16 @@ export default {
                 });
         },
         getTestData() {
-            axios.get("/test/data/" + this.lesson.lesson_id)
+            axios.get("/test/data/" + this.lesson.testId)
                 .then(response => {
                     console.log(response.data[0])
-                    this.test = response.data[0];
+                    this.test = response.data;
 
-                    for (let i = 0; i < this.test.questions.length; i++) {
-                        if (this.test.questions[i].question_type === "single") {
-                            this.questions[this.test.questions[i].question_id] = "";
+                    for (let i = 0; i < this.test.questionList.length; i++) {
+                        if (this.test.questionList[i].questionType === "SINGLE") {
+                            this.questions[this.test.questionList[i].questionId] = "";
                         } else {
-                            this.questions[this.test.questions[i].question_id] = [];
+                            this.questions[this.test.questionList[i].questionId] = [];
                         }
                     }
 
