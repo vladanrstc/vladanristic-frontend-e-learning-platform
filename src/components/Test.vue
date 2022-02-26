@@ -129,9 +129,24 @@ export default {
                     this.$swal.showLoading();
                 },
             });
-            axios.post("/test/submit/" + this.test.test_id,
+
+            let finalObject = {};
+
+            let keys = Object.keys(this.questions);
+
+            for(let i = 0; i < keys.length; i++) {
+                if(Array.isArray(this.questions[keys[i]])) {
+                    finalObject[keys[i]] = this.questions[keys[i]]
+                } else {
+                    finalObject[keys[i]] = [this.questions[keys[i]]]
+                }
+            }
+
+            console.log(finalObject)
+
+            axios.post("/test/submit/" + this.test.testId,
                 {
-                    "answers": this.questions
+                    "answers": finalObject
                 })
                 .then(response => {
                     console.log(response)

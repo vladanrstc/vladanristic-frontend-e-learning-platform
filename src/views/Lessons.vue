@@ -309,6 +309,7 @@ export default {
             this.$refs['test_modal'].show();
         },
         finishLesson(lesson) {
+            console.log(lesson)
             axios.get("/lesson/finish/" + lesson.lessonId)
                 .then(response => {
                     this.$swal.fire({
@@ -381,7 +382,7 @@ export default {
                     this.$swal.showLoading();
                 },
             });
-            axios.patch("/courses/started/notes", {
+            axios.patch("/course/started/notes", {
                 "notes": this.editorData,
                 "course": currentCourse
             })
@@ -408,7 +409,7 @@ export default {
         },
         saveReview() {
 
-            if (this.review_mark == 0 || this.review_mark == null) {
+            if (this.reviewMark == 0 || this.reviewMark == null) {
                 this.$swal.fire({
                     toast: true,
                     position: "top-end",
@@ -430,7 +431,7 @@ export default {
                 },
             });
 
-            axios.patch("/courses/started/review", {
+            axios.patch("/course/started/review", {
                 "rating": this.reviewMark,
                 "review": this.text,
                 "course": currentCourse
