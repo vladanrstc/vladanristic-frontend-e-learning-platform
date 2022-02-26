@@ -1,5 +1,6 @@
 <template>
     <div>
+        
         <div class="test-container" v-if="results_in == false">
             <div v-for="(question_spec, index) in this.test.questionList" :key="question_spec.questionId">
                 <b-form-group v-if="question_spec.questionType =='MULTIPLE'">
@@ -39,17 +40,17 @@
         </div>
         <div class="test-container" v-else>
             <span>{{ $t('lessons.test_results') }} {{ this.number_of_correct_answers }} / {{ this.number_of_questions }}</span>
-            <div class="mt-3" v-for="(question, index) in this.test_results" :key="question.question.question_id">
-                <b-form-group class="px-3" :class="setClass(question.true)" v-if="question.question.question_type =='multiple'">
-                    <span>{{ question.question.question_text[$root.$i18n.locale] }}</span>
+            <div class="mt-3" v-for="(question, index) in this.test_results" :key="question.question.questionId">
+                <b-form-group class="px-3" :class="setClass(question.correct)" v-if="question.question.questionType =='MULTIPLE'">
+                    <span>{{ question.question.questionText }}</span>
                     <b-form-checkbox-group id="checkbox-group-2" :name="'some-checkbox-'+index"> <!--  name="flavour-2" -->
                         <div class="custom-control custom-checkbox">
-                            <div v-for="answer in question.question.answers" :key="answer.answer_id">
-                                <input v-if="answer.answer_true == 1" type="checkbox" class="custom-control-input" checked>
+                            <div v-for="answer in question.question.answerList" :key="answer.answerId">
+                                <input v-if="answer.answerTrue == 1" type="checkbox" class="custom-control-input" checked>
                                 <input v-else type="checkbox" class="custom-control-input">
                                 <label class="custom-control-label">
-                                    <template v-if="answer.answer_text[$root.$i18n.locale]">
-                                        {{ answer.answer_text[$root.$i18n.locale] }}
+                                    <template v-if="answer.answerText">
+                                        {{ answer.answerText }}
                                     </template>
                                     <template v-else>
                                         {{ $t('notifications.no_translation') }}
@@ -59,16 +60,16 @@
                         </div>
                     </b-form-checkbox-group>
                 </b-form-group>
-                <b-form-group class="px-3" v-else :class="setClass(question.true)">
-                    <span>{{ question.question.question_text[$root.$i18n.locale] }}</span>
+                <b-form-group class="px-3" v-else :class="setClass(question.correct)">
+                    <span>{{ question.question.questionText }}</span>
                     <b-form-radio-group>
                         <div class="custom-control custom-radio">
-                            <div v-for="answer in question.question.answers" :key="answer.answer_id">
-                                <input v-if="answer.answer_true == 1" type="radio" class="custom-control-input" checked>
+                            <div v-for="answer in question.question.answerList" :key="answer.answerId">
+                                <input v-if="answer.answerTrue == 1" type="radio" class="custom-control-input" checked>
                                 <input v-else type="radio" class="custom-control-input">
                                 <label class="custom-control-label">
-                                    <template v-if="answer.answer_text[$root.$i18n.locale]">
-                                        {{ answer.answer_text[$root.$i18n.locale] }}
+                                    <template v-if="answer.answerText">
+                                        {{ answer.answerText }}
                                     </template>
                                     <template v-else>
                                         {{ $t('notifications.no_translation') }}
@@ -157,7 +158,7 @@ export default {
 
                     let pom = 0;
                     for(let i = 0;i < response.data.length; i++) {
-                        if(response.data[i].true == true) {
+                        if(response.data[i].correct == true) {
                             pom = pom + 1;
                         }
                     }
