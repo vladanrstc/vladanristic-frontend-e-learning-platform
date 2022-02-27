@@ -47,7 +47,7 @@
             let a = JSON.parse(atob(localStorage.getItem("ac_t").split('.')[1]));
             console.log("SESSS")
             console.log(a)
-            if(a.scopes[0] == "super-admin") {
+            if(a.roles[0] == "super-admin") {
                 this.is_super_admin = true;
             }
         }

@@ -20,8 +20,8 @@
         </div>
 
         <div>
-            <b-table striped hover :items="courses.data" :fields="fields">
-
+            <b-table striped hover :items="courses" :fields="fields">
+                
                 <template v-slot:cell(edit)="data">
                     <b-button variant="info" @click="editCourse(data.item)">
                         <i class="fa fa-pencil" aria-hidden="true"></i>
@@ -52,17 +52,19 @@
                     </b-button>
                 </template>
 
-                <template v-slot:cell(course_name)="data">
-                    {{ data.item.course_name[selected_lang] }}
+                <template v-slot:cell(courseName)="data">
+                    {{ data.item.courseName }}
                 </template>
 
-                <template v-slot:cell(course_image)="data">
-                    <img :src="'/storage/' + data.item.course_image" style="width:80px; height:60px">
+                <template v-slot:cell(courseImage)="data">
+                    <img :src="'/storage/' + data.item.courseImage" style="width:80px; height:60px">
                 </template>
 
             </b-table>
         </div>
+        <!--
         <pagination :data="courses" @pagination-change-page="getCourses"></pagination>
+        -->
 
         <!-- MODAL -->
         <b-modal @hidden="resetModal" hide-footer id="modal-prevent-closing" ref="create_course"
@@ -73,8 +75,8 @@
                         id="example-input-1"
                         name="example-input-1"
                         placeholder="Naziv kursa"
-                        v-model="$v.course_form.course_name[selected_lang].$model"
-                        :state="validateState('course_name', selected_lang)"
+                        v-model="$v.course_form.courseName.$model"
+                        :state="validateState('courseName')"
                         aria-describedby="input-1-live-feedback"
                     ></b-form-input>
 
@@ -87,8 +89,8 @@
                         id="example-input-2"
                         name="example-input-2"
                         placeholder="Opis kursa"
-                        v-model="$v.course_form.course_description[selected_lang].$model"
-                        :state="validateState('course_description', selected_lang)"
+                        v-model="$v.course_form.courseDescription.$model"
+                        :state="validateState('courseDescription')"
                         aria-describedby="input-2-live-feedback"
                     ></b-form-textarea>
 
@@ -99,7 +101,7 @@
                 <b-form-group id="example-input-group-3" label="Slika kursa" label-for="example-input-3">
                     <b-form-file
                         accept="image/jpeg, image/png, image/gif"
-                        v-model="course_image"
+                        v-model="courseImage"
                         placeholder="Izaberite sliku"
                         drop-placeholder="Izaberite sliku"
                     ></b-form-file>
@@ -116,14 +118,12 @@
             </form>
         </b-modal>
 
-        <b-modal size="xl" @hidden="resetModal" hide-footer id="modal-prevent-closing-reviews"
-                 ref="manage-course-reviews" title="Recenzije">
-            <manageReviews :course="this.course_review"></manageReviews>
+        <b-modal size="xl" @hidden="resetModal" hide-footer id="modal-prevent-closing-reviews" ref="manage-course-reviews" title="Recenzije">
+            <manageReviews :course="this.courseReview"></manageReviews>
         </b-modal>
 
-        <b-modal size="xl" @hidden="resetModal" hide-footer id="modal-prevent-closing-notes" ref="manage-course-notes"
-                 title="Beleške">
-            <manageNotes :course="this.course_review"></manageNotes>
+        <b-modal size="xl" @hidden="resetModal" hide-footer id="modal-prevent-closing-notes" ref="manage-course-notes" title="Beleške">
+            <manageNotes :course="this.courseReview"></manageNotes>
         </b-modal>
 
     </div>
@@ -131,8 +131,8 @@
 
 <script>
     import axios from "axios";
-    import manageReviews from "../../../components/ManageReviews"
-    import manageNotes from "../../../components/ManageNotes"
+    import manageReviews from "../../../components/ManageReviews.vue"
+    import manageNotes from "../../../components/ManageNotes.vue"
     import {validationMixin} from "vuelidate";
     import {required, minLength} from "vuelidate/lib/validators";
 
@@ -147,8 +147,8 @@
         },
         data() {
             return {
-                course_image: null,
-                course_review: '',
+                courseImage: null,
+                courseReview: '',
                 selected_lang: 'sr',
                 options: [
                     {text: 'SR', value: 'sr'},
@@ -182,112 +182,37 @@
                         label: "Beleške",
                     },
                     {
-                        key: "course_name",
+                        key: "courseName",
                         sortable: true,
                         label: "Naziv kursa",
                     },
                     {
-                        key: "course_image",
+                        key: "courseImage",
                         sortable: false,
                         label: "Slika",
                     }
                 ],
-                courses: {},
+                courses: [],
                 course_form: {
-                    course_description: {
-                        "sr": "",
-                        "en": "no-data"
-                    },
-                    course_name: {
-                        "sr": "",
-                        "en": "no-data"
-                    },
+                    course_description: {},
+                    course_name: {},
                     course_image: null
                 },
-                course_id: '',
+                courseId: '',
                 modal_action: "Dodaj kurs"
             };
         },
         methods: {
             manageCourseReviews(course) {
-                this.course_review = course;
+                this.courseReview = course;
                 this.$refs["manage-course-reviews"].show();
             },
             manageCourseNotes(course) {
-                this.course_review = course;
+                this.courseReview = course;
                 this.$refs["manage-course-notes"].show();
             },
             manageCourseSections(course) {
-                this.$router.push("/admin/sections/" + course.course_id)
-            },
-            changeLocale(param) {
-
-                if (param == 1) {
-
-                    if (this.selected_lang == "sr") {
-
-                        this.course_form = {
-                            course_description: {
-                                "sr": "nema-podataka",
-                                "en": ""
-                            },
-                            course_name: {
-                                "sr": "nema-podataka",
-                                "en": ""
-                            },
-                            course_image: null
-                        }
-
-                    } else {
-
-                        this.course_form = {
-                            course_description: {
-                                "sr": "",
-                                "en": "no-data"
-                            },
-                            course_name: {
-                                "sr": "",
-                                "en": "no-data"
-                            },
-                            course_image: null
-                        }
-
-                    }
-                    return;
-                }
-
-
-                if (this.selected_lang == "sr") {
-
-                    this.course_form = {
-                        course_description: {
-                            "sr": "",
-                            "en": "no-data"
-                        },
-                        course_name: {
-                            "sr": "",
-                            "en": "no-data"
-                        },
-                        course_image: null
-                    }
-
-                } else {
-
-                    this.course_form = {
-                        course_description: {
-                            "sr": "nema-podataka",
-                            "en": ""
-                        },
-                        course_name: {
-                            "sr": "nema-podataka",
-                            "en": ""
-                        },
-                        course_image: null
-                    }
-
-                }
-
-
+                this.$router.push("/admin/sections/" + course.courseId)
             },
             deleteCourse(course) {
 
@@ -312,7 +237,7 @@
                             },
                         });
 
-                        axios.delete("/courses/" + course.course_id).then(() => {
+                        axios.delete("/courses/" + course.courseId).then(() => {
                             creating.close();
                             this.getCourses();
                         }).catch(() => {
@@ -334,25 +259,25 @@
 
             },
             editCourse(course) {
-
-                this.course_form.course_name[this.selected_lang] = course.course_name[this.selected_lang];
-                this.course_form.course_description[this.selected_lang] = course.course_description[this.selected_lang];
-                this.course_image = null
-                this.course_id = course.course_id;
+                
+                this.course_form.courseName = course.courseName;
+                this.course_form.courseDescription = course.courseDescription;
+                this.courseImage = null
+                this.courseId = course.courseId;
 
                 this.modal_action = "Izmeni kurs"
 
                 this.$refs["create_course"].show();
 
             },
-            validateState(name, lang) {
-
-                const {$dirty, $error} = this.$v.course_form[name][lang];
+            validateState(name) {
+                console.log(name)
+                const {$dirty, $error} = this.$v.course_form[name];
                 return $dirty ? !$error : null;
             },
             addCourse() {
 
-                if (this.course_id == '') {
+                if (this.courseId == '') {
                     this.$v.course_form.$touch();
                 }
 
@@ -369,12 +294,12 @@
 
                     this.course_form.lang = this.selected_lang;
 
-                    if (this.course_id == '') {
+                    if (this.courseId == '') {
                         let formData = new FormData();
 
-                        formData.append('course_image', this.course_image);
-                        formData.append('course_name', this.course_form.course_name[this.selected_lang]);
-                        formData.append('course_description', this.course_form.course_description[this.selected_lang]);
+                        formData.append('course_image', this.courseImage);
+                        formData.append('course_name', this.course_form.courseName);
+                        formData.append('course_description', this.course_form.courseDescription);
                         formData.append('lang', this.selected_lang);
 
                         axios
@@ -412,16 +337,16 @@
 
                     } else {
 
-                        this.course_form.course_id = this.course_id;
+                        this.course_form.courseId = this.courseId;
                         let formData = new FormData();
 
-                        formData.append('course_image', this.course_image);
-                        formData.append('course_name', this.course_form.course_name[this.selected_lang]);
-                        formData.append('course_description', this.course_form.course_description[this.selected_lang]);
+                        formData.append('course_image', this.courseImage);
+                        formData.append('course_name', this.course_form.courseName);
+                        formData.append('course_description', this.course_form.courseDescription);
                         formData.append('lang', this.selected_lang);
 
                         axios
-                            .post("/courses/update/" + this.course_id, formData,
+                            .post("/courses/update/" + this.courseId, formData,
                                 {
                                     headers: {
                                         'Content-Type': 'multipart/form-data'
@@ -444,7 +369,7 @@
 
                                 this.$refs["create_course"].hide();
 
-                                this.course_id = '';
+                                this.courseId = '';
                             })
                             .catch(() => {
                                 this.$swal.fire({
@@ -464,38 +389,21 @@
             },
             getCourses(page = 1) {
                 axios.get("/courses?page=" + page).then(response => {
+                    console.log(response)
                     this.courses = response.data;
                 });
             },
             resetModal() {
                 this.changeLocale();
-                this.course_id = '';
+                this.courseId = '';
                 //this.$v.course_form.$reset();
                 this.modal_action = "Dodaj kurs"
             }
         },
         validations: {
             course_form: {
-                course_name: {
-                    sr: {
-                        required,
-                        minLength: minLength(3),
-                    },
-                    en: {
-                        required,
-                        minLength: minLength(3),
-                    }
-                },
-                course_description: {
-                    sr: {
-                        required,
-                        minLength: minLength(3),
-                    },
-                    en: {
-                        required,
-                        minLength: minLength(3),
-                    }
-                }
+                courseName: {},
+                courseDescription: {}                    
             },
         },
     };

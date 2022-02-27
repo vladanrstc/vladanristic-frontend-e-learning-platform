@@ -48,7 +48,7 @@ let routes = [
   {
       path: '/dash/login',
       name: 'AdminLogin',
-      component: import("./views/admin/Login.vue")
+      component:() => import("./views/admin/Login.vue")
   },
   {
       path: '/:token/confirmed',

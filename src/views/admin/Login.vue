@@ -61,11 +61,12 @@ export default {
             }
         });
 
-        axios.post('/login', {
-            email: this.form.email,
-            password: this.form.password
-        }).then(response => {
+        let formData = new FormData();
+        formData.append('email', this.form.email)
+        formData.append('password', this.form.password)
 
+        axios.post('/login', formData).then(response => {
+            console.log(response)
             if(response.data.flag == false) {
 
                 this.$swal.fire({
@@ -89,7 +90,7 @@ export default {
                 timer: 3500
             })
 
-            localStorage.setItem("ac_t", response.data.ac_t)
+            localStorage.setItem("ac_t", response.data.access_token)
             location.reload();
 
         }).catch(() => {

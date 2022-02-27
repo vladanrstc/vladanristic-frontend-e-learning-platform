@@ -2,7 +2,7 @@
   <div class="container-fluid text-left">
 
     <div>
-      <b-table striped hover :items="notes.data" :fields="fields">
+      <b-table striped hover :items="notes" :fields="fields">
 
         <template v-slot:cell(delete)="data">
           <b-button variant="danger" @click="deleteNote(data.item)">
@@ -10,14 +10,14 @@
           </b-button>
         </template>
 
-        <template v-slot:cell(user_course_started_note_text)="data">
+        <template v-slot:cell(userCourseStartedNoteText)="data">
             
-            <b-button v-b-toggle="'collapse-a' + data.item.user_course_started_id" block variant="info">
+            <b-button v-b-toggle="'collapse-a' + data.item.userCourseStartedId" block variant="info">
                 Prikaži
             </b-button>
 
-            <b-collapse :id="'collapse-a'+data.item.user_course_started_id">
-                <div v-html="data.item.user_course_started_note">                                        
+            <b-collapse :id="'collapse-a'+data.item.userCourseStartedId">
+                <div v-html="data.item.userCourseStartedNote">                                        
                 </div>
             </b-collapse>
         
@@ -25,8 +25,9 @@
 
       </b-table>
     </div>
+    <!--
     <pagination :data="notes" @pagination-change-page="getNotes"></pagination>
-
+    -->
   </div>
 </template>
 
@@ -49,22 +50,22 @@ export default {
           label: "Ukloni",
         },
         {
-          key: "user.last_name",
+          key: "userId.lastName",
           sortable: true,
           label: "Prezime",
         },
         {
-          key: "user.name",
+          key: "userId.name",
           sortable: true,
           label: "Ime",
         },
         {
-          key: "user.email",
+          key: "userId.email",
           label: "E-mail",
           sortable: true,
         },
         {
-          key: "user_course_started_note_text",
+          key: "userCourseStartedNoteText",
           label: "Tekst",
           sortable: false,
           class: "try-it"
@@ -119,7 +120,7 @@ export default {
 
     },
     getNotes(page = 1) {
-      axios.get("/notes/course/" + this.course.course_id + "?page=" + page).then((response) => {      
+      axios.get("/notes/course/" + this.course.courseId + "?page=" + page).then((response) => {      
         console.log(response)  
         this.notes = response.data;
       });

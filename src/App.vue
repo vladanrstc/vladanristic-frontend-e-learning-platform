@@ -13,10 +13,12 @@
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
+import VueJwtDecode from 'vue-jwt-decode'
 
 export default {
   name: 'App',
   components: {
+    VueJwtDecode,
     HelloWorld,
     Header: () => import("./views/Header.vue"),
     Footer: () => import("./views/Footer.vue"),
@@ -31,9 +33,18 @@ export default {
   methods: {
     isAdmin() {
       try {
-        let a = JSON.parse(atob(localStorage.getItem("ac_t").split('.')[1]));
+        
+        let token = localStorage.getItem("ac_t");
+        
+        try {
+          token = VueJwtDecode.decode(token)
+        } catch(e) {
+          console.log(e)
+        }
 
-        if(a.scopes[0] == "super-admin" || a.scopes[0] == "admin") {
+        console.log(token.roles)
+        
+        if(token.roles[0] == "super-admin" || a.roles[0] == "admin") {
             this.is_admin = true;
         } else {
             this.is_admin = false;
