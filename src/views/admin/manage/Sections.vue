@@ -31,7 +31,7 @@
           </tr>
         </thead>
         <draggable v-model="sections" @end="saveOrder()" tag="tbody">
-          <tr v-for="section in sections" :key="section.section_id">
+          <tr v-for="section in sections" :key="section.sectionId">
 
             <td>
               <b-button variant="danger" @click="deleteSection(section)">
@@ -49,7 +49,7 @@
                 <i class="fa fa-file-video-o" aria-hidden="true"></i>
               </b-button>
             </td>
-            <td>{{ section.section_name[selected_lang] }}</td>
+            <td>{{ section.sectionName }}</td>
           </tr>
         </draggable>
       </table>
@@ -69,8 +69,8 @@
             id="example-input-1"
             name="example-input-1"
             placeholder="Naziv sekcije"
-            v-model="$v.section_form.section_name[selected_lang].$model"
-            :state="validateState('section_name', selected_lang)"
+            v-model="$v.section_form.sectionName.$model"
+            :state="validateState('sectionName')"
             aria-describedby="input-1-live-feedback"
           ></b-form-input>
 
@@ -105,12 +105,12 @@ export default {
     draggable,
   },
   mounted() {
-    this.course_id = this.$route.params.course;
+    this.courseId = this.$route.params.course;
     this.getSections();
   },
   data() {
     return {
-      course_id: "",
+      courseId: "",
       selected_lang: "sr",
       options: [
         { text: "SR", value: "sr" },
@@ -129,17 +129,14 @@ export default {
           label: "Izmeni",
         },
         {
-          key: "section_name",
+          key: "sectionName",
           sortable: true,
           label: "Naziv sekcije",
         },
       ],
       sections: [],
       section_form: {
-        section_name: {
-          sr: "",
-          en: "no-data",
-        },
+        section_name: {},
       },
       section_id: "",
       modal_action: "Dodaj sekciju",
@@ -147,7 +144,7 @@ export default {
   },
   methods: {
     goToLessons(section) {
-      this.$router.push("/admin/sections/" + this.course_id + "/lessons/" + section.section_id)
+      this.$router.push("/admin/sections/" + this.courseId + "/lessons/" + section.sectionId)
     },
     backToCourses() {
       this.$router.push("/admin/courses")
@@ -192,42 +189,6 @@ export default {
         });
 
     },
-    changeLocale(param) {
-      if (param == 1) {
-        if (this.selected_lang == "sr") {
-          this.section_form = {
-            section_name: {
-              sr: "nema-podataka",
-              en: "",
-            },
-          };
-        } else {
-          this.section_form = {
-            section_name: {
-              sr: "",
-              en: "no-data",
-            },
-          };
-        }
-        return;
-      }
-
-      if (this.selected_lang == "sr") {
-        this.section_form = {
-          section_name: {
-            sr: "",
-            en: "no-data",
-          },
-        };
-      } else {
-        this.section_form = {
-          section_name: {
-            sr: "nema-podataka",
-            en: "",
-          },
-        };
-      }
-    },
     deleteSection(section) {
       this.$swal({
         title: "Da li ste sigurni da želite da obrišete sekciju?",
@@ -249,7 +210,7 @@ export default {
           });
 
           axios
-            .delete("/sections/" + section.section_id)
+            .delete("/sections/" + section.sectionId)
             .then(() => {
               creating.close();
               this.getSections();
@@ -270,19 +231,18 @@ export default {
       });
     },
     editSection(section) {
-      this.section_form.section_name[this.selected_lang] =
-        section.section_name[this.selected_lang];
-      this.section_id = section.section_id;
+      this.section_form.sectionName = section.sectionName;
+      this.sectionId = section.sectionId;
       this.modal_action = "Izmeni sekciju";
       this.$refs["create_section"].show();
     },
-    validateState(name, lang) {
+    validateState(name) {
       console.log(this.section_form);
-      const { $dirty, $error } = this.$v.section_form[name][lang];
+      const { $dirty, $error } = this.$v.section_form[name];
       return $dirty ? !$error : null;
     },
     addSection() {
-      if (this.section_id == "") {
+      if (this.sectionId == "") {
         this.$v.section_form.$touch();
       }
 
@@ -297,9 +257,9 @@ export default {
         });
 
         this.section_form.lang = this.selected_lang;
-        this.section_form.section_course_id = this.course_id;
+        this.section_form.sectionCourseId = this.courseId;
 
-        if (this.section_id == "") {
+        if (this.sectionId == "") {
           axios
             .post("/sections", this.section_form)
             .then(() => {
@@ -328,10 +288,10 @@ export default {
               });
             });
         } else {
-          this.section_form.section_id = this.section_id;
+          this.section_form.sectionId = this.sectionId;
 
           axios
-            .patch("/sections/" + this.section_id, this.section_form)
+            .patch("/sections/" + this.sectionId, this.section_form)
             .then((res) => {
               console.log(res);
               creating.close();
@@ -348,7 +308,7 @@ export default {
 
               this.$refs["create_section"].hide();
 
-              this.section_id = "";
+              this.sectionId = "";
             })
             .catch(() => {
               this.$swal.fire({
@@ -364,7 +324,7 @@ export default {
       }
     },
     getSections() {
-      axios.get("/sections/course/" + this.course_id).then((response) => {
+      axios.get("/sections/course/" + this.courseId).then((response) => {
         console.log(response);
         this.sections = response.data;
       });
@@ -378,16 +338,7 @@ export default {
   },
   validations: {
     section_form: {
-      section_name: {
-        sr: {
-          required,
-          minLength: minLength(3),
-        },
-        en: {
-          required,
-          minLength: minLength(3),
-        },
-      },
+      sectionName: {},
     },
   },
 };
