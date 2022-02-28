@@ -50,17 +50,17 @@ export default {
           label: "Ukloni",
         },
         {
-          key: "userId.lastName",
+          key: "user.lastName",
           sortable: true,
           label: "Prezime",
         },
         {
-          key: "userId.name",
+          key: "user.name",
           sortable: true,
           label: "Ime",
         },
         {
-          key: "userId.email",
+          key: "user.email",
           label: "E-mail",
           sortable: true,
         },
