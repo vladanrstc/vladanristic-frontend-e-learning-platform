@@ -69,7 +69,7 @@
                             <b-form-checkbox v-model="lessons[index].lesson_published" @change="switchLesson(lesson)"
                                              switch></b-form-checkbox>
                         </td>
-                        <td>{{ lesson.lesson_title[selected_lang] }}</td>
+                        <td>{{ lesson.lessonTitle }}</td>
                     </tr>
                 </draggable>
             </table>
