@@ -136,9 +136,9 @@ export default {
       ],
       sections: [],
       section_form: {
-        section_name: {},
+        sectionName: "",
       },
-      section_id: "",
+      sectionId: "",
       modal_action: "Dodaj sekciju",
     };
   },
@@ -159,13 +159,15 @@ export default {
           this.$swal.showLoading();
         },
       });
-
+      
       axios
         .post("/sections/order",{
           sections: this.sections
         })
-        .then(() => {
+        .then((response) => {
           updating.close();
+
+          console.log(response.data)
 
           this.$swal.fire({
             toast: true,
@@ -256,8 +258,9 @@ export default {
           },
         });
 
-        this.section_form.lang = this.selected_lang;
         this.section_form.sectionCourseId = this.courseId;
+
+        console.log(this.section_form)
 
         if (this.sectionId == "") {
           axios
@@ -330,8 +333,7 @@ export default {
       });
     },
     resetModal() {
-      this.changeLocale();
-      this.section_id = "";
+      this.sectionId = "";
 
       this.modal_action = "Dodaj sekciju";
     },

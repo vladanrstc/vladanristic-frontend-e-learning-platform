@@ -66,8 +66,7 @@
                         </td>
 
                         <td scope="row">
-                            <b-form-checkbox v-model="lessons[index].lesson_published" @change="switchLesson(lesson)"
-                                             switch></b-form-checkbox>
+                            <b-form-checkbox v-model="lessons[index].lesson_published" @change="switchLesson(lesson)" switch></b-form-checkbox>
                         </td>
                         <td>{{ lesson.lessonTitle }}</td>
                     </tr>
