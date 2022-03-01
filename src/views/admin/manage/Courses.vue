@@ -394,7 +394,6 @@
                 });
             },
             resetModal() {
-                this.changeLocale();
                 this.courseId = '';
                 //this.$v.course_form.$reset();
                 this.modal_action = "Dodaj kurs"

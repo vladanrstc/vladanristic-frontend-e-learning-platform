@@ -71,8 +71,8 @@ export default {
           class: "try-it"
         },
       ],
-      notes: {},
-      note_id: '',
+      notes: [],
+      noteId: '',
     };
   },
   methods: {
@@ -99,7 +99,7 @@ export default {
                 },
             });
 
-            axios.delete("/notes/" + note.user_course_started_id).then(() => {
+            axios.delete("/notes/" + note.userCourseStartedId).then(() => {
                 creating.close();
                 this.getNotes();
                 this.$swal("Obrisana beleška!", "", "success");
