@@ -57,7 +57,7 @@
                 </template>
 
                 <template v-slot:cell(courseImage)="data">
-                    <img :src="'/storage/' + data.item.courseImage" style="width:80px; height:60px">
+                    <img :src="data.item.courseImage" style="width:80px; height:60px">
                 </template>
 
             </b-table>
@@ -297,10 +297,12 @@
                     if (this.courseId == '') {
                         let formData = new FormData();
 
-                        formData.append('course_image', this.courseImage);
-                        formData.append('course_name', this.course_form.courseName);
-                        formData.append('course_description', this.course_form.courseDescription);
-                        formData.append('lang', this.selected_lang);
+                        console.log(this.course_form.courseName)
+                        console.log(this.course_form.courseDescription)
+
+                        formData.append('courseImage', this.courseImage);
+                        formData.append('courseName', this.course_form.courseName);
+                        formData.append('courseDescription', this.course_form.courseDescription);
 
                         axios
                             .post("/courses", formData,{
