@@ -546,8 +546,6 @@
                         formData.append('lessonDescription', this.lessonForm.lessonDescription);
                         formData.append('lessonPractice', this.lessonPractice);
                         formData.append('lessonCode', this.lessonForm.lessonCode);
-                        formData.append('lessonSection_id', this.sectionId);
-                        formData.append('lessonId', this.lessonForm.lessonId);
 
                         axios
                             .post("/lessons/update/" + this.lessonId, formData)
