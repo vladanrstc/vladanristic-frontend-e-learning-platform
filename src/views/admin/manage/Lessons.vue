@@ -35,7 +35,7 @@
                     <th scope="col">Ukloni</th>
                     <th scope="col">Izmeni</th>
                     <th scope="col">Video</th>
-                    <th scope="col">Test</th>
+                    <!--<th scope="col">Test</th>-->
                     <th scope="col">Prikaži lekciju</th>
                     <th scope="col">Naslov lekcije</th>
                 </tr>
@@ -59,11 +59,12 @@
                             </b-button>
                         </td>
 
-                        <td scope="row">
+                        <!--<td scope="row">
                             <b-button variant="info" @click="manageLessonTests(lesson)">
                                 <i class="fa fa-question-circle-o" aria-hidden="true"></i>
                             </b-button>
                         </td>
+                        -->
 
                         <td scope="row">
                             <b-form-checkbox v-model="lessons[index].lessonPublished" @change="switchLesson(lesson)" switch></b-form-checkbox>
@@ -132,7 +133,7 @@
 
                     <small v-if="this.lessonPracticeCurrent != null
                     && this.lessonPracticeCurrent != undefined
-                    && this.lessonPracticeCurrent != ''"><a target="_blank" :href="'/storage/' + this.lessonPracticeCurrent">Trenutni PDF</a></small>
+                    && this.lessonPracticeCurrent != ''"><a target="_blank" :href="this.lessonPracticeCurrent">Trenutni PDF</a></small>
                     <b-form-invalid-feedback id="input-3-live-feedback">Morate odabrati sliku kursa
                     </b-form-invalid-feedback>
 
@@ -286,11 +287,11 @@
                         this.$swal.showLoading();
                     },
                 });
-
+                console.log(this.videoLink.split(".be/")[1])
                 axios
-                    .post("/lessons/video", {
-                        "lesson_video_link": this.videoLink.split(".be/")[1],
-                        "lesson_id": this.lessonManaged.lessonId
+                    .patch("/lessons/video", {
+                        "lessonVideoLink": this.videoLink.split(".be/")[1],
+                        "lessonId": this.lessonManaged.lessonId
                     })
                     .then(res => {
                         console.log(res)
@@ -334,8 +335,7 @@
                     },
                 });
 
-                axios
-                    .post("/lessons/switch", lesson)
+                axios.patch("/lessons/switch", lesson)
                     .then(() => {
                         updating.close();
 
@@ -391,8 +391,9 @@
                     },
                 });
 
-                axios
-                    .post("/lessons/order", {
+                console.log(this.lessons)
+
+                axios.post("/lessons/order", {
                         lessons: this.lessons
                     })
                     .then(() => {
