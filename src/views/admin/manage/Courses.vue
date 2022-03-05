@@ -7,6 +7,7 @@
                 Dodaj kurs
             </b-button>
 
+            <!--
             <b-form-radio-group
                 class="ml-3"
                 id="radio-slots"
@@ -15,8 +16,8 @@
                 name="radio-options-slots"
                 @change="changeLocale(1)"
             >
-
             </b-form-radio-group>
+            -->
         </div>
 
         <div>
