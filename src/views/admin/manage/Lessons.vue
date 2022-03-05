@@ -41,7 +41,7 @@
                 </tr>
                 </thead>
                 <draggable v-model="lessons" @end="saveOrder()" tag="tbody">
-                    <tr v-for="(lesson, index) in lessons" :key="lesson.lesson_id">
+                    <tr v-for="(lesson, index) in lessons" :key="lesson.lessonId">
                         <td>
                             <b-button variant="danger" @click="deleteLesson(lesson)">
                                 <i class="fa fa-trash" aria-hidden="true"></i>
@@ -66,7 +66,7 @@
                         </td>
 
                         <td scope="row">
-                            <b-form-checkbox v-model="lessons[index].lesson_published" @change="switchLesson(lesson)" switch></b-form-checkbox>
+                            <b-form-checkbox v-model="lessons[index].lessonPublished" @change="switchLesson(lesson)" switch></b-form-checkbox>
                         </td>
                         <td>{{ lesson.lessonTitle }}</td>
                     </tr>
@@ -82,7 +82,7 @@
             title="Testovi"
             @hidden="getLessons"
         >
-            <manageTest :lang="this.selected_lang" :lesson="this.selected_lesson"></manageTest>
+            <manageTest :lang="this.selected_lang" :lesson="this.selectedLesson"></manageTest>
         </b-modal>
 
         <!-- MODAL -->
@@ -91,7 +91,7 @@
             hide-footer
             id="modal-prevent-closing"
             ref="create_lesson"
-            :title="this.modal_action"
+            :title="this.modalAction"
         >
             <form ref="form" @submit.stop.prevent="addLesson">
                 <b-form-group id="example-input-group-1" label="Naziv" label-for="example-input-1">
@@ -99,8 +99,8 @@
                         id="example-input-1"
                         name="example-input-1"
                         placeholder="Naslov lekcije"
-                        v-model="$v.lesson_form.lesson_title[selected_lang].$model"
-                        :state="validateState('lesson_title', selected_lang)"
+                        v-model="$v.lessonForm.lessonTitle.$model"
+                        :state="validateState('lessonTitle')"
                         aria-describedby="input-1-live-feedback"
                     ></b-form-input>
 
@@ -113,8 +113,8 @@
                         id="example-input-2"
                         name="example-input-2"
                         placeholder="Opis lekcije"
-                        v-model="$v.lesson_form.lesson_description[selected_lang].$model"
-                        :state="validateState('lesson_description', selected_lang)"
+                        v-model="$v.lessonForm.lessonDescription.$model"
+                        :state="validateState('lessonDescription')"
                         aria-describedby="input-2-live-feedback"
                     ></b-form-textarea>
 
@@ -125,14 +125,14 @@
                 <b-form-group id="example-input-group-3" label="Dodatna literatura" label-for="example-input-3">
                     <b-form-file
                         accept="application/pdf"
-                        v-model="lesson_practice"
+                        v-model="lessonPractice"
                         placeholder="Dodajte PDF"
                         drop-placeholder="Dodajte PDF"
                     ></b-form-file>
 
-                    <small v-if="this.lesson_practice_current != null
-                    && this.lesson_practice_current != undefined
-                    && this.lesson_practice_current != ''"><a target="_blank" :href="'/storage/'+this.lesson_practice_current">Trenutni PDF</a></small>
+                    <small v-if="this.lessonPracticeCurrent != null
+                    && this.lessonPracticeCurrent != undefined
+                    && this.lessonPracticeCurrent != ''"><a target="_blank" :href="'/storage/' + this.lessonPracticeCurrent">Trenutni PDF</a></small>
                     <b-form-invalid-feedback id="input-3-live-feedback">Morate odabrati sliku kursa
                     </b-form-invalid-feedback>
 
@@ -143,7 +143,7 @@
                         id="example-input-6"
                         name="example-input-6"
                         placeholder="Link do koda"
-                        v-model="lesson_form.lesson_code"
+                        v-model="lessonForm.lessonCode"
                         aria-describedby="input-6-live-feedback"
                     ></b-form-input>
 
@@ -152,11 +152,11 @@
                 <button type="submit" class="btn btn-primary login-btn w-100">
                     <i
                         class="fa fa-plus-circle"
-                        v-if="this.modal_action == 'Dodaj lekciju'"
+                        v-if="this.modalAction == 'Dodaj lekciju'"
                         aria-hidden="true"
                     ></i>
-                    <i class="fa fa-pencil" v-if="this.modal_action == 'Izmeni lekciju'" aria-hidden="true"></i>
-                    {{ this.modal_action }}
+                    <i class="fa fa-pencil" v-if="this.modalAction == 'Izmeni lekciju'" aria-hidden="true"></i>
+                    {{ this.modalAction }}
                 </button>
             </form>
         </b-modal>
@@ -172,22 +172,22 @@
 
                 <b-form-group id="example-input-group-11" label="Video link" label-for="example-input-11">
                     <b-form-input @input="adaptLink"
-                                  id="example-input-11"
-                                  name="example-input-11"
-                                  placeholder="Link videa"
-                                  v-model="video_link"
-                                  aria-describedby="input-11-live-feedback"
+                        id="example-input-11"
+                        name="example-input-11"
+                        placeholder="Link videa"
+                        v-model="videoLink"
+                        aria-describedby="input-11-live-feedback"
                     ></b-form-input>
 
                     <b-form-invalid-feedback id="input-11-live-feedback">Morate uneti opis videa
                     </b-form-invalid-feedback>
                 </b-form-group>
 
-                <b-embed v-if="video_link != ''"
-                         type="iframe"
-                         aspect="16by9"
-                         v-bind:src="video_link_real"
-                         allowfullscreen
+                <b-embed v-if="videoLink != ''"
+                        type="iframe"
+                        aspect="16by9"
+                        v-bind:src="videoLinkReal"
+                        allowfullscreen
                 ></b-embed>
 
                 <button type="submit" class="btn btn-primary login-btn w-100">
@@ -214,24 +214,23 @@
             draggable, manageTest
         },
         mounted() {
-            this.course_id = this.$route.params.course;
-            this.section_id = this.$route.params.section;
-            console.log(this.section_id)
+            this.courseId = this.$route.params.course;
+            this.sectionId = this.$route.params.section;
             this.getLessons();
         },
         data() {
             return {
-                lesson_practice_current: "",
-                lesson_practice: null,
-                selected_lesson: {},
-                lesson_managed: "",
-                video_link_real: "",
-                video_link: "",
+                lessonPracticeCurrent: "",
+                lessonPractice: null,
+                selectedLesson: {},
+                lessonManaged: "",
+                videoLinkReal: "",
+                videoLink: "",
                 file: null,
                 lessons_switch: [],
                 flag_false: false,
                 flag_true: true,
-                course_id: "",
+                courseId: "",
                 selected_lang: "sr",
                 options: [
                     {text: "SR", value: "sr"},
@@ -250,36 +249,30 @@
                         label: "Izmeni",
                     },
                     {
-                        key: "lesson_title",
+                        key: "lessonTitle",
                         sortable: true,
                         label: "Naslov lekcije",
                     },
                 ],
                 lessons: [],
-                lesson_form: {
-                    lesson_title: {
-                        sr: "",
-                        en: "no-data",
-                    },
-                    lesson_description: {
-                        sr: "",
-                        en: "no-data",
-                    },
-                    lesson_practice: "",
-                    lesson_code: '',
+                lessonForm: {
+                    lessonTitle: "",
+                    lessonDescription: "",
+                    lessonPractice: "",
+                    lessonCode: '',
                 },
-                lesson_id: "",
-                modal_action: "Dodaj lekciju",
+                lessonId: "",
+                modalAction: "Dodaj lekciju",
             };
         },
         methods: {
             adaptLink() {
 
                 try {
-                    let end_value = "https://www.youtube.com/embed/" + this.video_link.split(".be/")[1];
-                    this.video_link_real = end_value;
+                    let endValue = "https://www.youtube.com/embed/" + this.videoLink.split(".be/")[1];
+                    this.videoLinkReal = endValue;
                 } catch (err) {
-                    this.video_link_real = "";
+                    this.videoLinkReal = "";
                 }
 
             },
@@ -296,9 +289,8 @@
 
                 axios
                     .post("/lessons/video", {
-                        "lang": this.selected_lang,
-                        "lesson_video_link": this.video_link.split(".be/")[1],
-                        "lesson_id": this.lesson_managed.lesson_id
+                        "lesson_video_link": this.videoLink.split(".be/")[1],
+                        "lesson_id": this.lessonManaged.lessonId
                     })
                     .then(res => {
                         console.log(res)
@@ -329,50 +321,6 @@
                             timer: 4500,
                         });
                     });
-
-                /*let formData = new FormData();
-                formData.append('file', this.file);
-
-                let updating = this.$swal.fire({
-                  toast: true,
-                  position: "top-end",
-                  title: "Molimo sačekajte..",
-                  onBeforeOpen: () => {
-                    this.$swal.showLoading();
-                  },
-                });
-
-                axios
-                  .post("/lessons/video",formData,{
-                    headers: {
-                      'Content-Type': 'multipart/form-data'
-                    }
-                  })
-                  .then(res => {
-                    console.log(res)
-                    updating.close();
-
-                    this.$swal.fire({
-                      toast: true,
-                      position: "top-end",
-                      icon: "success",
-                      title: "Sačuvano",
-                      showConfirmButton: false,
-                      timer: 4500,
-                    });
-
-                  })
-                  .catch(err => {
-                    console.log(err)
-                    this.$swal.fire({
-                      toast: true,
-                      position: "top-end",
-                      icon: "error",
-                      title: "Došlo je do greške. Molimo pokušajte ponovo",
-                      showConfirmButton: false,
-                      timer: 4500,
-                    });
-                  });*/
 
             },
             switchLesson(lesson) {
@@ -414,16 +362,15 @@
 
             },
             manageLessonTests(lesson) {
-                this.selected_lesson = lesson
+                this.selectedLesson = lesson
                 this.$refs["manage_tests"].show();
             },
             manageLessonVideo(lesson) {
-                console.log(lesson)
-                this.lesson_managed = lesson;
-                if (lesson.lesson_video_link != null) {
-                    if (lesson.lesson_video_link[this.selected_lang] != null) {
-                        this.video_link = "https://youtu.be/" + lesson.lesson_video_link[this.selected_lang]
-                        this.video_link_real = "https://youtu.be/" + lesson.lesson_video_link[this.selected_lang]
+                this.lessonManaged = lesson;
+                if (lesson.lessonVideoLink != null) {
+                    if (lesson.lessonVideoLink != null) {
+                        this.videoLink = "https://youtu.be/" + lesson.lessonVideoLink
+                        this.videoLinkReal = "https://youtu.be/" + lesson.lessonVideoLink
                         this.adaptLink();
                     }
                 }
@@ -431,7 +378,7 @@
                 this.$refs["manage_video"].show();
             },
             backToCourseSections() {
-                this.$router.push("/admin/sections/" + this.course_id)
+                this.$router.push("/admin/sections/" + this.courseId)
             },
             saveOrder() {
 
@@ -473,66 +420,6 @@
                     });
 
             },
-            changeLocale(param) {
-                if (param == 1) {
-                    if (this.selected_lang == "sr") {
-                        this.lesson_form = {
-                            lesson_title: {
-                                sr: "nema-podataka",
-                                en: "",
-                            },
-                            lesson_description: {
-                                sr: "nema-podataka",
-                                en: "",
-                            },
-                            lesson_practice: "",
-                            lesson_code: ''
-                        };
-                    } else {
-                        this.lesson_form = {
-                            lesson_title: {
-                                sr: "",
-                                en: "no-data",
-                            },
-                            lesson_description: {
-                                sr: "",
-                                en: "no-data",
-                            },
-                            lesson_practice: "",
-                            lesson_code:""
-                        };
-                    }
-                    return;
-                }
-
-                if (this.selected_lang == "sr") {
-                    this.lesson_form = {
-                        lesson_title: {
-                            sr: "",
-                            en: "no-data",
-                        },
-                        lesson_description: {
-                            sr: "",
-                            en: "no-data",
-                        },
-                        lesson_practice: "",
-                        lesson_code: ''
-                    };
-                } else {
-                    this.lesson_form = {
-                        lesson_title: {
-                            sr: "nema-podataka",
-                            en: "",
-                        },
-                        lesson_description: {
-                            sr: "nema-podataka",
-                            en: "",
-                        },
-                        lesson_practice: "",
-                        lesson_code: ''
-                    };
-                }
-            },
             deleteLesson(lesson) {
                 this.$swal({
                     title: "Da li ste sigurni da želite da obrišete lekciju?",
@@ -553,8 +440,7 @@
                             },
                         });
 
-                        axios
-                            .delete("/lessons/" + lesson.lesson_id)
+                        axios.delete("/lessons/" + lesson.lessonId)
                             .then(() => {
                                 creating.close();
                                 this.getLessons();
@@ -575,30 +461,29 @@
                 });
             },
             editLesson(lesson) {
-                console.log(lesson)
-                this.lesson_form.lesson_title[this.selected_lang] = lesson.lesson_title[this.selected_lang];
-                this.lesson_form.lesson_description[this.selected_lang] = lesson.lesson_description[this.selected_lang];
-                this.lesson_practice = null
-                this.lesson_form.lesson_code = lesson.lesson_code;
-                this.lesson_practice_current = '';
-                if(lesson.lesson_practice != null && lesson.lesson_practice != undefined) {
-                    this.lesson_practice_current = lesson.lesson_practice[this.selected_lang];
+                this.lessonForm.lessonTitle = lesson.lessonTitle;
+                this.lessonForm.lessonDescription = lesson.lessonDescription;
+                this.lessonPractice = null
+                this.lessonForm.lessonCode = lesson.lessonCode;
+                this.lessonPracticeCurrent = '';
+                if(lesson.lessonPractice != null && lesson.lessonPractice != undefined) {
+                    this.lessonPracticeCurrent = lesson.lessonPractice;
                 }
 
-                this.lesson_id = lesson.lesson_id;
-                this.modal_action = "Izmeni lekciju";
+                this.lessonId = lesson.lessonId;
+                this.modalAction = "Izmeni lekciju";
                 this.$refs["create_lesson"].show();
             },
-            validateState(name, lang) {
-                const {$dirty, $error} = this.$v.lesson_form[name][lang];
+            validateState(name) {
+                const {$dirty, $error} = this.$v.lessonForm[name];
                 return $dirty ? !$error : null;
             },
             addLesson() {
-                if (this.lesson_id == "") {
-                    this.$v.lesson_form.$touch();
+                if (this.lessonId == "") {
+                    this.$v.lessonForm.$touch();
                 }
 
-                if (!this.$v.lesson_form.$anyError) {
+                if (!this.$v.lessonForm.$anyError) {
                     let creating = this.$swal.fire({
                         toast: true,
                         position: "top-end",
@@ -608,22 +493,17 @@
                         },
                     });
 
-                    this.lesson_form.lang = this.selected_lang;
-                    this.lesson_form.lesson_section_id = this.section_id;
-
-                    console.log(this.lesson_form)
+                    this.lessonForm.lessonSectionId = this.sectionId;
 
                     let formData = new FormData();
 
-                    formData.append('lesson_title', this.lesson_form.lesson_title[this.selected_lang]);
-                    formData.append('lesson_description', this.lesson_form.lesson_description[this.selected_lang]);
-                    formData.append('lesson_practice', this.lesson_practice);
-                    formData.append('lesson_code', this.lesson_form.lesson_code);
-                    formData.append('lesson_section_id', this.section_id);
+                    formData.append('lessonTitle', this.lessonForm.lessonTitle);
+                    formData.append('lessonDescription', this.lessonForm.lessonDescription);
+                    formData.append('lessonPractice', this.lessonPractice);
+                    formData.append('lessonCode', this.lessonForm.lessonCode);
+                    formData.append('lessonSectionId', this.sectionId);
 
-                    formData.append('lang', this.selected_lang);
-
-                    if (this.lesson_id == "") {
+                    if (this.lessonId == "") {
                         axios
                             .post("/lessons", formData,
                                 {
@@ -657,21 +537,19 @@
                                 });
                             });
                     } else {
-                        this.lesson_form.lesson_id = this.lesson_id;
+                        this.lessonForm.lessonId = this.lessonId;
 
                         let formData = new FormData();
 
-                        formData.append('lesson_title', this.lesson_form.lesson_title[this.selected_lang]);
-                        formData.append('lesson_description', this.lesson_form.lesson_description[this.selected_lang]);
-                        formData.append('lesson_practice', this.lesson_practice);
-                        formData.append('lesson_code', this.lesson_form.lesson_code);
-                        formData.append('lesson_section_id', this.section_id);
-                        formData.append('lesson_id', this.lesson_form.lesson_id);
-
-                        formData.append('lang', this.selected_lang);
+                        formData.append('lessonTitle', this.lessonForm.lessonTitle);
+                        formData.append('lessonDescription', this.lessonForm.lessonDescription);
+                        formData.append('lessonPractice', this.lessonPractice);
+                        formData.append('lessonCode', this.lessonForm.lessonCode);
+                        formData.append('lessonSection_id', this.sectionId);
+                        formData.append('lessonId', this.lessonForm.lessonId);
 
                         axios
-                            .post("/lessons/update/" + this.lesson_id, formData)
+                            .post("/lessons/update/" + this.lessonId, formData)
                             .then((res) => {
                                 console.log(res);
                                 creating.close();
@@ -704,15 +582,15 @@
                 }
             },
             getLessons() {
-                axios.get("/lessons/section/" + this.section_id).then((response) => {
+                axios.get("/lessons/section/" + this.sectionId).then((response) => {
                     console.log(response);
                     //= response.data;
                     this.lessons = []
                     response.data.forEach(el => {
-                        if (el.lesson_published == 1) {
-                            el.lesson_published = true;
+                        if (el.lessonPublished == 1) {
+                            el.lessonPublished = true;
                         } else {
-                            el.lesson_published = false;
+                            el.lessonPublished = false;
                         }
                         this.lessons.push(el);
                     });
@@ -720,35 +598,16 @@
                 });
             },
             resetModal() {
-                this.changeLocale();
-                this.lesson_id = "";
-                this.video_link_real = ""
-                this.video_link = ""
-                this.modal_action = "Dodaj lekciju";
+                this.lessonId = "";
+                this.videoLinkReal = ""
+                this.videoLink = ""
+                this.modalAction = "Dodaj lekciju";
             },
         },
         validations: {
-            lesson_form: {
-                lesson_title: {
-                    sr: {
-                        required,
-                        minLength: minLength(3),
-                    },
-                    en: {
-                        required,
-                        minLength: minLength(3),
-                    },
-                },
-                lesson_description: {
-                    sr: {
-                        required,
-                        minLength: minLength(3),
-                    },
-                    en: {
-                        required,
-                        minLength: minLength(3),
-                    },
-                },
+            lessonForm: {
+                lessonTitle: "",
+                lessonDescription: "",
             },
         },
     };
