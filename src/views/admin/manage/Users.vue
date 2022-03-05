@@ -15,7 +15,7 @@
         </div>
 
         <div>
-            <b-table striped hover :items="users.data" :fields="fields">
+            <b-table striped hover :items="users" :fields="fields">
 
                 <template v-slot:cell(edit)="data">
                     <b-button variant="info" @click="editUser(data.item)">
@@ -37,8 +37,9 @@
 
             </b-table>
         </div>
+        <!--
         <pagination :data="users" @pagination-change-page="getUsers"></pagination>
-
+        -->
 
         <!-- MODAL -->
         <b-modal @hidden="resetModal" hide-footer id="modal-prevent-closing" ref="create_user"

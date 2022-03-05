@@ -1,7 +1,7 @@
 <template>
     <div class="container-fluid text-left">
         <div>
-            <b-table striped hover :items="users.data" :fields="fields">
+            <b-table striped hover :items="users" :fields="fields">
 
                 <template v-slot:cell(restore)="data">
                     <b-button variant="success" @click="restoreUser(data.item)">
