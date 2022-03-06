@@ -20,6 +20,7 @@
                                     $t("navigation.youtube")
                                 }}
                             </b-nav-item>
+                            <!--
                             <b-nav-item>
                                 <b-dropdown id="dropdown-lang" class="m-lg-2 language-selector">
                                     <b-dropdown-item v-on:click="setLang('en')">
@@ -32,6 +33,7 @@
                                     </b-dropdown-item>
                                 </b-dropdown>
                             </b-nav-item>
+                            -->
                             <b-nav-item v-if="this.loginStatusFlag == false">
                                 <button type="button" class="btn btn-link" @click="openLoginModal()">
                                     {{ $t("navigation.login") }}

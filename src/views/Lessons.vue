@@ -83,9 +83,11 @@
                                             </div>
                                             <div class="d-flex align-items-center">
                                                 <!--  && lesson.lessonTestId.meetsRequirements == true -->
-                                                <div v-if="lesson.lessonTestId != null && lesson.lessonTestId != undefined" @click="takeTest(lesson.lessonTestId)">
+                                                <!-- 
+                                                    <div v-if="lesson.lessonTestId != null && lesson.lessonTestId != undefined" @click="takeTest(lesson.lessonTestId)">
                                                     <i class="fa fa-list-ol mr-3" v-b-tooltip.hover :title="$t('lessons.take_test')" aria-hidden="true"></i>
                                                 </div>
+                                                -->
                                                 <template v-if="lesson.lessonCompleted == true">
                                                     <i class="fa fa-check-circle checkmark-video-size mark-completed"
                                                        v-b-tooltip.hover :title="$t('lessons.lesson_finished')"

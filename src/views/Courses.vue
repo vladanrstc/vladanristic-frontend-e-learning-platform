@@ -108,7 +108,7 @@
                             creating.close();
                             this.getNotStartedCourses();
                             this.getStartedCourses();
-                            this.goTo(course.course_slug);
+                            this.goTo(course.courseSlug);
                         }).catch(() => {
                             this.$swal.fire({
                                 toast: true,
