@@ -76,8 +76,8 @@
                         id="example-input-3"
                         name="example-input-3"
                         placeholder="Prezime"
-                        v-model="$v.user_form.last_name.$model"
-                        :state="validateState('last_name')"
+                        v-model="$v.user_form.lastName.$model"
+                        :state="validateState('lastName')"
                         aria-describedby="input-3-live-feedback"
                     ></b-form-input>
 
@@ -111,6 +111,7 @@
                     ></b-form-select>
                 </b-form-group>
 
+                <!--
                 <b-form-group id="example-input-group-67" label="Jezik" label-for="example-input-67">
                     <b-form-select
                         id="example-input-67"
@@ -119,6 +120,7 @@
                         size="md"
                     ></b-form-select>
                 </b-form-group>
+                -->
 
                 <button type="submit" class="btn btn-primary login-btn w-100">
                     <i class="fa fa-user-plus" v-if="this.modal_action == 'Dodaj korisnika'" aria-hidden="true"></i>
@@ -180,7 +182,7 @@
                         label: "Izmeni",
                     },
                     {
-                        key: "last_name",
+                        key: "lastName",
                         sortable: true,
                         label: "Prezime",
                     },
@@ -199,20 +201,20 @@
                         label: "Rola",
                         sortable: true,
                     },
-                    {
+                    /*{
                         key: "language",
                         label: "Jezik",
                         sortable: false,
-                    },
+                    },*/
                 ],
                 users: {},
                 user_form: {
                     email: "",
                     password: "",
                     name: "",
-                    last_name: "",
+                    lastName: "",
                     role: "",
-                    language: "",
+                    // language: "",
                 },
                 user_id: '',
                 modal_action: "Dodaj korisnika"
@@ -275,10 +277,10 @@
             editUser(user) {
 
                 this.user_form.name = user.name;
-                this.user_form.last_name = user.last_name;
+                this.user_form.lastName = user.lastName;
                 this.user_form.email = user.email;
                 this.user_form.role = user.role;
-                this.user_form.language = user.language;
+                // this.user_form.language = user.language;
 
                 this.user_id = user.id;
 
@@ -309,8 +311,7 @@
 
                     if (this.user_id == '') {
 
-                        axios
-                            .post("/users", this.user_form)
+                        axios.post("/users", this.user_form)
                             .then(() => {
                                 creating.close();
                                 this.$swal.fire({
@@ -343,8 +344,7 @@
 
                         console.log(this.user_form)
 
-                        axios
-                            .patch("/users/" + this.user_id, this.user_form)
+                        axios.patch("/users/" + this.user_id, this.user_form)
                             .then(() => {
                                 creating.close();
                                 this.$swal.fire({
@@ -388,9 +388,9 @@
                     email: "",
                     password: "",
                     name: "",
-                    last_name: "",
+                    lastName: "",
                     role: "",
-                    language: "",
+                    //language: "",
                 }
                 this.user_id = ''
                 this.$v.user_form.$reset();
@@ -408,7 +408,7 @@
                     required,
                     minLength: minLength(3),
                 },
-                last_name: {
+                lastName: {
                     required,
                     minLength: minLength(3),
                 },

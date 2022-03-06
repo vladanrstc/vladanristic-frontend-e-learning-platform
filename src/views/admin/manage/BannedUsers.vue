@@ -17,7 +17,9 @@
 
             </b-table>
         </div>
+        <!--
         <pagination :data="users" @pagination-change-page="getUsers"></pagination>
+        -->
 
     </div>
 </template>
@@ -52,7 +54,7 @@
                         label: "Aktiviraj",
                     },
                     {
-                        key: "last_name",
+                        key: "lastName",
                         sortable: true,
                         label: "Prezime",
                     },
