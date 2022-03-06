@@ -11,7 +11,7 @@
                         <b-navbar-nav>
                             <b-nav-item to="/" exact>{{ $t("navigation.home") }}</b-nav-item>
                             <b-nav-item to="/about">{{ $t("navigation.about") }}</b-nav-item>
-                            <b-nav-item to="/contact">{{ $t("navigation.contact") }}</b-nav-item>
+                            <!-- <b-nav-item to="/contact">{{ $t("navigation.contact") }}</b-nav-item> -->
                             <b-nav-item class="btn-nav rounded-pill px-2" to="/courses">{{
                                     $t("navigation.lessons")
                                 }}
