@@ -19,7 +19,7 @@
                     <div>
                         <div>
                             {{ this.stats.courses }}
-                            kurseva
+                            kursa
                         </div>
                     </div>
                 </div>
@@ -48,24 +48,26 @@
                     </div>
                 </div>
             </div>
+            
             <div class="col col-12 col-md-4 d-stat">
                 <div style="background-color: #01c0c8 !important">
                     <i class="fa fa-list-ol" aria-hidden="true" style="font-size: 170%"></i>
                     <div>
                         <div>
                             {{ this.stats.tests }}
-                            testova
+                            testa
                         </div>
                     </div>
                 </div>
             </div>
+
             <div class="col col-12 col-md-4 d-stat">
                 <div style="background-color: #ed4040!important">
                     <i class="fa fa-hourglass-start" aria-hidden="true" style="font-size: 170%"></i>
                     <div>
                         <div>
                             {{ this.stats.courses_started }}
-                            započetih kurseva
+                            započetih kursa
                         </div>
                     </div>
                 </div>

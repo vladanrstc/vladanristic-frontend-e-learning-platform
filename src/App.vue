@@ -41,13 +41,11 @@ export default {
         } catch(e) {
           console.log(e)
         }
-
-        console.log(token.roles)
         
-        if(token.roles[0] == "super-admin" || a.roles[0] == "admin") {
-            this.is_admin = true;
+        if(token.roles[0] == "super-admin" || token.roles[0] == "admin") {
+          this.is_admin = true;
         } else {
-            this.is_admin = false;
+          this.is_admin = false;
         }
       } catch (e) {
         this.is_admin = false;
@@ -58,6 +56,7 @@ export default {
     if(localStorage.getItem("lang") == undefined) {
       localStorage.setItem("lang", "sr")
     }
+
     this.isAdmin();
 
     if(localStorage.getItem("lang") != null && localStorage.getItem("lang") != undefined) {

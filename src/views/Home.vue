@@ -16,26 +16,33 @@
             <h1 class="pb-lg-5">{{ $t("benefits.benefit_title") }}</h1>
             <div class="container">
                 <div class="row">
-                    <div class="col col-12 col-md-4">
+                    <div class="col col-12 col-md-3">
                         <i class="fa fa-file-pdf-o register-icon" aria-hidden="true"></i>
                         <h5 class="font-weight-bold">
                             {{ $t("benefits.benefit_title_1") }}
                         </h5>
                         <p>{{ $t("benefits.benefit_text_1") }}</p>
                     </div>
-                    <div class="col col-12 col-md-4">
+                    <div class="col col-12 col-md-3">
                         <i class="fa fa-pencil register-icon" aria-hidden="true"></i>
                         <h5 class="font-weight-bold">
                             {{ $t("benefits.benefit_title_2") }}
                         </h5>
                         <p>{{ $t("benefits.benefit_text_2") }}</p>
                     </div>
-                    <div class="col col-12 col-md-4">
+                    <div class="col col-12 col-md-3">
                         <i class="fa fa-thumbs-up register-icon" aria-hidden="true"></i>
                         <h5 class="font-weight-bold">
                             {{ $t("benefits.benefit_title_3") }}
                         </h5>
                         <p>{{ $t("benefits.benefit_text_3") }}</p>
+                    </div>
+                    <div class="col col-12 col-md-3">
+                        <i class="fa fa-list register-icon" aria-hidden="true"></i>
+                        <h5 class="font-weight-bold">
+                            Ocenite
+                        </h5>
+                        <p>Ocenite nase kurseve</p>
                     </div>
                 </div>
             </div>
