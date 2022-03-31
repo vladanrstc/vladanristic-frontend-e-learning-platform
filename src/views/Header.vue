@@ -94,11 +94,13 @@
                             <i class="fa fa-sign-in" aria-hidden="true"></i>
                             {{ $t('navigation.login_btn') }}
                         </button>
+                        <!--
                         <div class="text-right pt-2">
                             <a @click="forgotPasswordModal()" href="#"><small>{{
                                     $t('navigation.login_forgot_password')
                                 }}</small></a>
                         </div>
+                        -->
                     </form>
                 </b-tab>
                 <b-tab :title="$t('navigation.signup')">
