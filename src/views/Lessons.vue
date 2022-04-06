@@ -5,7 +5,7 @@
             <div class="row">
 
                 <div class="col col-12 col-md-6">
-                    <img class="img-fluid" :src="'/storage/' + this.course.courseImage">
+                    <img class="img-fluid" :src="this.course.courseImage">
                 </div>
                 
                 <div class="col col-12 col-md-6 text-left d-flex align-items-start w-100">
@@ -138,7 +138,7 @@
                                     <div class="rating-user">
                                         <b-form-rating inline variant="warning" readonly :value="review.userCourseStartedReviewMark"></b-form-rating>
                                     </div>
-                                    <div v-html="review.userCourseStartedNote"></div>
+                                    <div v-html="review.userCourseStartedReviewText"></div>
                                 </div>
                             </div>
                             <div class="col col-12 pl-5 ml-md-5">
@@ -229,8 +229,8 @@
                     :src="'https://www.youtube.com/embed/' + currentLesson.lessonVideoLink"
                     allowfullscreen
                 ></b-embed>
-                <div class="py-3">
-                    <a target="_blank" :href="'/storage/'+currentLesson.lessonPractice">
+                <div class="py-3" v-if="currentLesson.lessonPractice != null">
+                    <a target="_blank" :href="currentLesson.lessonPractice">
                         <h6 class="m-0"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> {{ $t('lessons.pdf') }}</h6>
                     </a>
                 </div>

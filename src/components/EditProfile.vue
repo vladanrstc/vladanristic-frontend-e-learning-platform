@@ -21,6 +21,7 @@
             <form ref="form" @submit.stop.prevent="editProfile">
                 <b-form-group id="example-input-group-1" :label="$t('input_fields.email')" label-for="example-input-1">
                     <b-form-input
+                    disabled
                         id="example-input-1"
                         name="example-input-1"
                         :placeholder="$t('input_fields.email')"
@@ -49,13 +50,13 @@
                     </b-form-invalid-feedback>
                 </b-form-group>
 
-                <b-form-group id="example-input-group-3" :label="$t('input_fields.last_name')"
+                <b-form-group id="example-input-group-3" label="Prezime"
                               label-for="example-input-3">
 
                     <b-form-input
                         id="example-input-3"
                         name="example-input-3"
-                        :placeholder="$t('input_fields.lastName')"
+                        placeholder="Prezime"
                         v-model="$v.user_form.lastName.$model"
                         :state="validateState('lastName')"
                         aria-describedby="input-3-live-feedback"
@@ -164,7 +165,11 @@
         methods: {
             getLoggedUser() {
                 axios.get("/logged/user").then(response => {
-                    this.user_form = response.data
+                    console.log(response)
+                    this.user_form.email = response.data.email
+                    this.user_form.name = response.data.name
+                    this.user_form.lastName = response.data.lastName
+
                     console.log(this.user_form)
                     console.log(response.data)
                     this.$refs['edit_profile'].show();
@@ -204,7 +209,7 @@
                             this.$swal.showLoading();
                         },
                     });
-
+                    console.log(this.user_form)
                     axios
                         .put("/logged/user", this.user_form)
                         .then(() => {

@@ -10,8 +10,10 @@
                                 <div class="bg-f-image">
                                     <i class="fa fa-youtube-play" aria-hidden="true"></i>
                                 </div>
-                                <img :src="'https://i.ytimg.com/vi/' + video.lessonVideoLink + '/mqdefault.jpg'">
-                                <h3 class="video-title">{{ video.lessonTitle }}</h3>
+                                    <img :src="'https://i.ytimg.com/vi/' + video.lessonVideoLink + '/mqdefault.jpg'">
+                                <a :href="'https://youtu.be/' + video.lessonVideoLink" target="_blank">                                                                
+                                    <h3 class="video-title" style="color: #fff">{{ video.lessonTitle }}</h3>
+                                </a>
                             </div>
                         </div>
                     </div>

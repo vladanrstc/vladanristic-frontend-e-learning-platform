@@ -6,7 +6,7 @@
                     <i class="fa fa-plus-circle" aria-hidden="true"></i>
                     Dodaj korisnika
                 </b-button>
-                <b-form-input v-debounce:500ms="searchUsers" debounce-events="input" v-model="search_text_bre" placeholder="Pretraga..."></b-form-input>
+                <!-- <b-form-input v-debounce:500ms="searchUsers" debounce-events="input" v-model="search_text_bre" placeholder="Pretraga..."></b-form-input>-->
             </div>
             <b-button v-b-modal.modal-prevent-closing-banned-users class="mb-3" variant="danger">
                 <i class="fa fa-search-plus" aria-hidden="true"></i>
@@ -379,7 +379,8 @@
 
             },
             getUsers(page = 1) {
-                axios.get("/users?page=" + page + "&q=" + this.search_text_bre).then((response) => {
+                axios.get("/users").then((response) => {
+                    console.log(response)
                     this.users = response.data;
                 });
             },

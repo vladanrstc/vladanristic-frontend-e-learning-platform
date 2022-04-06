@@ -82,7 +82,7 @@
             "logging_in": "Prijavljivanje...",
             "login_success": "Dobro došli nazad",
             "login_error": "Pogrešan e-mail ili lozinka",
-            "register_success": "Uspešno ste se registrovali! Molimo Vas potvrdite nalog posećivanjem vašeg e-mail sandučeta",
+            "register_success": "Uspešno ste se registrovali!",
             "confirm_account_success": "Uspešno potvrđen nalog!",
             "confirm_account_first": "Pre prijave na sistem, molimo Vas da potvrdite Vaš nalog.",
             "edit_profile_success": "Uspešno izmenjen profil!",

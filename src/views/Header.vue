@@ -140,13 +140,13 @@
 
                         </b-form-group>
 
-                        <b-form-group id="example-input-group-3" :label="$t('input_fields.lastName')"
+                        <b-form-group id="example-input-group-3" label="Prezime"
                                       label-for="example-input-3">
 
                             <b-form-input
                                 id="example-input-3"
                                 name="example-input-3"
-                                :placeholder="$t('input_fields.lastName')"
+                                placeholder="Prezime"
                                 v-model="$v.register_form.lastName.$model"
                                 :state="validateState('lastName')"
                                 aria-describedby="input-3-live-feedback"

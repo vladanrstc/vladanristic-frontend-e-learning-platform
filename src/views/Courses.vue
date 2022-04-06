@@ -9,7 +9,7 @@
                     
                     <b-card style="height: 150px" @click="goTo(course.courseSlug)"
                             :title="course.courseName"
-                            :img-src="'/storage/' + course.courseImage"
+                            :img-src="course.courseImage"
                             img-alt="Card Image"
                             text-variant="dark"
                             img-top
@@ -25,7 +25,7 @@
                     <!--  -->
                     <b-card style="height: 150px" @click="startCourse(course)"
                             :title="course.courseName"
-                            :img-src="'/storage/' + course.courseImage"
+                            :img-src="course.courseImage"
                             img-alt="Card Image"
                             text-variant="dark"
                             img-top
