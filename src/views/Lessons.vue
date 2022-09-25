@@ -340,7 +340,7 @@ export default {
         getLessonsData() {
             axios.get("/course/details/" + this.$route.params.course)
                 .then(response => {
-                    this.course = response.data
+                    this.course = response.data.data
                     console.log(response);
                 })
                 .catch(e => {
@@ -356,9 +356,9 @@ export default {
         },
         getReviews(page = 1) {
 
-            axios.get("/reviews/course/user/" + this.$route.params.course + "?page=" + page)
+            axios.get("/reviews/course/" + this.$route.params.course + "?page=" + page)
                 .then(response => {
-                    this.reviews = response.data
+                    this.reviews = response.data.data
                 })
                 .catch(e => {
                     this.$swal.fire({
@@ -407,7 +407,7 @@ export default {
                 });
         },
         getNotes() {
-            axios.get("/courses/started/notes/" + this.$route.params.course)
+            axios.get("/notes/course/" + this.$route.params.course)
                 .then(response => {
 
                     if (response.data.user_course_started_note != null && response.data.user_course_started_note != undefined) {

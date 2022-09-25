@@ -103,7 +103,7 @@
                             },
                         });
 
-                        axios.post("/user_courses_started", course).then(() => {
+                        axios.post("/coursestart/enroll", course).then(() => {
                             creating.close();
                             this.getNotStartedCourses();
                             this.getStartedCourses();
@@ -127,25 +127,25 @@
                 this.$router.push('/lessons/' + slug);
             },
             getStartedCourses() {
-                axios.get("/courses/started")
+                axios.get("/coursestart/started")
                     .then(response => {
-                        this.courses = response.data
+                        this.courses = response.data.data
                     })
                     .catch(e => {
                         this.errors.push(e)
                     });
             },
             getNotStartedCourses() {
-                axios.get("/courses/not-started")
+                axios.get("/coursestart/not-started")
                     .then(response => {
-                        this.courses_not_started = response.data
+                        this.courses_not_started = response.data.data
                     })
                     .catch(e => {
                         this.errors.push(e)
                     });
             },
             getAllCourses() {
-                axios.get("/course/courses/all")
+                axios.get("/course/all")
                     .then(response => {
                         this.courses_not_started = response.data.data
                     })
