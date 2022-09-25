@@ -163,8 +163,8 @@
         },
         methods: {
             getLoggedUser() {
-                axios.get("/logged/user").then(response => {
-                    this.user_form = response.data
+                axios.get("/user/logged").then(response => {
+                    this.user_form = response.data.data
                     this.$refs['edit_profile'].show();
                 })
             },
@@ -204,7 +204,7 @@
                     });
 
                     axios
-                        .patch("/logged/user", this.user_form)
+                        .patch("/user/logged", this.user_form)
                         .then(() => {
                             creating.close();
                             this.$swal.fire({
@@ -220,22 +220,11 @@
 
                         })
                         .catch(error => {
-                            if(error.response.status == 401) {
-                                this.$swal.fire({
-                                    toast: true,
-                                    position: 'top-end',
-                                    icon: 'error',
-                                    title: this.$t('input_field_errors.current_password_error'),
-                                    showConfirmButton: false,
-                                    timer: 3500
-                                })
-                                return;
-                            }
                             this.$swal.fire({
                                 toast: true,
                                 position: "top-end",
                                 icon: "error",
-                                title: this.$t("notifications.general_error"),
+                                title: error.response.data.message,
                                 showConfirmButton: false,
                                 timer: 4500,
                             });

@@ -338,7 +338,7 @@ export default {
                 }
             });
 
-            axios.post('/login', {
+            axios.post('/auth/login', {
                 email: this.form.email,
                 password: this.form.password
             }).then(response => {

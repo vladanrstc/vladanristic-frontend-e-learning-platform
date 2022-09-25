@@ -139,6 +139,22 @@ new Vue({
 
 axios.defaults.baseURL = 'http://vladanristic.site/api/';
 
+axios.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem('ac_t');
+
+        if (token) {
+            config.headers['Authorization'] = `Bearer ${token}`;
+        }
+
+        return config;
+    },
+
+    (error) => {
+        return Promise.reject(error);
+    }
+);
+
 const app = new Vue({
   i18n,
   el: '#app',

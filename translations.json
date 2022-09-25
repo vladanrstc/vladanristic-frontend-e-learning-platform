@@ -62,8 +62,8 @@
         "input_fields": {
             "email": "Vaša elektronska pošta",
             "current_password": "Vaša trenutna lozinka",
-            "password": "Vaša lozinka",
-            "password_repeat": "Ponovite Vašu lozinku",
+            "password": "Vaša nova lozinka",
+            "password_repeat": "Ponovite Vašu novu lozinku",
             "name": "Ime",
             "last_name": "Prezime",
             "message": "Vaša poruka"
@@ -180,8 +180,8 @@
         "input_fields": {
             "email": "Enter your e-mail",
             "current_password": "Enter your current password",
-            "password": "Enter your password",
-            "password_repeat": "Password repeat",
+            "password": "Enter your new password",
+            "password_repeat": "Repeat your new password",
             "name": "Name",
             "last_name": "Last Name",
             "message": "Your message"
