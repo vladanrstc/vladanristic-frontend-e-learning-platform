@@ -282,7 +282,7 @@ export default {
                 }
             });
             console.log(this.reset_password.email)
-            axios.post('/reset-password', {
+            axios.post('/auth/reset-password', {
                 email: this.reset_password.email,
             }).then(response => {
 
@@ -298,12 +298,11 @@ export default {
                 this.$refs['forgot_password_modal'].hide()
 
             }).catch(error => {
-                console.log(error)
                 this.$swal.fire({
                     toast: true,
                     position: 'top-end',
                     icon: 'error',
-                    title: this.$t('notifications.general_error'),
+                    title: error.response.data.message,
                     showConfirmButton: false,
                     timer: 3500
                 })
