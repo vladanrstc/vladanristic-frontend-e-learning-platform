@@ -376,6 +376,7 @@ export default {
                 localStorage.setItem("rf_t", response.data.rf_t)
                 localStorage.setItem("fn", response.data.name)
                 localStorage.setItem("ln", response.data.last_name)
+                localStorage.setItem("role", response.data.role)
 
                 this.getLoginStatus();
 

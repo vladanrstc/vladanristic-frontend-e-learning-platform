@@ -5,14 +5,16 @@
                 <h1 class="m-0">{{ $t("footer.title") }}</h1>
                 <div class="px-md-5 py-3 my-3 py-lg-5 my-lg-5">
                     <div class="row px-lg-5 d-flex justify-content-center">
-                        <div v-for="video in videos" class="col col-12 col-lg-6 col-xl-4 my-3 pt-0 pt-md-4 pt-lg-4 pt-xl-0 my-md-0 d-flex justify-content-center">
-                            <div class="position-relative img-v-container" style="max-width: 320px">
-                                <div class="bg-f-image">
-                                    <i class="fa fa-youtube-play" aria-hidden="true"></i>
+                        <div v-for="video in videos" class="col col-12 col-lg-6 col-xl-4 my-3 pt-0 pt-md-4 pt-lg-4 pt-xl-0 my-md-0 d-flex justify-content-center" >
+                            <a target="_blank" :href="'https://youtu.be/' + video.lesson_video" class="text-white">
+                                <div class="position-relative img-v-container" style="max-width: 320px">
+                                    <div class="bg-f-image">
+                                        <i class="fa fa-youtube-play" aria-hidden="true"></i>
+                                    </div>
+                                    <img :src="'https://i.ytimg.com/vi/' + video.lesson_video + '/mqdefault.jpg'">
+                                    <h3 class="video-title">{{ video.lesson_name }}</h3>
                                 </div>
-                                <img :src="'https://i.ytimg.com/vi/' + video.lesson_video + '/mqdefault.jpg'">
-                                <h3 class="video-title">{{ video.lesson_name }}</h3>
-                            </div>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -66,24 +68,23 @@
                     secondary_lang = "sr";
                 }
 
-                axios.get("/home/videos").then(response => {
-                    console.log(response)
-                    response.data.forEach((value, index) => {
-                        console.log(value)
+                
+
+                axios.get("/stats/last-three-videos").then(response => {
+                    response.data.data.forEach((value, index) => {
+
+                        let lang_to_use = "";
                         if(value.lesson_video_link[primary_lang] != undefined && value.lesson_video_link[primary_lang] != null) {
-                            console.log(value.lesson_video_link[primary_lang])
-                            let obj = {
-                                "lesson_name": value.lesson_title[primary_lang],
-                                "lesson_video": value.lesson_video_link[primary_lang],
-                            }
-                            this.videos.push(obj)
+                            lang_to_use = primary_lang;
                         } else {
-                            let obj = {
-                                "lesson_name": value.lesson_title[secondary_lang],
-                                "lesson_video": value.lesson_video_link[secondary_lang],
-                            }
-                            this.videos.push(obj)
+                            lang_to_use = $secondary_lang;
                         }
+
+                        let obj = {
+                            "lesson_name": value.lesson_title[lang_to_use],
+                            "lesson_video": value.lesson_video_link[lang_to_use],
+                        }
+                        this.videos.push(obj)                        
                     });
                 }).catch(error => {
                     console.log(error)

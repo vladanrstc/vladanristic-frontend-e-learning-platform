@@ -132,7 +132,7 @@ new Vue({
 }).$mount('#app')
 */
 
-axios.defaults.baseURL = 'http://localhost:8081/api/';
+axios.defaults.baseURL = 'http://vladanristic.site/api/';
 
 const app = new Vue({
   i18n,
