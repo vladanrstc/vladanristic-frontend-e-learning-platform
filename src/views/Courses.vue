@@ -9,7 +9,7 @@
                     <b-card style="height: 150px" @click="goTo(course.course_slug)"
                             :title="course.course_name[lang]"
                             :img-src="'/storage/' + course.course_image"
-                            img-alt="Card Image"
+                            img-alt="Course Image"
                             text-variant="dark"
                             img-top
                     >
@@ -25,7 +25,7 @@
                     <b-card style="height: 150px" @click="startCourse(course)"
                             :title="course.course_name[lang]"
                             :img-src="'/storage/' + course.course_image"
-                            img-alt="Card Image"
+                            img-alt="Course Image"
                             text-variant="dark"
                             img-top
                     >
@@ -145,9 +145,9 @@
                     });
             },
             getAllCourses() {
-                axios.get("/courses/all")
+                axios.get("/course/courses/all")
                     .then(response => {
-                        this.courses_not_started = response.data
+                        this.courses_not_started = response.data.data
                     })
                     .catch(e => {
                         this.errors.push(e)

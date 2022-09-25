@@ -46,6 +46,11 @@ let routes = [
       component:() => import("./views/Contact.vue")
   },
   {
+    path: '/about',
+    name: 'About',
+    component:() => import("./views/About.vue")
+  },
+  {
       path: '/dash/login',
       name: 'AdminLogin',
       component: import("./views/admin/Login.vue")

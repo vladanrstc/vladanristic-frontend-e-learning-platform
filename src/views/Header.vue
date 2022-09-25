@@ -412,8 +412,7 @@ export default {
                 let reg_form = this.register_form;
                 reg_form.language = this.$i18n.locale;
 
-                axios.post('/register', reg_form).then(response => {
-                    console.log(response)
+                axios.post('/auth/register', reg_form).then(response => {
                     registering.close();
                     this.$swal.fire({
                         position: 'center',
@@ -425,27 +424,15 @@ export default {
                     this.$refs['login_modal'].hide()
 
                 }).catch(error => {
-
-                    if (error.response.status == 401) {
-                        this.$swal.fire({
-                            toast: true,
-                            position: 'top-end',
-                            icon: 'error',
-                            title: this.$t('notifications.email_exists'),
-                            showConfirmButton: false,
-                            timer: 3500
-                        })
-                        return;
-                    }
-
                     this.$swal.fire({
                         toast: true,
                         position: 'top-end',
                         icon: 'error',
-                        title: this.$t('notifications.general_error'),
+                        title: error.response.data.message,
                         showConfirmButton: false,
                         timer: 3500
                     })
+                    return;
                 });
 
             }
