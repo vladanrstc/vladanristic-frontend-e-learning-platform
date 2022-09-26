@@ -123,7 +123,7 @@
                                     {{ $t('lessons.add_review') }}
                                 </b-button>
                             </div>
-                            <div v-for="review in reviews.data" v-bind:key="review.user_course_started_id"
+                            <div v-for="review in reviews" v-bind:key="review.user_course_started_id"
                                  class="col col-12 col-md-6 d-flex align-items-center justify-content-center mb-2">
                                 <div class="p-3">
                                     <i class="fa fa-graduation-cap" aria-hidden="true"></i>
@@ -137,9 +137,6 @@
                                     </div>
                                     <div v-html="review.user_course_started_review_text"></div>
                                 </div>
-                            </div>
-                            <div class="col col-12 pl-5 ml-md-5">
-                                <pagination :data="reviews" @pagination-change-page="getReviews"></pagination>
                             </div>
                         </div>
                     </div>
@@ -257,7 +254,7 @@ import test from '../components/Test.vue'
 
 export default {
     components: {
-       test
+       test,
     },
     mounted() {
         this.getAllData();
