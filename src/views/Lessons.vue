@@ -341,7 +341,6 @@ export default {
             axios.get("/course/details/" + this.$route.params.course)
                 .then(response => {
                     this.course = response.data.data
-                    console.log(response);
                 })
                 .catch(e => {
                     this.$swal.fire({
@@ -410,8 +409,8 @@ export default {
             axios.get("/notes/course/" + this.$route.params.course)
                 .then(response => {
 
-                    if (response.data.user_course_started_note != null && response.data.user_course_started_note != undefined) {
-                        this.editorData = response.data.user_course_started_note
+                    if (response.data.data.user_course_started_note != null && response.data.data.user_course_started_note != undefined) {
+                        this.editorData = response.data.data.user_course_started_note
                     }
 
                 })
@@ -478,7 +477,7 @@ export default {
         },
         getReview() {
 
-            axios.get("/courses/started/review/" + this.$route.params.course)
+            axios.get("/reviews/course/" + this.$route.params.course)
                 .then(response => {
                     this.text = response.data.user_course_started_review_text
                     this.review_mark = response.data.user_course_started_review_mark
