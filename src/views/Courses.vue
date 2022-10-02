@@ -97,8 +97,7 @@
                     title: this.$t('questions.start_course'),
                     icon: "info",
                     showCancelButton: true,
-                    confirmButtonColor: "#d33",
-                    cancelButtonColor: "#3085d6",
+                    confirmButtonColor: "#3273a8",
                     cancelButtonText: this.$t('answers.no'),
                     confirmButtonText: this.$t('answers.yes'),
                 }).then((result) => {
