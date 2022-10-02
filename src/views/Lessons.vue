@@ -50,15 +50,7 @@
                     <lessonEnrollment :sections="this.course.sections"></lessonEnrollment>
                 </b-tab>
                 <b-tab :title="$t('lessons.tab_2_notes')">
-                    <div class="py-4 px-3">
-                        <ckeditor :editor="editor" v-model="editorData" :config="editorConfig"></ckeditor>
-                        <div class="d-flex justify-content-start mt-4">
-                            <b-button variant="success" @click="saveNote()">
-                                <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                                {{ $t('lessons.add_note') }}
-                            </b-button>
-                        </div>
-                    </div>
+                    <lessonNotes></lessonNotes>
                 </b-tab>
                 <b-tab :title="$t('lessons.tab_3_reviews')">
                     <lessonReviews></lessonReviews>                    
@@ -125,12 +117,14 @@ import axios from 'axios'
 import test from '../components/Test.vue'
 import lessonEnrollment from "./LessonsSubsections/LessonEnrollment.vue";
 import lessonReviews from "./LessonsSubsections/LessonReviews.vue";
+import lessonNotes from "./LessonsSubsections/LessonNotes.vue";
 
 export default {
     components: {
        test,
        lessonEnrollment,
-       lessonReviews
+       lessonReviews,
+       lessonNotes
     },
     mounted() {
         this.getAllData();
@@ -148,13 +142,7 @@ export default {
             loadingFlag: false,
             lesson_name: '',
             text: ``,
-            review_mark: 0,
             editor: ClassicEditor,
-            editorData: '',
-            editorConfig: {
-                // The configuration of the editor.
-            },
-            reviews: {},
             // course.course_percentage_completed.lessons_count
             course: {
                 "course_percentage_completed": {

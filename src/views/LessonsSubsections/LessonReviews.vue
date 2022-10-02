@@ -47,8 +47,6 @@
 import axios from 'axios'
 
 export default {
-    components: {
-    },
     mounted() {
         this.getAllData();
     },
