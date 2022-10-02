@@ -36,8 +36,10 @@
             "title": "Naši najnoviji klipovi na YouTube-u"
         },
         "courses": {
-            "title": "Kursevi",
-            "started": "Započeti kursevi"
+            "not-started-title": "Kursevi",
+            "not-started-text": "Pogledajte ponudu trenutno dostupnih kurseva",
+            "started-title": "Započeti kursevi",
+            "started-text": "Nastavite gde ste stali"
         },
         "lessons": {
             "progress": "Napredak",
@@ -154,8 +156,10 @@
             "title": "Our latest YouTube videos"
         },
         "courses": {
-            "title": "Courses",
-            "started": "Started Courses"
+            "not-started-title": "Courses",
+            "not-started-text": "Take a look into the list of available courses to enroll in",
+            "started-title": "Started Courses",
+            "started-text": "Pick up where you left off last time"
         },
         "lessons": {
             "progress": "Progress",

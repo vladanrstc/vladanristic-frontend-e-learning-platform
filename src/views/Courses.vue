@@ -1,38 +1,49 @@
 <template>
     <div>
         <b-container class="py-5 mb-5">
-            <h1 v-if="this.courses.length > 0" class="mb-5 mt-4">{{ $t("courses.started") }}</h1>
-            <b-row>
-                <!-- v-for="lesson in lessons" -->
-                <b-col v-for="course in this.courses" :key="course.course_id" cols="12" sm="6" md="4" lg="3" class="p-3">
-                    <!--  -->
-                    <b-card style="height: 150px" @click="goTo(course.course_slug)"
-                            :title="course.course_name[lang]"
-                            :img-src="'/storage/' + course.course_image"
-                            img-alt="Course Image"
-                            text-variant="dark"
-                            img-top
-                    >
-                    </b-card>
-                </b-col>
-
-            </b-row>
-            <h1 class="mb-5 mt-4">{{ $t("courses.title") }}</h1>
-            <b-row>
-                <!-- v-for="lesson in lessons" -->
-                <b-col v-for="course in this.courses_not_started" :key="course.course_id" cols="12" sm="6" md="4" lg="3" class="p-3">
-                    <!--  -->
-                    <b-card style="height: 150px" @click="startCourse(course)"
-                            :title="course.course_name[lang]"
-                            :img-src="'/storage/' + course.course_image"
-                            img-alt="Course Image"
-                            text-variant="dark"
-                            img-top
-                    >
-                    </b-card>
-                </b-col>
-
-            </b-row>
+            <div class="px-2">
+                <h1 v-if="this.courses.length > 0" class="mb-2 mt-4">{{ $t("courses.started-title") }}</h1>
+                <p class="px-md-5">
+                    {{ $t("courses.started-text") }}
+                </p>
+                <b-row>
+                    <!-- v-for="lesson in lessons" -->
+                    <b-col v-for="course in this.courses" :key="course.course_id" cols="12" sm="6" md="4" lg="3" class="p-3">
+                        <!--  -->
+                        <b-card style="height: 150px" @click="goTo(course.course_slug)"
+                                :title="course.course_name[lang]"
+                                :img-src="'http://vladanristic.site/storage/' + course.course_image"
+                                img-alt="Course Image"
+                                text-variant="dark"
+                                img-top
+                                :class="'course-img'"
+                        >
+                        </b-card>
+                    </b-col>
+                </b-row>
+            </div>
+            <hr>
+            <div class="px-2">
+                <h1 class="mb-2 mt-4">{{ $t("courses.not-started-title") }}</h1>
+                <p class="px-md-5">
+                    {{ $t("courses.not-started-text") }}
+                </p>
+                <b-row>
+                    <!-- v-for="lesson in lessons" -->
+                    <b-col v-for="course in this.courses_not_started" :key="course.course_id" cols="12" sm="6" md="4" lg="3" class="p-3">
+                        <!--  -->
+                        <b-card style="height: 150px" @click="startCourse(course)"
+                                :title="course.course_name[lang]"
+                                :img-src="'http://vladanristic.site/storage/' + course.course_image"
+                                img-alt="Course Image"
+                                text-variant="dark"
+                                img-top
+                                :class="'course-img'"
+                        >
+                        </b-card>
+                    </b-col>
+                </b-row>
+            </div>
         </b-container>
     </div>
 </template>
@@ -200,6 +211,13 @@
 
     .swal2-container {
         z-index: 20 !important;
+    }
+
+    .course-img > img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        padding: 10px;
     }
 
 </style>
