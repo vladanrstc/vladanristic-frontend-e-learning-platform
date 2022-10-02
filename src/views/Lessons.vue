@@ -19,8 +19,7 @@
                             </template>
                         </h2>
                         <div class="rating">
-                            <b-form-rating readonly precision="2" variant="warning" id="rating-inline" inline
-                                           :value="course.course_average_mark" show-value></b-form-rating>
+                            <b-form-rating readonly precision="2" variant="warning" id="rating-inline" inline :value="course.course_average_mark" show-value></b-form-rating>
                         </div>
                         <p class="mb-0 text-justify" v-if="this.course != ''">
                             <template v-if="this.course.course_description[this.$root.$i18n.locale]">
@@ -62,31 +61,7 @@
                     </div>
                 </b-tab>
                 <b-tab :title="$t('lessons.tab_3_reviews')">
-                    <div class="py-4">
-                        <div class="row no-gutters">
-                            <div class="col col-12 d-flex pl-5 ml-md-5">
-                                <b-button @click="showReviewModal()" variant="success" class="mr-lg-2 mr-xl-5 mb-4">
-                                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                                    {{ $t('lessons.add_review') }}
-                                </b-button>
-                            </div>
-                            <div v-for="review in reviews" v-bind:key="review.user_course_started_id"
-                                 class="col col-12 col-md-6 d-flex align-items-center justify-content-center mb-2">
-                                <div class="p-3">
-                                    <i class="fa fa-graduation-cap" aria-hidden="true"></i>
-                                </div>
-                                <div class="review text-left">
-
-                                    <h4 class="mb-0">{{ review.user.name }} {{ review.user.last_name }}</h4>
-                                    <div class="rating-user">
-                                        <b-form-rating inline variant="warning" readonly
-                                                       :value="review.user_course_started_review_mark"></b-form-rating>
-                                    </div>
-                                    <div v-html="review.user_course_started_review_text"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <lessonReviews></lessonReviews>                    
                 </b-tab>
             </b-tabs>
         </b-container>
@@ -138,27 +113,7 @@
                         </a>
                     </p>
                 </div>
-            </b-modal>
-
-            <b-modal id="review_modal" size="lg" @hide="getAllData()" centered ref="review_modal" hide-footer>
-                <template v-slot:modal-title>
-                    {{ $t('lessons.add_review') }}
-                </template>
-                <div class="rating">
-                    <b-form-rating class="mb-2" v-model="review_mark" variant="warning"></b-form-rating>
-                </div>
-                <b-form-textarea
-                    id="textarea"
-                    v-model="text"
-                    :placeholder="$t('lessons.enter_text')"
-                    rows="3"
-                    max-rows="6"
-                ></b-form-textarea>
-                <b-button @click="saveReview()" variant="success" class="mr-lg-2 mr-xl-5 mt-3">
-                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                    {{ $t('lessons.save_review') }}
-                </b-button>
-            </b-modal>                        
+            </b-modal>           
 
         </b-container>
     </div>
@@ -169,11 +124,13 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import axios from 'axios'
 import test from '../components/Test.vue'
 import lessonEnrollment from "./LessonsSubsections/LessonEnrollment.vue";
+import lessonReviews from "./LessonsSubsections/LessonReviews.vue";
 
 export default {
     components: {
        test,
-       lessonEnrollment
+       lessonEnrollment,
+       lessonReviews
     },
     mounted() {
         this.getAllData();
@@ -218,30 +175,11 @@ export default {
         getAllData() {
             this.getLessonsData();
             this.getNotes();
-            this.getReview();
-            this.getReviews();
         },
         getLessonsData() {
             axios.get("/course/details/" + this.$route.params.course)
                 .then(response => {
                     this.course = response.data.data
-                })
-                .catch(e => {
-                    this.$swal.fire({
-                        toast: true,
-                        position: "top-end",
-                        icon: "error",
-                        title: this.$t("notifications.general_error"),
-                        showConfirmButton: false,
-                        timer: 4500,
-                    });
-                });
-        },
-        getReviews(page = 1) {
-
-            axios.get("/reviews/course/" + this.$route.params.course + "?page=" + page)
-                .then(response => {
-                    this.reviews = response.data.data
                 })
                 .catch(e => {
                     this.$swal.fire({
@@ -309,80 +247,6 @@ export default {
                     });
                 });
         },
-        saveReview() {
-
-            if (this.review_mark == 0 || this.review_mark == null) {
-                this.$swal.fire({
-                    toast: true,
-                    position: "top-end",
-                    icon: "error",
-                    title: this.$t("lessons.save_review_error"),
-                    showConfirmButton: false,
-                    timer: 4500,
-                });
-                return;
-            }
-
-            let current_course = this.$route.params.course;
-            let creating = this.$swal.fire({
-                toast: true,
-                position: "top-end",
-                title: this.$t('notifications.wait'),
-                onBeforeOpen: () => {
-                    this.$swal.showLoading();
-                },
-            });
-
-            axios.patch("/courses/started/review", {
-                "rating": this.review_mark,
-                "review": this.text,
-                "course": current_course
-            })
-                .then(response => {
-                    this.$swal.fire({
-                        toast: true,
-                        position: "top-end",
-                        icon: "success",
-                        title: this.$t("notifications.saved_review"),
-                        showConfirmButton: false,
-                        timer: 4500,
-                    });
-                })
-                .catch(e => {
-                    this.$swal.fire({
-                        toast: true,
-                        position: "top-end",
-                        icon: "error",
-                        title: this.$t("notifications.general_error"),
-                        showConfirmButton: false,
-                        timer: 4500,
-                    });
-                });
-        },
-        getReview() {
-
-            axios.get("/reviews/course/" + this.$route.params.course)
-                .then(response => {
-                    this.text = response.data.user_course_started_review_text
-                    this.review_mark = response.data.user_course_started_review_mark
-                })
-                .catch(e => {
-                    this.$swal.fire({
-                        toast: true,
-                        position: "top-end",
-                        icon: "error",
-                        title: this.$t("notifications.general_error"),
-                        showConfirmButton: false,
-                        timer: 4500,
-                    });
-                });
-        },
-        setRate(rate) {
-            this.review_mark = rate;
-        },
-        showReviewModal() {
-            this.$refs['review_modal'].show()
-        }
     }
 
 }
@@ -408,21 +272,8 @@ export default {
     list-style: none;
 }
 
-.review {
-    width: 50%;
-}
-
-.review > p {
-    font-size: 0.8rem;
-}
-
 .fa-graduation-cap {
     font-size: 65px;
-}
-
-.rating-user > i {
-    color: gold;
-    margin-right: 5px;
 }
 
 .ck-editor__editable {
