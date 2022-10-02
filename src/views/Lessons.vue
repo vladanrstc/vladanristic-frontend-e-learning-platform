@@ -1,11 +1,11 @@
 <template>
     <div>
 
-        <b-container class="py-5">
+        <b-container class="py-5 mt-md-3">
             <div class="row">
 
-                <div class="col col-12 col-md-6">
-                    <img class="img-fluid" :src="'/storage/' + this.course.course_image">
+                <div class="col col-12 col-md-6 d-flex align-items-center justify-content-center">
+                    <img id="course-image" class="img-fluid" :src="'http://vladanristic.site/storage/' + this.course.course_image">
                 </div>
 
                 <div class="col col-12 col-md-6 text-left d-flex align-items-start w-100">
@@ -22,7 +22,7 @@
                             <b-form-rating readonly precision="2" variant="warning" id="rating-inline" inline
                                            :value="course.course_average_mark" show-value></b-form-rating>
                         </div>
-                        <p class="mb-0" v-if="this.course != ''">
+                        <p class="mb-0 text-justify" v-if="this.course != ''">
                             <template v-if="this.course.course_description[this.$root.$i18n.locale]">
                                 {{ this.course.course_description[this.$root.$i18n.locale] }}
                             </template>
@@ -48,60 +48,7 @@
             </div>
             <b-tabs class="pt-5" active-nav-item-class="font-weight-bold text-blue">
                 <b-tab :title="$t('lessons.tab_1_lessons')" active>
-                    <div class="container-fluid py-4">
-                        <div role="tablist">
-                            <b-card v-for="(sec, index) in this.course.sections" :key="sec.section_id" no-body
-                                    class="mt-0">
-                                <div v-b-toggle="'accordion-' + index"
-                                     class="d-flex justify-content-space-between section-accordion">
-                                <span>
-                                    <template v-if="sec.section_name[$root.$i18n.locale]">
-                                        {{ sec.section_name[$root.$i18n.locale] }}
-                                    </template>
-                                    <template v-else>
-                                        {{ $t('notifications.no_translation') }}
-                                    </template>
-                                </span>
-                                    <i class="fa fa-chevron-down" aria-hidden="true"></i>
-                                </div>
-                                <b-collapse :id="'accordion-' + index" accordion="my-accordion" role="tabpanel">
-                                    <b-list-group class="border border-0 px-3">
-                                        <b-list-group-item class="py-0 item-lesson" button v-for="lesson in sec.lessons" :key="lesson.lesson_id">
-                                            <div class="d-flex align-items-center w-100 h-100" @click="getVideoData(lesson)">
-                                                <i class="fa fa-play-circle-o mr-2 checkmark-video-size"
-                                                   aria-hidden="true"></i>
-                                                <span>
-                                                <template v-if="lesson.lesson_title[$root.$i18n.locale]">
-                                                    {{ lesson.lesson_title[$root.$i18n.locale] }}
-                                                </template>
-                                                <template v-else>
-                                                    {{ $t('notifications.no_translation') }}
-                                                </template>
-                                                </span>
-                                            </div>
-                                            <div class="d-flex align-items-center">
-                                                <div v-if="lesson.test != null && lesson.test != undefined && lesson.test.meets_requirements == true" @click="takeTest(lesson)">
-                                                    <i class="fa fa-list-ol mr-3" v-b-tooltip.hover :title="$t('lessons.take_test')" aria-hidden="true"></i>
-                                                </div>
-                                                <template v-if="lesson.lesson_completed == true">
-                                                    <i class="fa fa-check-circle checkmark-video-size mark-completed"
-                                                       v-b-tooltip.hover :title="$t('lessons.lesson_finished')"
-                                                       aria-hidden="true"></i>
-                                                </template>
-                                                <template v-else>
-                                                    <i @click="finishLesson(lesson)"
-                                                       class="fa fa-check-circle checkmark-video-size mark-complete"
-                                                       v-b-tooltip.hover :title="$t('lessons.mark_as_complete')"
-                                                       aria-hidden="true"></i>
-                                                </template>
-
-                                            </div>
-                                        </b-list-group-item>
-                                    </b-list-group>
-                                </b-collapse>
-                            </b-card>
-                        </div>
-                    </div>
+                    <lessonEnrollment :sections="this.course.sections"></lessonEnrollment>
                 </b-tab>
                 <b-tab :title="$t('lessons.tab_2_notes')">
                     <div class="py-4 px-3">
@@ -146,7 +93,7 @@
 
         <b-container>
 
-            <b-modal @hide="goBack()" size="lg" centered ref="video_modal" id="video_modal" hide-footer>
+            <b-modal size="lg" centered ref="video_modal" id="video_modal" hide-footer>
                 <template v-if="this.video != ''" v-slot:modal-title>
                     {{ video.video_title }}
                 </template>
@@ -193,12 +140,12 @@
                 </div>
             </b-modal>
 
-            <b-modal size="lg" @hide="getAllData()" centered ref="review_modal" id="review_modal" hide-footer>
+            <b-modal id="review_modal" size="lg" @hide="getAllData()" centered ref="review_modal" hide-footer>
                 <template v-slot:modal-title>
                     {{ $t('lessons.add_review') }}
                 </template>
                 <div class="rating">
-                    <b-form-rating v-model="review_mark" variant="warning" class="mb-2"></b-form-rating>
+                    <b-form-rating class="mb-2" v-model="review_mark" variant="warning"></b-form-rating>
                 </div>
                 <b-form-textarea
                     id="textarea"
@@ -211,37 +158,7 @@
                     <i class="fa fa-plus-circle" aria-hidden="true"></i>
                     {{ $t('lessons.save_review') }}
                 </b-button>
-            </b-modal>
-
-            <b-modal size="md" @hide="getAllData()" centered ref="lesson_modal" id="lesson_modal" hide-footer>
-                <template v-slot:modal-title>
-                    Video
-                </template>
-                <b-embed
-                    type="iframe"
-                    aspect="16by9"
-                    :src="'https://www.youtube.com/embed/' + current_lesson.lesson_video_link[this.$root.$i18n.locale]"
-                    allowfullscreen
-                ></b-embed>
-                <div class="py-3">
-                    <a target="_blank" :href="'/storage/'+current_lesson.lesson_practice[this.$root.$i18n.locale]">
-                        <h6 class="m-0"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> {{ $t('lessons.pdf') }}</h6>
-                    </a>
-                </div>
-                <div class="py-1" v-if="current_lesson.lesson_code != null">
-                    <a target="_blank" :href="current_lesson.lesson_code">
-                        <h6 class="m-0"><i class="fa fa-github" aria-hidden="true"></i> GitHub</h6>
-                    </a>
-                </div>
-                <button v-if="current_lesson.lesson_completed == false" @click="finishLesson(current_lesson)" class="btn btn-success my-3">
-                    <i class="fa fa-check" aria-hidden="true"></i>
-                    {{ $t('lessons.finish_lesson') }}
-                </button>
-            </b-modal>
-
-            <b-modal size="md" title="Test" centered ref="test_modal" id="test_modal" hide-footer>
-                <test v-on:closeTestDialog="closeTestDialog()" :lesson="this.lesson_test"></test>
-            </b-modal>
+            </b-modal>                        
 
         </b-container>
     </div>
@@ -251,10 +168,12 @@
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import axios from 'axios'
 import test from '../components/Test.vue'
+import lessonEnrollment from "./LessonsSubsections/LessonEnrollment.vue";
 
 export default {
     components: {
        test,
+       lessonEnrollment
     },
     mounted() {
         this.getAllData();
@@ -296,38 +215,6 @@ export default {
         }
     },
     methods: {
-        closeTestDialog() {
-            this.$refs['test_modal'].hide();
-        },
-        takeTest(lesson) {
-            this.lesson_test = lesson;
-            this.$refs['test_modal'].show();
-        },
-        finishLesson(lesson) {
-            axios.get("/lesson/finish/" + lesson.lesson_id)
-                .then(response => {
-                    this.$swal.fire({
-                        toast: true,
-                        position: "top-end",
-                        icon: "success",
-                        title: this.$t("lessons.lesson_finished"),
-                        showConfirmButton: false,
-                        timer: 4500,
-                    });
-                    this.$refs['lesson_modal'].hide();
-                    this.getLessonsData();
-                })
-                .catch(e => {
-                    this.$swal.fire({
-                        toast: true,
-                        position: "top-end",
-                        icon: "error",
-                        title: this.$t("notifications.general_error"),
-                        showConfirmButton: false,
-                        timer: 4500,
-                    });
-                });
-        },
         getAllData() {
             this.getLessonsData();
             this.getNotes();
@@ -493,21 +380,8 @@ export default {
         setRate(rate) {
             this.review_mark = rate;
         },
-        getVideoData(lesson) {
-            this.current_lesson = lesson;
-            this.$refs['lesson_modal'].show()
-        },
-        showModal() {
-            this.$refs['video_modal'].show()
-        },
         showReviewModal() {
             this.$refs['review_modal'].show()
-        },
-        goBack() {
-            //this.$router.push("/lessons/databases");
-        },
-        getVideos() {
-
         }
     }
 
@@ -555,45 +429,6 @@ export default {
     min-height: 200px;
 }
 
-.checkmark-video-size {
-    font-size: 25px;
-}
-
-.mark-complete:hover {
-    color: green;
-}
-
-.mark-completed {
-    color: green;
-}
-
-.list-group-item {
-    display: flex !important;
-    justify-content: space-between;
-}
-
-.list-group-item {
-    border: 0px !important;
-    border-bottom: 1px solid #0000001f !important;
-}
-
-.section-accordion {
-    background-color: transparent;
-    align-items: center;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    width: 100%;
-    min-height: 50px;
-}
-
-.section-accordion:focus {
-    outline: none;
-}
-
-.section-accordion > * {
-    margin: 0px;
-}
-
 .tab-pane {
     background-color: #f6f8f8;
     margin-top: 1rem;
@@ -613,10 +448,6 @@ export default {
     justify-content: space-between;
 }
 
-.justify-content-space-between {
-    justify-content: space-between;
-}
-
 .rating > i {
     margin-right: 5px;
 }
@@ -630,10 +461,8 @@ export default {
     color: gold;
 }
 
-.item-lesson {
-    height: 60px;
-    display: flex;
-    align-items: center;
+#course-image {
+    max-height: 250px;
 }
 
 </style>
