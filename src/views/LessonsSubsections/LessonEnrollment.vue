@@ -62,7 +62,7 @@
                     allowfullscreen
                 ></b-embed>
                 <div class="py-3">
-                    <a target="_blank" :href="'/storage/'+current_lesson.lesson_practice[this.$root.$i18n.locale]">
+                    <a target="_blank" :href="$hostname + '/storage/'+current_lesson.lesson_practice[this.$root.$i18n.locale]">
                         <h6 class="m-0"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> {{ $t('lessons.pdf') }}</h6>
                     </a>
                 </div>
