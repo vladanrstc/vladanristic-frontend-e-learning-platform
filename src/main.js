@@ -104,6 +104,9 @@ Vue.filter('shorten', function (value) {
     return value.substring(0, 90) + "...";
 });
 
+Vue.prototype.$hostname = 'http://vladanristic.site'
+
+
 /*router.beforeEach((to, from, next) => {
   if(/admin/.test(to.path)) {
 

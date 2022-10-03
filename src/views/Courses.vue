@@ -12,7 +12,7 @@
                         <!--  -->
                         <b-card style="height: 150px" @click="goTo(course.course_slug)"
                                 :title="course.course_name[lang]"
-                                :img-src="'http://vladanristic.site/storage/' + course.course_image"
+                                :img-src="$hostname + '/storage/' + course.course_image"
                                 img-alt="Course Image"
                                 text-variant="dark"
                                 img-top
@@ -34,7 +34,7 @@
                         <!--  -->
                         <b-card style="height: 150px" @click="startCourse(course)"
                                 :title="course.course_name[lang]"
-                                :img-src="'http://vladanristic.site/storage/' + course.course_image"
+                                :img-src="$hostname + '/storage/' + course.course_image"
                                 img-alt="Course Image"
                                 text-variant="dark"
                                 img-top
@@ -62,6 +62,7 @@
             }
         },
         created() {
+            console.log("1234 " + this.$hostname);
             this.is_logged();
             this.lang = this.$root.$i18n.locale
 

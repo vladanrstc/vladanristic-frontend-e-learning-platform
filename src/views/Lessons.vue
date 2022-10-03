@@ -5,7 +5,7 @@
             <div class="row">
 
                 <div class="col col-12 col-md-6 d-flex align-items-center justify-content-center">
-                    <img id="course-image" class="img-fluid" :src="'http://vladanristic.site/storage/' + this.course.course_image">
+                    <img id="course-image" class="img-fluid" :src="$hostname + '/storage/' + this.course.course_image">
                 </div>
 
                 <div class="col col-12 col-md-6 text-left d-flex align-items-start w-100">
