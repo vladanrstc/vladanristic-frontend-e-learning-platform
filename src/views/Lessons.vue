@@ -49,11 +49,11 @@
                 <b-tab :title="$t('lessons.tab_1_lessons')" active>
                     <lessonEnrollment :sections="this.course.sections"></lessonEnrollment>
                 </b-tab>
-                <b-tab :title="$t('lessons.tab_2_notes')">
-                    <lessonNotes></lessonNotes>
+                <b-tab :title="$t('lessons.tab_2_notes')" @click="loadNotes();">
+                    <lessonNotes v-if="this.loadNotesFlag"></lessonNotes>
                 </b-tab>
-                <b-tab :title="$t('lessons.tab_3_reviews')">
-                    <lessonReviews></lessonReviews>                    
+                <b-tab :title="$t('lessons.tab_3_reviews')" @click="loadReviews();">
+                    <lessonReviews v-if="this.loadReviewsFlag"></lessonReviews>                    
                 </b-tab>
             </b-tabs>
         </b-container>
@@ -112,38 +112,32 @@
 </template>
 
 <script>
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import axios from 'axios'
-import test from '../components/Test.vue'
 import lessonEnrollment from "./LessonsSubsections/LessonEnrollment.vue";
 import lessonReviews from "./LessonsSubsections/LessonReviews.vue";
 import lessonNotes from "./LessonsSubsections/LessonNotes.vue";
 
 export default {
     components: {
-       test,
        lessonEnrollment,
        lessonReviews,
        lessonNotes
     },
     mounted() {
-        this.getAllData();
+        this.getLessonsData();
     },
     data() {
         return {
+            loadNotesFlag: false,
+            loadReviewsFlag: false,            
             slug: "",
             "show": false,
-            videos: [],
             video: {
                 video_title: "Title",
                 video_description: "Description",
                 video_yt_link: "https://www.youtube.com/embed/WmG3f1lHAPs"
             },
-            loadingFlag: false,
-            lesson_name: '',
             text: ``,
-            editor: ClassicEditor,
-            // course.course_percentage_completed.lessons_count
             course: {
                 "course_percentage_completed": {
                     "lessons_counted": 0
@@ -151,19 +145,9 @@ export default {
                 "course_name": "",
                 "course_description": ""
             },
-            current_lesson: {
-                "lesson_video_link": "",
-                "lesson_practice": "",
-                "current_lesson": ""
-            },
-            lesson_test: null
         }
     },
     methods: {
-        getAllData() {
-            this.getLessonsData();
-            this.getNotes();
-        },
         getLessonsData() {
             axios.get("/course/details/" + this.$route.params.course)
                 .then(response => {
@@ -180,61 +164,12 @@ export default {
                     });
                 });
         },
-        saveNote() {
-            let current_course = this.$route.params.course;
-            let creating = this.$swal.fire({
-                toast: true,
-                position: "top-end",
-                title: this.$t('notifications.wait'),
-                onBeforeOpen: () => {
-                    this.$swal.showLoading();
-                },
-            });
-            axios.patch("/courses/started/notes", {
-                "notes": this.editorData,
-                "course": current_course
-            })
-                .then(response => {
-                    this.$swal.fire({
-                        toast: true,
-                        position: "top-end",
-                        icon: "success",
-                        title: this.$t("notifications.saved_note"),
-                        showConfirmButton: false,
-                        timer: 4500,
-                    });
-                })
-                .catch(e => {
-                    this.$swal.fire({
-                        toast: true,
-                        position: "top-end",
-                        icon: "error",
-                        title: this.$t("notifications.general_error"),
-                        showConfirmButton: false,
-                        timer: 4500,
-                    });
-                });
+        loadNotes() {
+            this.loadNotesFlag = true;
         },
-        getNotes() {
-            axios.get("/notes/course/" + this.$route.params.course)
-                .then(response => {
-
-                    if (response.data.data.user_course_started_note != null && response.data.data.user_course_started_note != undefined) {
-                        this.editorData = response.data.data.user_course_started_note
-                    }
-
-                })
-                .catch(e => {
-                    this.$swal.fire({
-                        toast: true,
-                        position: "top-end",
-                        icon: "error",
-                        title: this.$t("notifications.general_error"),
-                        showConfirmButton: false,
-                        timer: 4500,
-                    });
-                });
-        },
+        loadReviews() {
+            this.loadReviewsFlag = true;
+        }
     }
 
 }
