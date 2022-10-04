@@ -47,7 +47,7 @@
             </div>
             <b-tabs class="pt-5" active-nav-item-class="font-weight-bold text-blue">
                 <b-tab :title="$t('lessons.tab_1_lessons')" active>
-                    <lessonEnrollment :sections="this.course.sections"></lessonEnrollment>
+                    <lessonEnrollment @refreshLessonsData="getLessonsData" :sections="this.course.sections"></lessonEnrollment>
                 </b-tab>
                 <b-tab :title="$t('lessons.tab_2_notes')" @click="loadNotes();">
                     <lessonNotes v-if="this.loadNotesFlag"></lessonNotes>

@@ -51,7 +51,7 @@
                 </b-collapse>
             </b-card>
         </div>
-        <b-modal size="md" @hide="getAllData()" centered ref="lesson_modal" id="lesson_modal" hide-footer>
+        <b-modal id="lesson_modal" size="md" centered ref="lesson_modal" hide-footer>
                 <template v-slot:modal-title>
                     Video
                 </template>
@@ -61,8 +61,8 @@
                     :src="'https://www.youtube.com/embed/' + current_lesson.lesson_video_link[this.$root.$i18n.locale]"
                     allowfullscreen
                 ></b-embed>
-                <div class="py-3">
-                    <a target="_blank" :href="$hostname + '/storage/'+current_lesson.lesson_practice[this.$root.$i18n.locale]">
+                <div v-if="current_lesson.lesson_practice != null" class="py-3">
+                    <a target="_blank" :href="$hostname + '/storage/' + current_lesson.lesson_practice[this.$root.$i18n.locale]">
                         <h6 class="m-0"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> {{ $t('lessons.pdf') }}</h6>
                     </a>
                 </div>
@@ -133,7 +133,7 @@ export default {
             this.$refs['test_modal'].show();
         },
         finishLesson(lesson) {
-            axios.get("/lesson/finish/" + lesson.lesson_id)
+            axios.get("/coursestart/lesson/finish/" + lesson.lesson_id)
                 .then(response => {
                     this.$swal.fire({
                         toast: true,
@@ -144,7 +144,7 @@ export default {
                         timer: 4500,
                     });
                     this.$refs['lesson_modal'].hide();
-                    this.getLessonsData();
+                    this.$emit('refreshLessonsData')
                 })
                 .catch(e => {
                     this.$swal.fire({
