@@ -62,7 +62,6 @@
             }
         },
         created() {
-            console.log("1234 " + this.$hostname);
             this.is_logged();
             this.lang = this.$root.$i18n.locale
 

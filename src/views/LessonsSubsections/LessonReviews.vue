@@ -104,7 +104,7 @@ export default {
                 },
             });
 
-            axios.patch("/courses/started/review", {
+            axios.patch("/reviews/courses/started/review", {
                 "rating": this.review_mark,
                 "review": this.text,
                 "course": current_course
