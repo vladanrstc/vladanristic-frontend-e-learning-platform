@@ -130,29 +130,27 @@ export default {
                     this.$swal.showLoading();
                 },
             });
-            axios.post("/test/submit/" + this.test.test_id,
+            axios.post("/tests/test/submit",
                 {
                     "answers": this.questions
                 })
                 .then(response => {
-                    console.log(response)
                     checking.close();
                     this.results_in = true;
 
-                    this.number_of_questions = response.data.length;
+                    this.number_of_questions = response.data.data.length;
 
                     let pom = 0;
-                    for(let i = 0;i < response.data.length; i++) {
-                        if(response.data[i].true == true) {
+                    for(let i = 0;i < response.data.data.length; i++) {
+                        if(response.data.data[i].true == true) {
                             pom = pom + 1;
                         }
                     }
 
                     this.number_of_correct_answers = pom;
-                    this.test_results = response.data
+                    this.test_results = response.data.data
                 })
                 .catch(e => {
-                    console.log(e)
                     this.$swal.fire({
                         toast: true,
                         position: "top-end",
@@ -164,10 +162,9 @@ export default {
                 });
         },
         getTestData() {
-            axios.get("/test/data/" + this.lesson.lesson_id)
+            axios.get("/tests/test/data/" + this.lesson.lesson_id)
                 .then(response => {
-                    console.log(response.data[0])
-                    this.test = response.data[0];
+                    this.test = response.data.data[0];
 
                     for (let i = 0; i < this.test.questions.length; i++) {
                         if (this.test.questions[i].question_type === "single") {
