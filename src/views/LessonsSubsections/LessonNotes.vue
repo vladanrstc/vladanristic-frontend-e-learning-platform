@@ -38,7 +38,7 @@ export default {
                     this.$swal.showLoading();
                 },
             });
-            axios.patch("/courses/started/notes", {
+            axios.patch("/notes/courses/started/notes", {
                 "notes": this.editorData,
                 "course": current_course
             })
