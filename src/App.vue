@@ -13,6 +13,7 @@
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
+import { bus } from './main.js'
 
 export default {
   name: 'App',
@@ -44,6 +45,11 @@ export default {
     }
   },
   mounted() {
+
+    bus.$on('userLoggedStatusChanged', (data) => {
+      this.isAdmin();
+    })
+
     if(localStorage.getItem("lang") == undefined) {
       localStorage.setItem("lang", "sr")
     }

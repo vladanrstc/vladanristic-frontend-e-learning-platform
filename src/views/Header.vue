@@ -209,6 +209,7 @@ import axios from 'axios'
 import {validationMixin} from "vuelidate";
 import {required, minLength, email, sameAs} from "vuelidate/lib/validators";
 import EditProfile from "../components/EditProfile.vue";
+import { bus } from '../main.js'
 
 export default {
     mixins: [validationMixin],
@@ -281,7 +282,7 @@ export default {
                     this.$swal.showLoading();
                 }
             });
-            console.log(this.reset_password.email)
+
             axios.post('/auth/reset-password', {
                 email: this.reset_password.email,
             }).then(response => {
@@ -379,7 +380,14 @@ export default {
 
                 this.getLoginStatus();
 
-                location.reload();
+                if(response.data.scopes.toLowerCase() == "admin" || response.data.scopes.toLowerCase() == "super-admin") {
+                    // window.location = this.$hostname_frontend + "/admin";
+                    this.$router.push('/admin');
+                    bus.$emit('userLoggedStatusChanged');
+                    return;
+                }
+
+                // location.reload();
 
             }).catch(() => {
                 this.$swal.fire({
@@ -458,6 +466,11 @@ export default {
         EditProfile
     },
     mounted() {
+
+        bus.$on('userLoggedStatusChanged', (data) => {
+            this.getLoginStatus();
+        })
+
         this.getLoginStatus();
     }
 

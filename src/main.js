@@ -22,6 +22,8 @@ Vue.use(Vuelidate)
 Vue.use(vueDebounce)
 Vue.use(VueRouter)
 
+export const bus = new Vue();
+
 Vue.config.productionTip = true
 
 let routes = [
@@ -49,11 +51,6 @@ let routes = [
     path: '/about',
     name: 'About',
     component:() => import("./views/About.vue")
-  },
-  {
-      path: '/dash/login',
-      name: 'AdminLogin',
-      component: import("./views/admin/Login.vue")
   },
   {
       path: '/:token/confirmed',
@@ -105,6 +102,7 @@ Vue.filter('shorten', function (value) {
 });
 
 Vue.prototype.$hostname = 'http://vladanristic.site'
+Vue.prototype.$hostname_frontend = 'http://localhost:8080'
 
 
 /*router.beforeEach((to, from, next) => {

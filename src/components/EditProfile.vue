@@ -139,6 +139,7 @@
 
     import {email, minLength, required, sameAs} from "vuelidate/lib/validators";
     import axios from "axios";
+    import { bus } from '../main.js'
 
     export default {
         name: 'EditProfile',
@@ -177,7 +178,7 @@
             },
             logout() {
                 localStorage.removeItem("ac_t");
-                location.href = "/";
+                bus.$emit('userLoggedStatusChanged');
             },
             editProfile() {
                 if (!this.$v.user_form.$anyError) {
