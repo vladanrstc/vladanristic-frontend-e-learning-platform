@@ -178,6 +178,7 @@
             },
             logout() {
                 localStorage.removeItem("ac_t");
+                this.$router.push('/');
                 bus.$emit('userLoggedStatusChanged');
             },
             editProfile() {

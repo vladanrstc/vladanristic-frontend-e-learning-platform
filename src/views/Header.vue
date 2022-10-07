@@ -381,13 +381,10 @@ export default {
                 this.getLoginStatus();
 
                 if(response.data.scopes.toLowerCase() == "admin" || response.data.scopes.toLowerCase() == "super-admin") {
-                    // window.location = this.$hostname_frontend + "/admin";
                     this.$router.push('/admin');
                     bus.$emit('userLoggedStatusChanged');
                     return;
                 }
-
-                // location.reload();
 
             }).catch(() => {
                 this.$swal.fire({

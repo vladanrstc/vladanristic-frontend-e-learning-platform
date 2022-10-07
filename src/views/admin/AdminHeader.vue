@@ -23,17 +23,13 @@
 
 <script>
 import EditProfile from "../../components/EditProfile.vue";
+import { bus } from '../../main.js'
+
 export default {
   name: "AdminHeader",
   components: {
       EditProfile
   },
-  methods: {
-      logout() {
-          localStorage.removeItem("ac_t");
-          location.reload();
-      }
-  }
 };
 </script>
 

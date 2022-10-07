@@ -1,5 +1,5 @@
 <template>
-    <div style="padding-left: 1.7rem; padding-right: 1.7rem">
+    <div style="padding-right: 1.7rem">
         <div class="row">
             <div class="col col-12 col-md-4 d-stat">
                 <div style="background-color: #01c0c8 !important">
@@ -87,9 +87,8 @@
         },
         mounted() {
 
-            axios.get("/stats").then(response => {
-                console.log(response)
-                this.stats = response.data
+            axios.get("/stats/overall-status").then(response => {
+                this.stats = response.data.data
             }).catch(err => {
 
             })
@@ -102,7 +101,9 @@
 <style scoped>
 
     .d-stat {
-        padding: 1rem;
+        padding-bottom: 1rem;
+        padding-right: 1rem;
+        padding-bottom: 1rem;
     }
 
     .d-stat > div {

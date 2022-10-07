@@ -1,13 +1,27 @@
 <template>
   <div id="app">
-    <Header v-if="is_admin == false" />
-    <AdminSideNav v-if="is_admin == true"></AdminSideNav>
-    <AdminHeader v-if="is_admin == true"></AdminHeader>
-    <router-view></router-view>
-    <Footer v-if="is_admin == false" />
-    <div v-if="is_admin == false" class="border-top copyright">
-        <p class="m-0 py-3">©Copyright. All rights reserved Vladan Ristić</p>
+    
+    <div class="row" v-if="is_admin">
+      <div class="col col-12">
+        <AdminHeader></AdminHeader>
+      </div>
+      <div class="col col-2">
+        <AdminSideNav></AdminSideNav>
+      </div>
+      <div class="col col-10">
+        <router-view></router-view>
+      </div>
     </div>
+
+    <div v-if="!is_admin">
+      <Header />
+      <router-view></router-view>
+      <Footer />
+      <div class="border-top copyright">
+        <p class="m-0 py-3">©Copyright. All rights reserved Vladan Ristić</p>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -151,6 +165,10 @@ export default {
     }
 
     .router-link-active {
-        border-bottom: 1px solid !important;
+        border-bottom: 1px solid;
+    }
+
+    .admin-link {
+        border-bottom: none !important;
     }
 </style>
