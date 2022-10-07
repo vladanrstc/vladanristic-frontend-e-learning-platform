@@ -1,14 +1,11 @@
 <template>
   <div id="app">
-    
-    <div class="row" v-if="is_admin">
-      <div class="col col-12">
-        <AdminHeader></AdminHeader>
-      </div>
+
+    <div class="row no-gutters" v-if="is_admin">
       <div class="col col-2">
         <AdminSideNav></AdminSideNav>
       </div>
-      <div class="col col-10">
+      <div id="admin-contents" class="col col-10 p-4">
         <router-view></router-view>
       </div>
     </div>
@@ -171,4 +168,9 @@ export default {
     .admin-link {
         border-bottom: none !important;
     }
+
+    #admin-contents {
+      background: url("./assets/light-fabric.jpg");
+    }
+
 </style>

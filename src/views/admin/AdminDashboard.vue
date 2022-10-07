@@ -1,5 +1,5 @@
 <template>
-    <div style="padding-right: 1.7rem">
+    <div>
         <div class="row">
             <div class="col col-12 col-md-4 d-stat">
                 <div style="background-color: #01c0c8 !important">

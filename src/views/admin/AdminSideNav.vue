@@ -1,37 +1,42 @@
 <template>
-    <aside>
-        <div class="border">
-            <h5>
-                <b-navbar-brand href="#">vladanristic.com</b-navbar-brand>
-            </h5>
-            <b-list-group>
-                <b-list-group-item>
-                    <router-link class="admin-link" to="/admin" exact>
-                        <i class="fa fa-home" aria-hidden="true"></i>
-                        Početna
-                    </router-link>
-                </b-list-group-item>
-                <b-list-group-item v-if="this.is_super_admin">
-                    <router-link class="admin-link" to="/admin/users">
-                        <i class="fa fa-users" aria-hidden="true"></i>
-                        Korisnici
-                    </router-link>
-                </b-list-group-item>
-                <b-list-group-item>
-                    <router-link class="admin-link" to="/admin/courses">
-                        <i class="fa fa-folder-open" aria-hidden="true"></i>
-                        Kursevi
-                    </router-link>
-                </b-list-group-item>
-            </b-list-group>
-        </div>
+    <aside id="admin-sidebar" class="border">
+        <h5 class="m-0 py-3">
+            <b-navbar-brand class="p-0 " href="#">vladanristic.com</b-navbar-brand>
+        </h5>
+        <b-list-group>
+            <b-list-group-item>
+                <router-link class="admin-link" to="/admin" exact>
+                    <i class="fa fa-home" aria-hidden="true"></i>
+                    Početna
+                </router-link>
+            </b-list-group-item>
+            <b-list-group-item v-if="this.is_super_admin">
+                <router-link class="admin-link" to="/admin/users">
+                    <i class="fa fa-users" aria-hidden="true"></i>
+                    Korisnici
+                </router-link>
+            </b-list-group-item>
+            <b-list-group-item>
+                <router-link class="admin-link" to="/admin/courses">
+                    <i class="fa fa-folder-open" aria-hidden="true"></i>
+                    Kursevi
+                </router-link>
+            </b-list-group-item>
+            <b-list-group-item id="admin-user-profile" class="border" @click="logout">
+                <div class="admin-link">
+                    <i class="fa fa-sign-out" aria-hidden="true"></i>  
+                    Odjavi se
+                </div>
+            </b-list-group-item>
+        </b-list-group>
     </aside>
 </template>
 
 <script>
+    import { bus } from "../../main.js";
+
     export default {
-        name: "Footer",
-        components: {},
+        name: "AdminSideNav",
         data() {
             return {
                 is_super_admin: false
@@ -42,21 +47,52 @@
             if(a.scopes[0] == "super-admin") {
                 this.is_super_admin = true;
             }
+        },
+        methods: {
+            logout() {
+                localStorage.removeItem("ac_t");
+                this.$router.push('/');
+                bus.$emit('userLoggedStatusChanged');
+            }
         }
     };
 </script>
 
 <style scoped>
 
-    #sidebar-backdrop {
-        background-color: #2b2b2b !important;
+    #admin-sidebar {
+        min-height: 100vh;
+        position: relative;
+    }
+
+    #admin-user-profile {
+        position: absolute;
+        bottom: 0px;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        min-width: 100%;
+    }
+
+    #admin-user-profile:hover, #admin-user-profile:hover > * {
+        color: red;
+        cursor: pointer;
+    }
+
+    .nav-item {
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        padding-bottom: 20px;
+    }
+
+    .list-group-item {
+        border-right: 0px;
+        border-radius: 0px;
     }
 
     a {
-        text-decoration: none !important;;
-    }
-
-    a {
+        text-decoration: none !important;
         color: var(--gray);
         font-size: 120%;
     }
