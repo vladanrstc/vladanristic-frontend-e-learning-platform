@@ -108,32 +108,38 @@ Vue.filter('shorten', function (value) {
 Vue.prototype.$hostname = 'http://vladanristic.site'
 Vue.prototype.$hostname_frontend = 'http://localhost:8080'
 
+window.Swal = VueSweetalert2;
 
-// router.beforeEach((to, from, next) => {
-//   if(/admin/.test(to.path)) {
+router.beforeEach((to, from, next) => {
 
-//       let loading = this.$swal.fire({
-//         toast: true,
-//         position: "top-end",
-//         onBeforeOpen: () => {
-//           this.$swal.showLoading();
-//         },
-//       });
+  if(!/admin/.test(to.path)) {
+    if(localStorage.getItem("ac_t") != null) {
+        let a = JSON.parse(atob(localStorage.getItem("ac_t").split('.')[1]));
 
-//       axios.get("/check-admin")
-//           .then(() => {
-//               next();
-//               //loading.close();
-//           }).catch(() => {
+        if(a.scopes[0] == "super-admin" || a.scopes[0] == "admin") {
+            location.replace("/admin");
+        }
+    }
+    
+  }
 
-//           location.replace("/");
+  if(/admin/.test(to.path)) {
 
-//       });
+      axios.get("/auth/check-admin")
+          .then(() => {
+              next();
+              //loading.close();
+          }).catch(() => {
 
-//   } else {
-//       next();
-//   }
-// })
+        localStorage.removeItem("ac_t")
+        location.replace("/");
+
+      });
+
+  } else {
+      next();
+  }
+})
 
 /*
 new Vue({
