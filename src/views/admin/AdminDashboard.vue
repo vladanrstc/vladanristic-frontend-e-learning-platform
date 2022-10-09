@@ -3,70 +3,76 @@
         <div class="row">
             <div class="col col-12 col-md-4 d-stat">
                 <div class="bg-white d-stat-holder">
-                    <div class="stat-card-header">Broj korisnika</div>
+                    <div class="stat-card-header stat-card-section">Broj korisnika</div>
                     <div class="stat-text">
                         {{ this.stats.users }}                        
                     </div>
                     <div class="p-3 stat-icon-holder rounded">
                         <i class="fa fa-users stat-text icon-color" aria-hidden="true"></i>
                     </div>
+                    <div class="stat-card-footer stat-card-section"><small>Najnoviji član: {{ this.stats.latest_user }}</small></div>
                 </div>
             </div>
             <div class="col col-12 col-md-4 d-stat">
                 <div class="bg-white d-stat-holder">
-                    <div class="stat-card-header">Broj kursa</div>
+                    <div class="stat-card-header stat-card-section">Broj kursa</div>
                     <div class="stat-text">
                         {{ this.stats.courses }}                                                                     
                     </div>
                     <div class="p-3 stat-icon-holder rounded">
                         <i class="fa fa-bar-chart stat-text icon-color" aria-hidden="true"></i>                                                
                     </div>
+                    <div class="stat-card-footer stat-card-section"><small> Najnoviji kurs: {{ this.stats.latest_course }}</small></div>
                 </div>
             </div>
              <div class="col col-12 col-md-4 d-stat">
                 <div class="bg-white d-stat-holder">
-                    <div class="stat-card-header">Broj sekcija</div>
+                    <div class="stat-card-header stat-card-section">Broj sekcija</div>
                     <div class="stat-text">
                         {{ this.stats.sections }}                                                                                                                  
                     </div>
                     <div class="p-3 stat-icon-holder rounded">
                         <i class="fa fa-tasks stat-text icon-color" aria-hidden="true"></i>                                          
                     </div>
+                    <div class="stat-card-footer stat-card-section"><small> Najnovija sekcija: {{ this.stats.latest_section }}</small></div>
                 </div>
             </div>
         </div>
         <div class="row mt-3">
             <div class="col col-12 col-md-4 d-stat">
                 <div class="bg-white d-stat-holder">
-                    <div class="stat-card-header">Broj lekcija</div>
+                    <div class="stat-card-header stat-card-section">Broj lekcija</div>
                     <div class="stat-text">
                         {{ this.stats.lessons }}
                     </div>
                     <div class="p-3 stat-icon-holder rounded">
                         <i class="fa fa-flask stat-text icon-color" aria-hidden="true"></i>                                                             
                     </div>
+                    <div class="stat-card-footer stat-card-section"><small> Najnovija lekcija: {{ this.stats.latest_lesson }}</small></div>
                 </div>
             </div>
             <div class="col col-12 col-md-4 d-stat">
                 <div class="bg-white d-stat-holder">
-                    <div class="stat-card-header">Broj testa</div>
+                    <div class="stat-card-header stat-card-section">Broj testa</div>
                     <div class="stat-text">
                         {{ this.stats.tests }}                        
                     </div>
                     <div class="p-3 stat-icon-holder rounded">
                         <i class="fa fa-list-ol stat-text icon-color" aria-hidden="true"></i>                        
                     </div>
+                    <div class="stat-card-footer stat-card-section"><small>Najnoviji test: {{ this.stats.latest_test }}</small></div>
                 </div>
             </div>
             <div class="col col-12 col-md-4 d-stat">
                 <div class="bg-white d-stat-holder">
-                    <div class="stat-card-header">Broj započetih kurseva</div>
+                    <div class="stat-card-header stat-card-section">Broj započetih kurseva</div>
                     <div class="stat-text">
                         {{ this.stats.courses_started }}                    
                     </div>
                     <div class="p-3 stat-icon-holder rounded">
                         <i class="fa fa-hourglass-start stat-text icon-color" aria-hidden="true"></i>                    
                     </div>
+                    <div class="stat-card-footer stat-card-section"><small>Poslednje pohađanje: {{ this.stats.latest_enrollment }}</small></div>
                 </div>
             </div>
         </div>
@@ -169,8 +175,16 @@
     }
 
     .stat-card-header {
-        position: absolute;
         top: 0px;
+    }
+
+    .stat-card-footer {
+        bottom: 0px;
+    }
+
+    .stat-card-section {
+        position: absolute;
+        bottom: 0px;
         height: 40px;
         display: flex;
         justify-content: center;
@@ -178,6 +192,8 @@
         color: #4c78dd;
         font-weight: bold;
         line-height: 40px;
+        background-color: #f6f7f9!important;
+        width: 100%;
     }
 
     .d-stat-holder {
