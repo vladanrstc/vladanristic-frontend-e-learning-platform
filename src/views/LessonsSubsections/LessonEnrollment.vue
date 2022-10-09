@@ -44,7 +44,6 @@
                                        v-b-tooltip.hover :title="$t('lessons.mark_as_complete')"
                                        aria-hidden="true"></i>
                                 </template>
-
                             </div>
                         </b-list-group-item>
                     </b-list-group>
@@ -92,7 +91,7 @@ export default {
     components: {
         test
     },
-    props: ['sections'],
+    props: ['sections', 'login_status'],
     mounted() {
         
     },
@@ -129,11 +128,14 @@ export default {
             this.$refs['test_modal'].hide();
         },
         takeTest(lesson) {
-            this.lesson_test = lesson;
-            this.$refs['test_modal'].show();
+            if(this.login_status)  {
+                this.lesson_test = lesson;
+                this.$refs['test_modal'].show();
+            }            
         },
         finishLesson(lesson) {
-            axios.get("/coursestart/lesson/finish/" + lesson.lesson_id)
+            if(this.login_status)  {
+                axios.get("/coursestart/lesson/finish/" + lesson.lesson_id)
                 .then(response => {
                     this.$swal.fire({
                         toast: true,
@@ -156,10 +158,14 @@ export default {
                         timer: 4500,
                     });
                 });
+            }            
         },
         getVideoData(lesson) {
-            this.current_lesson = lesson;
-            this.$refs['lesson_modal'].show()
+            if(this.login_status)  {
+                this.current_lesson = lesson;
+                this.$refs['lesson_modal'].show()
+            }
+        
         },
         showModal() {
             this.$refs['video_modal'].show()

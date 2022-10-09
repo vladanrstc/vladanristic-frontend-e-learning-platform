@@ -23,13 +23,11 @@
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 import { bus } from './main.js'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld,
     Header: () => import("./views/Header.vue"),
     Footer: () => import("./views/Footer.vue"),
     AdminSideNav: () => import("./views/admin/AdminSideNav.vue")

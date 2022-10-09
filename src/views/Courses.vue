@@ -1,7 +1,7 @@
 <template>
     <div>
         <b-container class="py-5 mb-5">
-            <div class="px-2">
+            <div class="px-2" v-if="is_logged_param">
                 <h1 v-if="this.courses.length > 0" class="mb-2 mt-4">{{ $t("courses.started-title") }}</h1>
                 <p class="px-md-5">
                     {{ $t("courses.started-text") }}
@@ -9,8 +9,7 @@
                 <b-row>
                     <!-- v-for="lesson in lessons" -->
                     <b-col v-for="course in this.courses" :key="course.course_id" cols="12" sm="6" md="4" lg="3" class="p-3">
-                        <!--  -->
-                        <b-card style="height: 150px" @click="goTo(course.course_slug)"
+                        <b-card @click="goTo(course.course_slug)"
                                 :title="course.course_name[lang]"
                                 :img-src="$hostname + '/storage/' + course.course_image"
                                 img-alt="Course Image"
@@ -22,7 +21,7 @@
                     </b-col>
                 </b-row>
             </div>
-            <hr>
+            <hr v-if="is_logged_param">
             <div class="px-2">
                 <h1 class="mb-2 mt-4">{{ $t("courses.not-started-title") }}</h1>
                 <p class="px-md-5">
@@ -31,8 +30,7 @@
                 <b-row>
                     <!-- v-for="lesson in lessons" -->
                     <b-col v-for="course in this.courses_not_started" :key="course.course_id" cols="12" sm="6" md="4" lg="3" class="p-3">
-                        <!--  -->
-                        <b-card style="height: 150px" @click="startCourse(course)"
+                        <b-card @click="goTo(course.course_slug)"
                                 :title="course.course_name[lang]"
                                 :img-src="$hostname + '/storage/' + course.course_image"
                                 img-alt="Course Image"
@@ -217,6 +215,7 @@
         max-height: 100%;
         object-fit: contain;
         padding: 10px;
+        height: 150px;
     }
 
 </style>

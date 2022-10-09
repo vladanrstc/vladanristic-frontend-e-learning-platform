@@ -33,7 +33,7 @@
                 </div>
 
             </div>
-            <div class="lesson-progress pt-5">
+            <div class="lesson-progress pt-5" v-if="is_logged_in">
                 <div class="progress-labels">
                     <h6 class="text-left text-uppercase font-weight-bold">{{ $t("lessons.progress") }}</h6>
                     <!-- <h6 class="text-left text-uppercase font-weight-bold">33%</h6> -->
@@ -47,13 +47,13 @@
             </div>
             <b-tabs class="pt-5" active-nav-item-class="font-weight-bold text-blue">
                 <b-tab :title="$t('lessons.tab_1_lessons')" active>
-                    <lessonEnrollment @refreshLessonsData="getLessonsData" :sections="this.course.sections"></lessonEnrollment>
+                    <lessonEnrollment @refreshLessonsData="getLessonsData" :sections="this.course.sections" :login_status="is_logged_in"></lessonEnrollment>
                 </b-tab>
-                <b-tab :title="$t('lessons.tab_2_notes')" @click="loadNotes();">
+                <b-tab :title="$t('lessons.tab_2_notes')" @click="loadNotes();" v-if="is_logged_in">
                     <lessonNotes v-if="this.loadNotesFlag"></lessonNotes>
                 </b-tab>
                 <b-tab :title="$t('lessons.tab_3_reviews')" @click="loadReviews();">
-                    <lessonReviews v-if="this.loadReviewsFlag"></lessonReviews>                    
+                    <lessonReviews v-if="this.loadReviewsFlag" :login_status="is_logged_in"></lessonReviews>                    
                 </b-tab>
             </b-tabs>
         </b-container>
@@ -124,10 +124,12 @@ export default {
        lessonNotes
     },
     mounted() {
+        this.is_logged();
         this.getLessonsData();
     },
     data() {
         return {
+            is_logged_in: false,
             loadNotesFlag: false,
             loadReviewsFlag: false,            
             slug: "",
@@ -148,6 +150,14 @@ export default {
         }
     },
     methods: {
+         is_logged() {
+            try {
+                let a = JSON.parse(atob(localStorage.getItem("ac_t").split('.')[1]));
+                this.is_logged_in = true;
+            } catch (e) {
+                this.is_logged_in = false;
+            }
+        },
         getLessonsData() {
             axios.get("/course/details/" + this.$route.params.course)
                 .then(response => {

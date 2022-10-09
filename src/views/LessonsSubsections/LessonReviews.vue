@@ -1,7 +1,7 @@
 <template>
     <div class="py-4">
         <div class="row no-gutters">
-            <div class="col col-12 d-flex pl-5 ml-md-5">
+            <div class="col col-12 d-flex pl-5 ml-md-5" v-if="login_status">
                 <b-button @click="showReviewModal()" variant="success" class="mr-lg-2 mr-xl-5 mb-4">
                     <i class="fa fa-plus-circle" aria-hidden="true"></i>
                     {{ $t('lessons.add_review') }}
@@ -47,6 +47,7 @@
 import axios from 'axios'
 
 export default {
+    props: ['login_status'],
     mounted() {
         this.getAllData();
     },
@@ -60,7 +61,9 @@ export default {
     },
     methods: {
         getAllData() {
-            this.getReview();
+            if(this.login_status) {
+                this.getReview();
+            }
             this.getReviews();
         },
         getReviews() {
