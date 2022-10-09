@@ -1,8 +1,12 @@
 <template>
-    <aside id="admin-sidebar" class="border">
-        <h5 class="m-0 py-3">
-            <b-navbar-brand class="p-0 " href="#">vladanristic.com</b-navbar-brand>
-        </h5>
+    <aside id="admin-sidebar">
+        <div id="sidebar-top">            
+            <h5 class="m-0 py-3">
+                <b-navbar-brand class="p-0 text-white" href="#">
+                    <strong>vladanristic.com</strong>
+                </b-navbar-brand>
+            </h5>
+        </div>
         <b-list-group>
             <b-list-group-item>
                 <router-link class="admin-link" to="/admin" exact>
@@ -22,7 +26,7 @@
                     Kursevi
                 </router-link>
             </b-list-group-item>
-            <b-list-group-item id="admin-user-profile" class="border" @click="logout">
+            <b-list-group-item id="admin-user-profile" @click="logout">
                 <div class="admin-link">
                     <i class="fa fa-sign-out" aria-hidden="true"></i>  
                     Odjavi se
@@ -63,6 +67,7 @@
     #admin-sidebar {
         min-height: 100vh;
         position: relative;
+        background-color: #272e38;
     }
 
     #admin-user-profile {
@@ -75,8 +80,13 @@
     }
 
     #admin-user-profile:hover, #admin-user-profile:hover > * {
-        color: red;
+        color: #fff;
         cursor: pointer;
+    }
+
+    .admin-link {
+        font-size: 120%;
+        color: #9faec1;
     }
 
     .nav-item {
@@ -89,6 +99,10 @@
     .list-group-item {
         border-right: 0px;
         border-radius: 0px;
+        background-color: #272e38;
+        color: #fff;
+        border: unset;
+
     }
 
     a {
@@ -98,7 +112,7 @@
     }
 
     .router-link-exact-active, a:hover {
-        color: var(--red);
+        color: var(--white);
     }
 
     .b-sidebar {
@@ -111,6 +125,10 @@
 
     .fa {
         margin-right: 15px;
+    }
+
+    #sidebar-top {
+        background-color: #232e3e;
     }
 
 </style>

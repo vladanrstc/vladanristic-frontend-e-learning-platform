@@ -32,8 +32,7 @@ export default {
     HelloWorld,
     Header: () => import("./views/Header.vue"),
     Footer: () => import("./views/Footer.vue"),
-    AdminSideNav: () => import("./views/admin/AdminSideNav.vue"),
-    AdminHeader: () => import("./views/admin/AdminHeader.vue")
+    AdminSideNav: () => import("./views/admin/AdminSideNav.vue")
   },
   data: function () {
     return {

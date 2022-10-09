@@ -9,6 +9,7 @@ import VueSweetalert2 from 'vue-sweetalert2';
 import Vuelidate from 'vuelidate'
 import axios from 'axios'
 import vueDebounce from 'vue-debounce'
+import VueApexCharts from 'vue-apexcharts'
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
@@ -21,6 +22,9 @@ Vue.use(VueSweetalert2)
 Vue.use(Vuelidate)
 Vue.use(vueDebounce)
 Vue.use(VueRouter)
+Vue.use(VueApexCharts)
+
+Vue.component('apexchart', VueApexCharts)
 
 export const bus = new Vue();
 
@@ -105,31 +109,31 @@ Vue.prototype.$hostname = 'http://vladanristic.site'
 Vue.prototype.$hostname_frontend = 'http://localhost:8080'
 
 
-/*router.beforeEach((to, from, next) => {
-  if(/admin/.test(to.path)) {
+// router.beforeEach((to, from, next) => {
+//   if(/admin/.test(to.path)) {
 
-      let loading = this.$swal.fire({
-        toast: true,
-        position: "top-end",
-        onBeforeOpen: () => {
-          this.$swal.showLoading();
-        },
-      });
+//       let loading = this.$swal.fire({
+//         toast: true,
+//         position: "top-end",
+//         onBeforeOpen: () => {
+//           this.$swal.showLoading();
+//         },
+//       });
 
-      axios.get("/check-admin")
-          .then(() => {
-              next();
-              //loading.close();
-          }).catch(() => {
+//       axios.get("/check-admin")
+//           .then(() => {
+//               next();
+//               //loading.close();
+//           }).catch(() => {
 
-          location.replace("/");
+//           location.replace("/");
 
-      });
+//       });
 
-  } else {
-      next();
-  }
-})*/
+//   } else {
+//       next();
+//   }
+// })
 
 /*
 new Vue({
