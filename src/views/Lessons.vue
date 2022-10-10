@@ -39,15 +39,17 @@
                     <!-- <h6 class="text-left text-uppercase font-weight-bold">33%</h6> -->
                 </div>
                 <b-progress v-if="course.course_percentage_completed != false" :max="course.course_percentage_completed.lessons_count">
-                    <b-progress-bar :label="`${((course.course_percentage_completed.lessons_completed_count / course.course_percentage_completed.lessons_count) * 100).toFixed(2)}%`"
-                                    :value="course.course_percentage_completed.lessons_completed_count"
-                                    :max="course.course_percentage_completed.lessons_count"
-                                    variant="success"></b-progress-bar>
+                    <b-progress-bar 
+                        :label="`${((course.course_percentage_completed.lessons_completed_count / course.course_percentage_completed.lessons_count) * 100).toFixed(2)}%`"
+                        :value="course.course_percentage_completed.lessons_completed_count"
+                        :max="course.course_percentage_completed.lessons_count"
+                        variant="success">
+                    </b-progress-bar>
                 </b-progress>
             </div>
             <b-tabs class="pt-5" active-nav-item-class="font-weight-bold text-blue">
                 <b-tab :title="$t('lessons.tab_1_lessons')" active>
-                    <lessonEnrollment @refreshLessonsData="getLessonsData" :sections="this.course.sections" :login_status="is_logged_in"></lessonEnrollment>
+                    <lessonEnrollment @refreshLessonsData="getData" :sections="this.course.sections" :login_status="is_logged_in"></lessonEnrollment>
                 </b-tab>
                 <b-tab :title="$t('lessons.tab_2_notes')" @click="loadNotes();" v-if="is_logged_in">
                     <lessonNotes v-if="this.loadNotesFlag"></lessonNotes>
@@ -125,7 +127,7 @@ export default {
     },
     mounted() {
         this.is_logged();
-        this.getLessonsData();
+        this.getData();
     },
     data() {
         return {
@@ -157,6 +159,28 @@ export default {
             } catch (e) {
                 this.is_logged_in = false;
             }
+        },
+        getData() {
+            if(this.is_logged_in)
+                this.getUserLessonsData();
+            else
+                this.getLessonsData()
+        },
+        getUserLessonsData() {
+            axios.get("/course/user-details/" + this.$route.params.course)
+                .then(response => {
+                    this.course = response.data.data
+                })
+                .catch(e => {
+                    this.$swal.fire({
+                        toast: true,
+                        position: "top-end",
+                        icon: "error",
+                        title: this.$t("notifications.general_error"),
+                        showConfirmButton: false,
+                        timer: 4500,
+                    });
+                });
         },
         getLessonsData() {
             axios.get("/course/details/" + this.$route.params.course)
