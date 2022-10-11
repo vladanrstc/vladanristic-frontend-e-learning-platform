@@ -149,25 +149,7 @@
                     {text: 'EN', value: 'en'}
                 ],
                 locale: "sr",
-                fields: [
-                    {
-                        key: "delete",
-                        sortable: false,
-                        label: "Ukloni",
-                        tdClass: 'align-middle'
-                    },
-                    {
-                        key: "edit",
-                        sortable: false,
-                        label: "Izmeni",
-                        tdClass: 'align-middle'
-                    },
-                    {
-                        key: "sections",
-                        sortable: false,
-                        label: "Veze",
-                        tdClass: 'align-middle'
-                    },
+                fields: [                                        
                     {
                         key: "course_name",
                         sortable: true,
@@ -178,6 +160,24 @@
                         key: "course_image",
                         sortable: false,
                         label: "Slika",
+                        tdClass: 'align-middle'
+                    },
+                    {
+                        key: "sections",
+                        sortable: false,
+                        label: "Veze",
+                        tdClass: 'align-middle'
+                    },
+                    {
+                        key: "edit",
+                        sortable: false,
+                        label: "Izmeni",
+                        tdClass: 'align-middle'
+                    },
+                    {
+                        key: "delete",
+                        sortable: false,
+                        label: "Ukloni",
                         tdClass: 'align-middle'
                     }
                 ],

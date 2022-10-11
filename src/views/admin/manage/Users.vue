@@ -165,17 +165,7 @@
                     {value: "sr", text: "Srpski"},
                     {value: "en", text: "Engleski"},
                 ],
-                fields: [
-                    {
-                        key: "ban",
-                        sortable: false,
-                        label: "Suspenduj",
-                    },
-                    {
-                        key: "edit",
-                        sortable: false,
-                        label: "Izmeni",
-                    },
+                fields: [                    
                     {
                         key: "last_name",
                         sortable: true,
@@ -200,7 +190,17 @@
                         key: "language",
                         label: "Jezik",
                         sortable: false,
+                    },                    
+                    {
+                        key: "edit",
+                        sortable: false,
+                        label: "Izmeni",
                     },
+                    {
+                        key: "ban",
+                        sortable: false,
+                        label: "Suspenduj",
+                    }
                 ],
                 users: {},
                 user_form: {
@@ -422,7 +422,10 @@
 </script>
 
 <style scoped>
-.btn-info {
-    background-color: #4c78dd!important;
-}
+    .btn-info {
+        background-color: #4c78dd!important;
+    }
+    .b-table {
+        text-align: center;
+    }
 </style>
