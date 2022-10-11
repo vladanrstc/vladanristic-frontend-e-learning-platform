@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid text-left">
+    <div class="container-fluid text-left bg-white p-3">
         <div class="d-flex" style="justify-content: space-between">
             <div class="d-flex">
                 <b-button v-b-modal.modal-prevent-closing class="mb-3 mr-3" variant="success" style="width:250px">
@@ -225,10 +225,10 @@
 
                 this.$swal({
                     title: "Da li ste sigurni da želite da suspendujete korisnika?",
-                    icon: "warning",
+                    icon: "question",
                     showCancelButton: true,
-                    confirmButtonColor: "#d33",
-                    cancelButtonColor: "#3085d6",
+                    confirmButtonColor: "#28a745",
+                    cancelButtonColor: "#d33",
                     cancelButtonText: "Ne",
                     confirmButtonText: "Da, suspenduj!",
                 }).then((result) => {
@@ -244,7 +244,7 @@
                             },
                         });
 
-                        axios.delete("/users/ban/" + user.id).then(() => {
+                        axios.delete("/user/ban/" + user.id).then(() => {
                             creating.close();
                             this.getUsers();
                             this.$swal.fire({
@@ -308,8 +308,11 @@
 
                     if (this.user_id == '') {
 
+                        console.log(this.user_form)
+
+
                         axios
-                            .post("/users", this.user_form)
+                            .post("/user/users", this.user_form)
                             .then(() => {
                                 creating.close();
                                 this.$swal.fire({
@@ -343,7 +346,7 @@
                         console.log(this.user_form)
 
                         axios
-                            .patch("/users/" + this.user_id, this.user_form)
+                            .patch("/user/users/" + this.user_id, this.user_form)
                             .then(() => {
                                 creating.close();
                                 this.$swal.fire({
@@ -378,7 +381,7 @@
 
             },
             getUsers(page = 1) {
-                axios.get("/users?page=" + page + "&q=" + this.search_text_bre).then((response) => {
+                axios.get("/user/users?page=" + page + "&q=" + this.search_text_bre).then((response) => {
                     this.users = response.data;
                 });
             },
@@ -421,4 +424,7 @@
 </script>
 
 <style scoped>
+.btn-info {
+    background-color: #4c78dd!important;
+}
 </style>

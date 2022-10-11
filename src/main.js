@@ -107,6 +107,7 @@ Vue.filter('shorten', function (value) {
 
 Vue.prototype.$hostname = 'http://vladanristic.site'
 Vue.prototype.$hostname_frontend = 'http://localhost:8080'
+Vue.component('pagination', require('laravel-vue-pagination'));
 
 window.Swal = VueSweetalert2;
 

@@ -89,10 +89,10 @@
 
                 this.$swal({
                     title: "Da li ste sigurni da želite da obrišete korisnika?",
-                    icon: "warning",
+                    icon: "question",
                     showCancelButton: true,
-                    confirmButtonColor: "#d33",
-                    cancelButtonColor: "#3085d6",
+                    confirmButtonColor: "#28a745",
+                    cancelButtonColor: "#d33",
                     cancelButtonText: "Ne",
                     confirmButtonText: "Da, obriši!",
                 }).then((result) => {
@@ -108,7 +108,7 @@
                             },
                         });
 
-                        axios.delete("/users/" + user.id).then(() => {
+                        axios.delete("/user/users/" + user.id).then(() => {
                             creating.close();
                             this.getUsers();
                             this.$swal.fire({
@@ -139,10 +139,10 @@
 
                 this.$swal({
                     title: "Da li ste sigurni da želite da aktivirate korisnika?",
-                    icon: "warning",
+                    icon: "question",
                     showCancelButton: true,
-                    confirmButtonColor: "#d33",
-                    cancelButtonColor: "#3085d6",
+                    confirmButtonColor: "#28a745",
+                    cancelButtonColor: "#d33",
                     cancelButtonText: "Ne",
                     confirmButtonText: "Da, aktiviraj!",
                 }).then((result) => {
@@ -158,7 +158,7 @@
                             },
                         });
 
-                        axios.get("/users/unban/" + user.id).then(() => {
+                        axios.get("/user/unban/" + user.id).then(() => {
                             creating.close();
                             this.getUsers();
                             this.$swal.fire({
@@ -186,7 +186,7 @@
 
             },
             getUsers(page = 1) {
-                axios.get("/users-banned?page=" + page).then((response) => {
+                axios.get("/user/users-banned?page=" + page).then((response) => {
                     this.users = response.data;
                 });
             },
