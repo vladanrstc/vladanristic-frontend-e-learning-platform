@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid text-left">
+  <div class="container-fluid text-left bg-white p-3">
     <div class="mb-3 w-100 d-flex align-items-center">
       <b-button variant="danger" class="mr-3" @click="backToCourses()">
         <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
@@ -24,32 +24,34 @@
       <table class="table table-striped">
         <thead class="thead-dark">
           <tr>
-            <th scope="col">Ukloni</th>
-            <th scope="col">Izmeni</th>
-            <th scope="col">Lekcije</th>
             <th scope="col">Naziv</th>
+            <th scope="col">Lekcije</th>
+            <th scope="col">Izmeni</th>
+            <th scope="col">Ukloni</th>
           </tr>
         </thead>
         <draggable v-model="sections" @end="saveOrder()" tag="tbody">
           <tr v-for="section in sections" :key="section.section_id">
 
-            <td>
-              <b-button variant="danger" @click="deleteSection(section)">
-                <i class="fa fa-trash" aria-hidden="true"></i>
-              </b-button>
-            </td>
-            <td scope="row">
-              <b-button variant="info" @click="editSection(section)">
-                <i class="fa fa-pencil" aria-hidden="true"></i>
-              </b-button>
-            </td>
+            <td>{{ section.section_name[selected_lang] }}</td>
 
             <td scope="row">
               <b-button variant="info" @click="goToLessons(section)">
                 <i class="fa fa-file-video-o" aria-hidden="true"></i>
               </b-button>
             </td>
-            <td>{{ section.section_name[selected_lang] }}</td>
+            
+            <td scope="row">
+              <b-button variant="info" @click="editSection(section)">
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+              </b-button>
+            </td>
+            <td>
+              <b-button variant="danger" @click="deleteSection(section)">
+                <i class="fa fa-trash" aria-hidden="true"></i>
+              </b-button>
+            </td>
+            
           </tr>
         </draggable>
       </table>
@@ -119,9 +121,9 @@ export default {
       locale: "sr",
       fields: [
         {
-          key: "delete",
-          sortable: false,
-          label: "Ukloni",
+          key: "section_name",
+          sortable: true,
+          label: "Naziv sekcije",
         },
         {
           key: "edit",
@@ -129,10 +131,10 @@ export default {
           label: "Izmeni",
         },
         {
-          key: "section_name",
-          sortable: true,
-          label: "Naziv sekcije",
-        },
+          key: "delete",
+          sortable: false,
+          label: "Ukloni",
+        }
       ],
       sections: [],
       section_form: {
@@ -364,8 +366,7 @@ export default {
       }
     },
     getSections() {
-      axios.get("/sections/course/" + this.course_id).then((response) => {
-        console.log(response);
+      axios.get("/sections/sections/course/" + this.course_id).then((response) => {
         this.sections = response.data;
       });
     },

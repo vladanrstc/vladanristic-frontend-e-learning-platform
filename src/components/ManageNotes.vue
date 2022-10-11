@@ -44,11 +44,6 @@ export default {
     return {
       fields: [
         {
-          key: "delete",
-          sortable: false,
-          label: "Ukloni",
-        },
-        {
           key: "user.last_name",
           sortable: true,
           label: "Prezime",
@@ -69,6 +64,11 @@ export default {
           sortable: false,
           class: "try-it"
         },
+        {
+          key: "delete",
+          sortable: false,
+          label: "Ukloni",
+        }
       ],
       notes: {},
       note_id: '',
@@ -119,7 +119,7 @@ export default {
 
     },
     getNotes(page = 1) {
-      axios.get("/notes/course/" + this.course.course_id + "?page=" + page).then((response) => {      
+      axios.get("/notes/notes/course/" + this.course.course_id + "?page=" + page).then((response) => {      
         console.log(response)  
         this.notes = response.data;
       });

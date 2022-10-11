@@ -37,11 +37,6 @@ export default {
     return {
       fields: [
         {
-          key: "delete",
-          sortable: false,
-          label: "Ukloni",
-        },
-        {
           key: "user.last_name",
           sortable: true,
           label: "Prezime",
@@ -66,6 +61,11 @@ export default {
           label: "Tekst",
           sortable: false,
         },
+        {
+          key: "delete",
+          sortable: false,
+          label: "Ukloni",
+        }
       ],
       reviews: {},
       review_id: '',
@@ -118,14 +118,11 @@ export default {
     },
     getReviews(page = 1) {
       console.log(this.course)
-      axios.get("/reviews/course/" + this.course.course_id + "?page=" + page).then((response) => {      
+      axios.get("/reviews/reviews/course/" + this.course.course_id + "?page=" + page).then((response) => {      
         console.log(response)  
         this.reviews = response.data;
       });
     },
-    resetModal() {
-
-    }
   },
   filters: {
     shorten: function (value) {
