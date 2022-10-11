@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid text-left">
+    <div class="container-fluid text-left bg-white p-3">
 
         <div class="mb-3 w-100 d-flex align-items-center">
             <b-button v-b-modal.modal-prevent-closing variant="success">
@@ -35,19 +35,13 @@
                 </template>
 
                 <template v-slot:cell(sections)="data">
-                    <b-button @click="manageCourseSections(data.item)">
+                    <b-button class="mx-1" @click="manageCourseSections(data.item)" data-toggle="tooltip" data-placement="top" title="Upravljaj sekcijama">
                         <i class="fa fa-list" aria-hidden="true"></i>
                     </b-button>
-                </template>
-
-                <template v-slot:cell(reviews)="data">
-                    <b-button @click="manageCourseReviews(data.item)">
+                    <b-button class="mx-1" @click="manageCourseReviews(data.item)" data-toggle="tooltip" data-placement="top" title="Upravljaj recenzijama">
                         <i class="fa fa-star" aria-hidden="true"></i>
                     </b-button>
-                </template>
-
-                <template v-slot:cell(notes)="data">
-                    <b-button @click="manageCourseNotes(data.item)">
+                    <b-button class="mx-1" @click="manageCourseNotes(data.item)" data-toggle="tooltip" data-placement="top" title="Upravljaj beleškama">
                         <i class="fa fa-sticky-note-o" aria-hidden="true"></i>
                     </b-button>
                 </template>
@@ -57,7 +51,7 @@
                 </template>
 
                 <template v-slot:cell(course_image)="data">
-                    <img :src="'/storage/' + data.item.course_image" style="width:80px; height:60px">
+                    <img :src="$hostname + '/storage/' + data.item.course_image" class="course-img">
                 </template>
 
             </b-table>
@@ -160,36 +154,31 @@
                         key: "delete",
                         sortable: false,
                         label: "Ukloni",
+                        tdClass: 'align-middle'
                     },
                     {
                         key: "edit",
                         sortable: false,
                         label: "Izmeni",
+                        tdClass: 'align-middle'
                     },
                     {
                         key: "sections",
                         sortable: false,
-                        label: "Sekcije",
-                    },
-                    {
-                        key: "reviews",
-                        sortable: false,
-                        label: "Recenzije",
-                    },
-                    {
-                        key: "notes",
-                        sortable: false,
-                        label: "Beleške",
+                        label: "Veze",
+                        tdClass: 'align-middle'
                     },
                     {
                         key: "course_name",
                         sortable: true,
                         label: "Naziv kursa",
+                        tdClass: 'align-middle'
                     },
                     {
                         key: "course_image",
                         sortable: false,
                         label: "Slika",
+                        tdClass: 'align-middle'
                     }
                 ],
                 courses: {},
@@ -463,8 +452,8 @@
 
             },
             getCourses(page = 1) {
-                axios.get("/courses?page=" + page).then(response => {
-                    this.courses = response.data;
+                axios.get("/course/courses?page=" + page).then(response => {
+                    this.courses = response.data.data;
                 });
             },
             resetModal() {
@@ -502,4 +491,24 @@
 </script>
 
 <style scoped>
+    .course-img {
+        width:80px; 
+        height:60px; 
+        object-fit: contain;
+    }
+
+    .btn-info {
+        background-color: #4c78dd!important;
+    }
+
+    .b-table {
+        text-align: center;
+    }
+
+    .b-table >tbody > tr > td {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        height: 80px !important;
+    }
 </style>

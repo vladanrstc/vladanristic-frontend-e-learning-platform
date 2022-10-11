@@ -39,8 +39,6 @@
         </div>
         <pagination :data="users" @pagination-change-page="getUsers"></pagination>
 
-
-        <!-- MODAL -->
         <b-modal @hidden="resetModal" hide-footer id="modal-prevent-closing" ref="create_user"
                  :title="this.modal_action">
             <form ref="form" @submit.stop.prevent="addUser">
