@@ -76,10 +76,10 @@ export default {
 
       this.$swal({
         title: "Da li ste sigurni da želite da obrišete recenziju?",
-        icon: "warning",
+        icon: "question",
         showCancelButton: true,
-        confirmButtonColor: "#d33",
-        cancelButtonColor: "#3085d6",
+        confirmButtonColor: "#28a745",
+        cancelButtonColor: "#d33",
         cancelButtonText: "Ne",
         confirmButtonText: "Da, obriši!",
       }).then((result) => {
@@ -94,10 +94,18 @@ export default {
                     this.$swal.showLoading();
                 },
             });
-
-            axios.delete("/reviews/" + review.user_course_started_id).then(() => {
+            
+            axios.delete("/reviews/reviews/" + review.user_course_started_id).then(() => {
                 creating.close();
                 this.getReviews();
+                this.$swal.fire({
+                    toast: true,
+                    position: "top-end",
+                    icon: "success",
+                    title: "Recenzija obrisan!",
+                    showConfirmButton: false,
+                    timer: 4500,
+                });
             }).catch(() => {
                 this.$swal.fire({
                     toast: true,
@@ -108,8 +116,6 @@ export default {
                     timer: 4500,
                 });
              });
-
-            this.$swal("Obrisana recenzija!", "", "success");
 
         }
 

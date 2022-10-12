@@ -79,10 +79,10 @@ export default {
 
       this.$swal({
         title: "Da li ste sigurni da želite da obrišete belešku?",
-        icon: "warning",
+        icon: "question",
         showCancelButton: true,
-        confirmButtonColor: "#d33",
-        cancelButtonColor: "#3085d6",
+        confirmButtonColor: "#28a745",
+        cancelButtonColor: "#d33",
         cancelButtonText: "Ne",
         confirmButtonText: "Da, obriši!",
       }).then((result) => {
@@ -98,10 +98,17 @@ export default {
                 },
             });
 
-            axios.delete("/notes/" + note.user_course_started_id).then(() => {
+            axios.delete("/notes/notes/" + note.user_course_started_id).then(() => {
                 creating.close();
                 this.getNotes();
-                this.$swal("Obrisana beleška!", "", "success");
+                this.$swal.fire({
+                    toast: true,
+                    position: "top-end",
+                    icon: "success",
+                    title: "Beleška obrisan!",
+                    showConfirmButton: false,
+                    timer: 4500,
+                });
             }).catch(() => {
                 this.$swal.fire({
                     toast: true,

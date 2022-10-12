@@ -284,8 +284,8 @@
                     title: "Da li ste sigurni da želite da obrišete kurs?",
                     icon: "question",
                     showCancelButton: true,
-                    confirmButtonColor: "#d33",
-                    cancelButtonColor: "#3085d6",
+                    confirmButtonColor: "#28a745",
+                    cancelButtonColor: "#d33",
                     cancelButtonText: "Ne",
                     confirmButtonText: "Da, obriši!",
                 }).then((result) => {
@@ -301,8 +301,16 @@
                             },
                         });
 
-                        axios.delete("/courses/" + course.course_id).then(() => {
+                        axios.delete("/course/courses/" + course.course_id).then(() => {
                             creating.close();
+                            this.$swal.fire({
+                                toast: true,
+                                position: "top-end",
+                                icon: "success",
+                                title: "Kurs obrisan!",
+                                showConfirmButton: false,
+                                timer: 4500,
+                            });
                             this.getCourses();
                         }).catch(() => {
                             this.$swal.fire({
@@ -314,9 +322,6 @@
                                 timer: 4500,
                             });
                         });
-
-                        this.$swal("Obrisan kurs!", '', "success");
-
                     }
 
                 });
@@ -367,7 +372,7 @@
                         formData.append('lang', this.selected_lang);
 
                         axios
-                            .post("/courses", formData,{
+                            .post("/course/courses", formData,{
                                     headers: {
                                         'Content-Type': 'multipart/form-data'
                                     }
@@ -410,7 +415,7 @@
                         formData.append('lang', this.selected_lang);
 
                         axios
-                            .post("/courses/update/" + this.course_id, formData,
+                            .post("/course/courses/update/" + this.course_id, formData,
                                 {
                                     headers: {
                                         'Content-Type': 'multipart/form-data'

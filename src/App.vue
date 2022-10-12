@@ -170,4 +170,9 @@ export default {
       background: url("./assets/light-fabric.jpg");
     }
 
+    .pagination-page-nav.active > .page-link {
+      background-color: #4c78dd!important;
+      border: 1px solid #4c78dd!important;
+    }
+
 </style>
