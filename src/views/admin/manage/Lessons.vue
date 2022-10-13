@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid text-left">
+    <div class="container-fluid text-left bg-white p-3">
         <div class="mb-3 w-100 d-flex align-items-center" style="justify-content: space-between">
             <div class="d-flex align-items-center">
                 <b-button variant="danger" class="mr-3" @click="backToCourseSections()">
@@ -21,10 +21,6 @@
                     <i class="fa fa-plus-circle" aria-hidden="true"></i>
                     Dodaj lekciju
                 </b-button>
-                <!--<b-button v-b-modal.modal-prevent-closing variant="danger">
-                  Dodaj video
-                  <i class="fa fa-youtube-square" aria-hidden="true"></i>
-                </b-button> -->
             </div>
         </div>
 
@@ -32,25 +28,22 @@
             <table class="table table-striped">
                 <thead class="thead-dark">
                 <tr>
-                    <th scope="col">Ukloni</th>
-                    <th scope="col">Izmeni</th>
+                    <th scope="col">Naslov lekcije</th>
+                    <th scope="col">Prikaži lekciju</th>                    
                     <th scope="col">Video</th>
                     <th scope="col">Test</th>
-                    <th scope="col">Prikaži lekciju</th>
-                    <th scope="col">Naslov lekcije</th>
+                    <th scope="col">Izmeni</th>
+                    <th scope="col">Ukloni</th>
                 </tr>
                 </thead>
                 <draggable v-model="lessons" @end="saveOrder()" tag="tbody">
                     <tr v-for="(lesson, index) in lessons" :key="lesson.lesson_id">
-                        <td>
-                            <b-button variant="danger" @click="deleteLesson(lesson)">
-                                <i class="fa fa-trash" aria-hidden="true"></i>
-                            </b-button>
-                        </td>
+                                                                                            
+                        <td>{{ lesson.lesson_title[selected_lang] }}</td>
+
                         <td scope="row">
-                            <b-button variant="info" @click="editLesson(lesson)">
-                                <i class="fa fa-pencil" aria-hidden="true"></i>
-                            </b-button>
+                            <b-form-checkbox v-model="lessons[index].lesson_published" @change="switchLesson(lesson)"
+                                             switch></b-form-checkbox>
                         </td>
 
                         <td scope="row">
@@ -66,10 +59,17 @@
                         </td>
 
                         <td scope="row">
-                            <b-form-checkbox v-model="lessons[index].lesson_published" @change="switchLesson(lesson)"
-                                             switch></b-form-checkbox>
+                            <b-button variant="info" @click="editLesson(lesson)">
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </b-button>
                         </td>
-                        <td>{{ lesson.lesson_title[selected_lang] }}</td>
+
+                        <td>
+                            <b-button variant="danger" @click="deleteLesson(lesson)">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </b-button>
+                        </td>
+
                     </tr>
                 </draggable>
             </table>
@@ -133,7 +133,7 @@
 
                     <small v-if="this.lesson_practice_current != null
                     && this.lesson_practice_current != undefined
-                    && this.lesson_practice_current != ''"><a target="_blank" :href="'/storage/'+this.lesson_practice_current">Trenutni PDF</a></small>
+                    && this.lesson_practice_current != ''"><a target="_blank" :href="$hostname + '/storage/' + this.lesson_practice_current">Trenutni PDF</a></small>
                     <b-form-invalid-feedback id="input-3-live-feedback">Morate odabrati sliku kursa
                     </b-form-invalid-feedback>
 
@@ -217,7 +217,6 @@
         mounted() {
             this.course_id = this.$route.params.course;
             this.section_id = this.$route.params.section;
-            console.log(this.section_id)
             this.getLessons();
         },
         data() {
@@ -296,7 +295,7 @@
                 });
 
                 axios
-                    .post("/lessons/video", {
+                    .post("/lessons/lessons/video", {
                         "lang": this.selected_lang,
                         "lesson_video_link": this.video_link.split(".be/")[1],
                         "lesson_id": this.lesson_managed.lesson_id
@@ -331,50 +330,6 @@
                         });
                     });
 
-                /*let formData = new FormData();
-                formData.append('file', this.file);
-
-                let updating = this.$swal.fire({
-                  toast: true,
-                  position: "top-end",
-                  title: "Molimo sačekajte..",
-                  onBeforeOpen: () => {
-                    this.$swal.showLoading();
-                  },
-                });
-
-                axios
-                  .post("/lessons/video",formData,{
-                    headers: {
-                      'Content-Type': 'multipart/form-data'
-                    }
-                  })
-                  .then(res => {
-                    console.log(res)
-                    updating.close();
-
-                    this.$swal.fire({
-                      toast: true,
-                      position: "top-end",
-                      icon: "success",
-                      title: "Sačuvano",
-                      showConfirmButton: false,
-                      timer: 4500,
-                    });
-
-                  })
-                  .catch(err => {
-                    console.log(err)
-                    this.$swal.fire({
-                      toast: true,
-                      position: "top-end",
-                      icon: "error",
-                      title: "Došlo je do greške. Molimo pokušajte ponovo",
-                      showConfirmButton: false,
-                      timer: 4500,
-                    });
-                  });*/
-
             },
             switchLesson(lesson) {
 
@@ -388,7 +343,7 @@
                 });
 
                 axios
-                    .post("/lessons/switch", lesson)
+                    .post("/lessons/lessons/switch", lesson)
                     .then(() => {
                         updating.close();
 
@@ -446,7 +401,7 @@
                 });
 
                 axios
-                    .post("/lessons/order", {
+                    .post("/lessons/lessons/order", {
                         lessons: this.lessons
                     })
                     .then(() => {
@@ -539,8 +494,8 @@
                     title: "Da li ste sigurni da želite da obrišete lekciju?",
                     icon: "question",
                     showCancelButton: true,
-                    confirmButtonColor: "#d33",
-                    cancelButtonColor: "#3085d6",
+                    confirmButtonColor: "#28a745",
+                    cancelButtonColor: "#d33",
                     cancelButtonText: "Ne",
                     confirmButtonText: "Da, obriši!",
                 }).then((result) => {
@@ -555,10 +510,18 @@
                         });
 
                         axios
-                            .delete("/lessons/" + lesson.lesson_id)
+                            .delete("/lessons/lessons/" + lesson.lesson_id)
                             .then(() => {
                                 creating.close();
                                 this.getLessons();
+                                this.$swal.fire({
+                                    toast: true,
+                                    timer: 3000,
+                                    position: "top-end",
+                                    icon: "success",
+                                    title: "Lekcija obrisana!",
+                                    showConfirmButton: false,
+                                });
                             })
                             .catch(() => {
                                 this.$swal.fire({
@@ -571,7 +534,6 @@
                                 });
                             });
 
-                        this.$swal("Obrisana lekcija!", "", "success");
                     }
                 });
             },
@@ -626,7 +588,7 @@
 
                     if (this.lesson_id == "") {
                         axios
-                            .post("/lessons", formData,
+                            .post("/lessons/lessons", formData,
                                 {
                                 headers: {
                                     'Content-Type': 'multipart/form-data'
@@ -672,7 +634,7 @@
                         formData.append('lang', this.selected_lang);
 
                         axios
-                            .post("/lessons/update/" + this.lesson_id, formData)
+                            .post("/lessons/lessons/update/" + this.lesson_id, formData)
                             .then((res) => {
                                 console.log(res);
                                 creating.close();
@@ -705,11 +667,10 @@
                 }
             },
             getLessons() {
-                axios.get("/lessons/section/" + this.section_id).then((response) => {
+                axios.get("/lessons/lessons/section/" + this.section_id).then((response) => {
                     console.log(response);
-                    //= response.data;
                     this.lessons = []
-                    response.data.forEach(el => {
+                    response.data.data.forEach(el => {
                         if (el.lesson_published == 1) {
                             el.lesson_published = true;
                         } else {
@@ -758,5 +719,9 @@
 <style scoped>
     .embed-responsive {
         margin-bottom: 1rem;
+    }
+
+    .table {
+        text-align: center;
     }
 </style>

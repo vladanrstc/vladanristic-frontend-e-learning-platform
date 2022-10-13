@@ -235,8 +235,8 @@ export default {
         title: "Da li ste sigurni da želite da obrišete sekciju?",
         icon: "question",
         showCancelButton: true,
-        confirmButtonColor: "#d33",
-        cancelButtonColor: "#3085d6",
+        confirmButtonColor: "#28a745",
+        cancelButtonColor: "#d33",
         cancelButtonText: "Ne",
         confirmButtonText: "Da, obriši!",
       }).then((result) => {
