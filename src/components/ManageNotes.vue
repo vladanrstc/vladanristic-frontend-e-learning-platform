@@ -105,7 +105,7 @@ export default {
                     toast: true,
                     position: "top-end",
                     icon: "success",
-                    title: "Beleška obrisan!",
+                    title: "Beleška obrisana!",
                     showConfirmButton: false,
                     timer: 4500,
                 });

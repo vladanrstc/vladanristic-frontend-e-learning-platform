@@ -255,6 +255,14 @@ export default {
             .then(() => {
               creating.close();
               this.getSections();
+              this.$swal.fire({
+                    toast: true,
+                    position: "top-end",
+                    icon: "success",
+                    title: "Sekcija obrisana!",
+                    showConfirmButton: false,
+                    timer: 4500,
+                });
             })
             .catch(() => {
               this.$swal.fire({
@@ -267,7 +275,6 @@ export default {
               });
             });
 
-          this.$swal("Obrisana sekcija!", "", "success");
         }
       });
     },
@@ -311,7 +318,7 @@ export default {
                 timer: 3000,
                 position: "top-end",
                 icon: "success",
-                title: "Uspešno dodata sekcija",
+                title: "Sekcija uspešno dodata",
                 showConfirmButton: false,
               });
 
@@ -335,14 +342,13 @@ export default {
           axios
             .patch("/sections/sections/" + this.section_id, this.section_form)
             .then((res) => {
-              console.log(res);
               creating.close();
               this.$swal.fire({
                 toast: true,
                 timer: 3000,
                 position: "top-end",
                 icon: "success",
-                title: "Uspešno izmenjena sekcija",
+                title: "Sekcija uspešno izmenjena",
                 showConfirmButton: false,
               });
 
