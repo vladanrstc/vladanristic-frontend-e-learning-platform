@@ -166,7 +166,7 @@ export default {
       });
 
       axios
-        .post("/sections/sections/order",{
+        .post("/sections/order",{
           sections: this.sections
         })
         .then(() => {
@@ -251,7 +251,7 @@ export default {
           });
 
           axios
-            .delete("/sections/sections/" + section.section_id)
+            .delete("/sections/" + section.section_id)
             .then(() => {
               creating.close();
               this.getSections();
@@ -310,7 +310,7 @@ export default {
 
         if (this.section_id == "") {
           axios
-            .post("/sections/sections", this.section_form)
+            .post("/sections", this.section_form)
             .then(() => {
               creating.close();
               this.$swal.fire({
@@ -340,7 +340,7 @@ export default {
           this.section_form.section_id = this.section_id;
 
           axios
-            .patch("/sections/sections/" + this.section_id, this.section_form)
+            .patch("/sections/" + this.section_id, this.section_form)
             .then((res) => {
               creating.close();
               this.$swal.fire({
@@ -372,7 +372,7 @@ export default {
       }
     },
     getSections() {
-      axios.get("/sections/sections/course/" + this.course_id).then((response) => {
+      axios.get("/sections/course/" + this.course_id).then((response) => {
         this.sections = response.data;
       });
     },

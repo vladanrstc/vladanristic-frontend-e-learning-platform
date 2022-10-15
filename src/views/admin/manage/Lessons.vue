@@ -295,7 +295,7 @@
                 });
 
                 axios
-                    .post("/lessons/lessons/video", {
+                    .post("/lessons/video", {
                         "lang": this.selected_lang,
                         "lesson_video_link": this.video_link.split(".be/")[1],
                         "lesson_id": this.lesson_managed.lesson_id
@@ -308,7 +308,7 @@
                             toast: true,
                             position: "top-end",
                             icon: "success",
-                            title: "Sačuvano",
+                            title: "Video lekcije promenjen!",
                             showConfirmButton: false,
                             timer: 4500,
                         });
@@ -343,7 +343,7 @@
                 });
 
                 axios
-                    .post("/lessons/lessons/switch", lesson)
+                    .post("/lessons/switch", lesson)
                     .then(() => {
                         updating.close();
 
@@ -351,7 +351,7 @@
                             toast: true,
                             position: "top-end",
                             icon: "success",
-                            title: "Sačuvano",
+                            title: "Status lekcije sačuvan",
                             showConfirmButton: false,
                             timer: 4500,
                         });
@@ -401,7 +401,7 @@
                 });
 
                 axios
-                    .post("/lessons/lessons/order", {
+                    .post("/lessons/order", {
                         lessons: this.lessons
                     })
                     .then(() => {
@@ -510,7 +510,7 @@
                         });
 
                         axios
-                            .delete("/lessons/lessons/" + lesson.lesson_id)
+                            .delete("/lessons/" + lesson.lesson_id)
                             .then(() => {
                                 creating.close();
                                 this.getLessons();
@@ -588,7 +588,7 @@
 
                     if (this.lesson_id == "") {
                         axios
-                            .post("/lessons/lessons", formData,
+                            .post("/lessons", formData,
                                 {
                                 headers: {
                                     'Content-Type': 'multipart/form-data'
@@ -634,7 +634,7 @@
                         formData.append('lang', this.selected_lang);
 
                         axios
-                            .post("/lessons/lessons/update/" + this.lesson_id, formData)
+                            .post("/lessons/update/" + this.lesson_id, formData)
                             .then((res) => {
                                 console.log(res);
                                 creating.close();
@@ -667,7 +667,7 @@
                 }
             },
             getLessons() {
-                axios.get("/lessons/lessons/section/" + this.section_id).then((response) => {
+                axios.get("/lessons/section/" + this.section_id).then((response) => {
                     console.log(response);
                     this.lessons = []
                     response.data.data.forEach(el => {
