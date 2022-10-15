@@ -1,11 +1,11 @@
 <template>
   <div class="container-fluid text-left bg-white p-3">
     <div class="mb-3 w-100 d-flex align-items-center">
-      <b-button variant="danger" class="mr-3" @click="backToCourses()">
+      <b-button variant="outline-danger" class="mr-3" @click="backToCourses()">
         <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
           Nazad na kurseve
       </b-button>
-      <b-button v-b-modal.modal-prevent-closing variant="success">
+      <b-button v-b-modal.modal-prevent-closing variant="outline-success">
         <i class="fa fa-plus-circle" aria-hidden="true"></i>
         Dodaj sekciju
       </b-button>
@@ -291,7 +291,6 @@ export default {
       this.$refs["create_section"].show();
     },
     validateState(name, lang) {
-      console.log(this.section_form);
       const { $dirty, $error } = this.$v.section_form[name][lang];
       return $dirty ? !$error : null;
     },

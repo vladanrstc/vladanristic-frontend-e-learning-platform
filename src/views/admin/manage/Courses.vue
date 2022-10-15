@@ -2,7 +2,7 @@
     <div class="container-fluid text-left bg-white p-3">
 
         <div class="mb-3 w-100 d-flex align-items-center">
-            <b-button v-b-modal.modal-prevent-closing variant="success">
+            <b-button v-b-modal.modal-prevent-closing variant="outline-success">
                 <i class="fa fa-plus-circle" aria-hidden="true"></i>
                 Dodaj kurs
             </b-button>
@@ -436,7 +436,6 @@
                                 }
                             )
                             .then(res => {
-                                console.log(res)
                                 creating.close();
                                 this.$swal.fire({
                                     toast: true,

@@ -123,9 +123,7 @@ export default {
 
     },
     getReviews(page = 1) {
-      console.log(this.course)
-      axios.get("/reviews/course/" + this.course.course_id + "?page=" + page).then((response) => {      
-        console.log(response)  
+      axios.get("/reviews/course/" + this.course.course_id + "/all" + "?page=" + page).then((response) => {    
         this.reviews = response.data;
       });
     },

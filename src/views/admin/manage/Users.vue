@@ -1,14 +1,14 @@
 <template>
     <div class="container-fluid text-left bg-white p-3">
-        <div class="d-flex" style="justify-content: space-between">
+        <div id="users-header-container">
             <div class="d-flex">
-                <b-button v-b-modal.modal-prevent-closing class="mb-3 mr-3" variant="success" style="width:250px">
+                <b-button id="add-user-btn" v-b-modal.modal-prevent-closing class="mb-3 mr-3" variant="outline-success">
                     <i class="fa fa-plus-circle" aria-hidden="true"></i>
                     Dodaj korisnika
                 </b-button>
                 <b-form-input v-debounce:500ms="searchUsers" debounce-events="input" v-model="search_text_bre" placeholder="Pretraga..."></b-form-input>
             </div>
-            <b-button v-b-modal.modal-prevent-closing-banned-users class="mb-3" variant="danger">
+            <b-button v-b-modal.modal-prevent-closing-banned-users class="mb-3" variant="outline-danger">
                 <i class="fa fa-search-plus" aria-hidden="true"></i>
                 Suspendovani korisnici
             </b-button>
@@ -17,7 +17,6 @@
         <div>
             <b-table striped hover :items="users.data" :fields="fields">
 
-
                 <template v-slot:cell(count)="data">
                     {{ (data.index + 1) + (10 * (current_page - 1)) }}
                 </template>
@@ -25,12 +24,6 @@
                 <template v-slot:cell(edit)="data">
                     <b-button variant="info" @click="editUser(data.item)">
                         <i class="fa fa-pencil" aria-hidden="true"></i>
-                    </b-button>
-                </template>
-
-                <template v-slot:cell(delete)="data">
-                    <b-button variant="danger" @click="deleteUser(data.item)">
-                        <i class="fa fa-trash" aria-hidden="true"></i>
                     </b-button>
                 </template>
 
@@ -317,9 +310,6 @@
 
                     if (this.user_id == '') {
 
-                        console.log(this.user_form)
-
-
                         axios
                             .post("/user/users", this.user_form)
                             .then(() => {
@@ -351,8 +341,6 @@
                     } else {
 
                         this.user_form.id = this.user_id;
-
-                        console.log(this.user_form)
 
                         axios
                             .patch("/user/users/" + this.user_id, this.user_form)
@@ -445,5 +433,12 @@
     }
     .b-table {
         text-align: center;
+    }
+    #add-user-btn {
+        width: 250px;
+    }
+    #users-header-container {
+        justify-content: space-between;
+        justify-content: flex;
     }
 </style>

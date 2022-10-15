@@ -81,7 +81,7 @@ export default {
 
     :root {
         --gray-dark: #343a40 !important;
-        --blue: #5475ed !important;
+        --blue: #4c78dd !important;
         --indigo: #6610f2 !important;
         --pink: #e83e8c !important;
         --red: #ed4040 !important;
@@ -104,20 +104,27 @@ export default {
     }
 
     .btn {
-        border: 0 !important;
-        box-shadow: none !important;
+        /*border: 0 !important;*/
+        /*box-shadow: none !important;*/
     }
 
     .btn-info {
         background-color: var(--blue) !important;
+        border-color: var(--blue) !important;
     }
 
     .btn-info:hover {
-        background-color: var(--purple) !important;
+        background-color: var(--blue) !important;
+        border-color: unset !important;
     }
 
     .btn-yellow {
         background-color: var(--yellow) !important;
+    }
+
+    .btn-primary {
+        background-color: var(--blue) !important;
+        border-color: var(--blue) !important;
     }
 
     #app {
@@ -173,6 +180,10 @@ export default {
     .pagination-page-nav.active > .page-link {
       background-color: #4c78dd!important;
       border: 1px solid #4c78dd!important;
+    }
+
+    .btn:focus {
+      box-shadow: unset !important;
     }
 
 </style>
