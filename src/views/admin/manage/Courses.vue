@@ -314,7 +314,7 @@
                             },
                         });
 
-                        axios.delete("/course/courses/" + course.course_id).then(() => {
+                        axios.delete("/course/" + course.course_id + "/delete").then(() => {
                             creating.close();
                             this.$swal.fire({
                                 toast: true,
@@ -385,7 +385,7 @@
                         formData.append('lang', this.selected_lang);
 
                         axios
-                            .post("/course/courses", formData,{
+                            .post("/course/store", formData,{
                                     headers: {
                                         'Content-Type': 'multipart/form-data'
                                     }
@@ -428,7 +428,7 @@
                         formData.append('lang', this.selected_lang);
 
                         axios
-                            .post("/course/courses/update/" + this.course_id, formData,
+                            .post("/course/" + this.course_id + "/update", formData,
                                 {
                                     headers: {
                                         'Content-Type': 'multipart/form-data'
@@ -469,7 +469,7 @@
 
             },
             getCourses(page = 1) {
-                axios.get("/course/courses?page=" + page).then(response => {
+                axios.get("/course/all-courses?page=" + page).then(response => {
                     this.current_page = page;
                     this.courses = response.data.data;
                 });

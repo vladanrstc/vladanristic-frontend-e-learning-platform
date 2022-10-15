@@ -2,9 +2,14 @@
     <div class="container-fluid text-left bg-white p-3">
         <div class="mb-3 w-100 d-flex align-items-center" style="justify-content: space-between">
             <div class="d-flex align-items-center">
-                <b-button variant="danger" class="mr-3" @click="backToCourseSections()">
+                <b-button variant="outline-danger" class="mr-3" @click="backToCourseSections()">
                     <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
                     Nazad na sekcije
+                </b-button>
+
+                <b-button v-b-modal.modal-prevent-closing variant="outline-success">
+                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                    Dodaj lekciju
                 </b-button>
 
                 <b-form-radio-group
@@ -15,12 +20,6 @@
                     name="radio-options-slots"
                     @change="changeLocale(1)"
                 ></b-form-radio-group>
-            </div>
-            <div>
-                <b-button v-b-modal.modal-prevent-closing variant="success">
-                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                    Dodaj lekciju
-                </b-button>
             </div>
         </div>
 
@@ -304,7 +303,6 @@
                         "lesson_id": this.lesson_managed.lesson_id
                     })
                     .then(res => {
-                        console.log(res)
                         updating.close();
 
                         this.$swal.fire({
@@ -322,7 +320,6 @@
 
                     })
                     .catch(err => {
-                        console.log(err)
                         this.$swal.fire({
                             toast: true,
                             position: "top-end",
@@ -377,7 +374,6 @@
                 this.$refs["manage_tests"].show();
             },
             manageLessonVideo(lesson) {
-                console.log(lesson)
                 this.lesson_managed = lesson;
                 if (lesson.lesson_video_link != null) {
                     if (lesson.lesson_video_link[this.selected_lang] != null) {
@@ -513,7 +509,7 @@
                         });
 
                         axios
-                            .delete("/lessons/" + lesson.lesson_id)
+                            .delete("/lessons/" + lesson.lesson_id + "/delete")
                             .then(() => {
                                 creating.close();
                                 this.getLessons();
@@ -541,7 +537,6 @@
                 });
             },
             editLesson(lesson) {
-                console.log(lesson)
                 this.lesson_form.lesson_title[this.selected_lang] = lesson.lesson_title[this.selected_lang];
                 this.lesson_form.lesson_description[this.selected_lang] = lesson.lesson_description[this.selected_lang];
                 this.lesson_practice = null
@@ -577,8 +572,6 @@
                     this.lesson_form.lang = this.selected_lang;
                     this.lesson_form.lesson_section_id = this.section_id;
 
-                    console.log(this.lesson_form)
-
                     let formData = new FormData();
 
                     formData.append('lesson_title', this.lesson_form.lesson_title[this.selected_lang]);
@@ -591,7 +584,7 @@
 
                     if (this.lesson_id == "") {
                         axios
-                            .post("/lessons", formData,
+                            .post("/lessons/store", formData,
                                 {
                                 headers: {
                                     'Content-Type': 'multipart/form-data'
@@ -637,9 +630,8 @@
                         formData.append('lang', this.selected_lang);
 
                         axios
-                            .post("/lessons/update/" + this.lesson_id, formData)
+                            .post("/lessons/" + this.lesson_id + "/update", formData)
                             .then((res) => {
-                                console.log(res);
                                 creating.close();
                                 this.$swal.fire({
                                     toast: true,
@@ -671,7 +663,6 @@
             },
             getLessons() {
                 axios.get("/lessons/section/" + this.section_id).then((response) => {
-                    console.log(response);
                     this.lessons = []
                     response.data.data.forEach(el => {
                         if (el.lesson_published == 1) {

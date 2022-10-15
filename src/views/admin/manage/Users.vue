@@ -311,7 +311,7 @@
                     if (this.user_id == '') {
 
                         axios
-                            .post("/user/users", this.user_form)
+                            .post("/user/store", this.user_form)
                             .then(() => {
                                 creating.close();
                                 this.$swal.fire({
@@ -343,7 +343,7 @@
                         this.user_form.id = this.user_id;
 
                         axios
-                            .patch("/user/users/" + this.user_id, this.user_form)
+                            .put("/user/" + this.user_id + "/update", this.user_form)
                             .then(() => {
                                 creating.close();
                                 this.$swal.fire({
@@ -439,6 +439,6 @@
     }
     #users-header-container {
         justify-content: space-between;
-        justify-content: flex;
+        display: flex;
     }
 </style>

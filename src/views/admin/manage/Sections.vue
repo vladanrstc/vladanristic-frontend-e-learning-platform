@@ -256,7 +256,7 @@ export default {
           });
 
           axios
-            .delete("/sections/" + section.section_id)
+            .delete("/sections/" + section.section_id + "/delete")
             .then(() => {
               creating.close();
               this.getSections();
@@ -314,7 +314,7 @@ export default {
 
         if (this.section_id == "") {
           axios
-            .post("/sections", this.section_form)
+            .post("/sections/store", this.section_form)
             .then(() => {
               creating.close();
               this.$swal.fire({
@@ -344,7 +344,7 @@ export default {
           this.section_form.section_id = this.section_id;
 
           axios
-            .patch("/sections/" + this.section_id, this.section_form)
+            .put("/sections/" + this.section_id + "/update", this.section_form)
             .then((res) => {
               creating.close();
               this.$swal.fire({
