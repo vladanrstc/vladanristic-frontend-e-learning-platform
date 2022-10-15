@@ -24,6 +24,7 @@
       <table class="table table-striped">
         <thead class="thead-dark">
           <tr>
+            <th scope="col">#</th>
             <th scope="col">Naziv</th>
             <th scope="col">Lekcije</th>
             <th scope="col">Izmeni</th>
@@ -31,7 +32,11 @@
           </tr>
         </thead>
         <draggable v-model="sections" @end="saveOrder()" tag="tbody">
-          <tr v-for="section in sections" :key="section.section_id">
+          <tr v-for="(section, index) in sections" :key="section.section_id">
+            
+            <td scope="row">
+              {{ index + 1}}
+            </td>
 
             <td>{{ section.section_name[selected_lang] }}</td>
 

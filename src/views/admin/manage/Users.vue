@@ -17,6 +17,10 @@
         <div>
             <b-table striped hover :items="users.data" :fields="fields">
 
+                <template v-slot:cell(count)="data">
+                    {{ (data.index + 1) + (10 * (current_page - 1)) }}
+                </template>
+
                 <template v-slot:cell(edit)="data">
                     <b-button variant="info" @click="editUser(data.item)">
                         <i class="fa fa-pencil" aria-hidden="true"></i>
@@ -156,6 +160,7 @@
         },
         data() {
             return {
+                current_page: 0,
                 search_text_bre: "",
                 roles: [
                     {value: "user", text: "User"},
@@ -165,7 +170,12 @@
                     {value: "sr", text: "Srpski"},
                     {value: "en", text: "Engleski"},
                 ],
-                fields: [                    
+                fields: [    
+                    {
+                        key: "count",
+                        sortable: false,
+                        label: "#",
+                    },                
                     {
                         key: "last_name",
                         sortable: true,
@@ -380,6 +390,7 @@
             },
             getUsers(page = 1) {
                 axios.get("/user/users?page=" + page + "&q=" + this.search_text_bre).then((response) => {
+                    this.current_page = page;
                     this.users = response.data;
                 });
             },

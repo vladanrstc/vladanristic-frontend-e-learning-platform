@@ -28,6 +28,7 @@
             <table class="table table-striped">
                 <thead class="thead-dark">
                 <tr>
+                    <th scope="col">#</th>
                     <th scope="col">Naslov lekcije</th>
                     <th scope="col">Prikaži lekciju</th>                    
                     <th scope="col">Video</th>
@@ -39,6 +40,8 @@
                 <draggable v-model="lessons" @end="saveOrder()" tag="tbody">
                     <tr v-for="(lesson, index) in lessons" :key="lesson.lesson_id">
                                                                                             
+                        <td>{{ index + 1 }}</td>
+                        
                         <td>{{ lesson.lesson_title[selected_lang] }}</td>
 
                         <td scope="row">

@@ -22,6 +22,10 @@
         <div>
             <b-table striped hover :items="courses.data" :fields="fields">
 
+                <template v-slot:cell(count)="data">
+                    {{ (data.index + 1) + (10 * (current_page - 1)) }}
+                </template>
+
                 <template v-slot:cell(edit)="data">
                     <b-button variant="info" @click="editCourse(data.item)">
                         <i class="fa fa-pencil" aria-hidden="true"></i>
@@ -141,6 +145,7 @@
         },
         data() {
             return {
+                current_page: 0,
                 course_image: null,
                 course_review: '',
                 selected_lang: 'sr',
@@ -149,7 +154,12 @@
                     {text: 'EN', value: 'en'}
                 ],
                 locale: "sr",
-                fields: [                                        
+                fields: [       
+                    {
+                        key: "count",
+                        sortable: false,
+                        label: "#",
+                    },                                 
                     {
                         key: "course_name",
                         sortable: true,
@@ -458,6 +468,7 @@
             },
             getCourses(page = 1) {
                 axios.get("/course/courses?page=" + page).then(response => {
+                    this.current_page = page;
                     this.courses = response.data.data;
                 });
             },
