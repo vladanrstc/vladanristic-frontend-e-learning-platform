@@ -171,7 +171,7 @@ export default {
       });
 
       axios
-        .post("/sections/order",{
+        .post("/sections/admin/order",{
           sections: this.sections
         })
         .then(() => {
@@ -256,7 +256,7 @@ export default {
           });
 
           axios
-            .delete("/sections/" + section.section_id + "/delete")
+            .delete("/sections/admin/" + section.section_id + "/delete")
             .then(() => {
               creating.close();
               this.getSections();
@@ -314,7 +314,7 @@ export default {
 
         if (this.section_id == "") {
           axios
-            .post("/sections/store", this.section_form)
+            .post("/sections/admin/store", this.section_form)
             .then(() => {
               creating.close();
               this.$swal.fire({
@@ -344,7 +344,7 @@ export default {
           this.section_form.section_id = this.section_id;
 
           axios
-            .put("/sections/" + this.section_id + "/update", this.section_form)
+            .put("/sections/admin/" + this.section_id + "/update", this.section_form)
             .then((res) => {
               creating.close();
               this.$swal.fire({

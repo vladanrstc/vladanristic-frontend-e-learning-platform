@@ -108,7 +108,7 @@
                             },
                         });
 
-                        axios.delete("/user/users/" + user.id).then(() => {
+                        axios.delete("/user/admin/users/" + user.id).then(() => {
                             creating.close();
                             this.getUsers();
                             this.$swal.fire({
@@ -158,7 +158,7 @@
                             },
                         });
 
-                        axios.get("/user/unban/" + user.id).then(() => {
+                        axios.get("/user/admin/unban/" + user.id).then(() => {
                             creating.close();
                             this.getUsers();
                             this.$swal.fire({
@@ -186,7 +186,7 @@
 
             },
             getUsers(page = 1) {
-                axios.get("/user/users-banned?page=" + page).then((response) => {
+                axios.get("/user/admin/users-banned?page=" + page).then((response) => {
                     this.users = response.data;
                 });
             },

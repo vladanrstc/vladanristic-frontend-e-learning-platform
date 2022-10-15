@@ -98,7 +98,7 @@ export default {
                 },
             });
 
-            axios.delete("/notes/" + note.user_course_started_id).then(() => {
+            axios.delete("/notes/admin/" + note.user_course_started_id + "/delete").then(() => {
                 creating.close();
                 this.getNotes();
                 this.$swal.fire({
@@ -126,7 +126,7 @@ export default {
 
     },
     getNotes(page = 1) {
-      axios.get("/notes/course/" + this.course.course_id + "?page=" + page).then((response) => {      
+      axios.get("/notes/admin/course/" + this.course.course_id + "?page=" + page).then((response) => {      
         console.log(response)  
         this.notes = response.data;
       });

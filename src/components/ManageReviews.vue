@@ -95,7 +95,7 @@ export default {
                 },
             });
             
-            axios.delete("/reviews/" + review.user_course_started_id).then(() => {
+            axios.delete("/reviews/admin/" + review.user_course_started_id + "/delete").then(() => {
                 creating.close();
                 this.getReviews();
                 this.$swal.fire({
@@ -123,7 +123,7 @@ export default {
 
     },
     getReviews(page = 1) {
-      axios.get("/reviews/course/" + this.course.course_id + "/all" + "?page=" + page).then((response) => {    
+      axios.get("/reviews/admin/course/" + this.course.course_id + "/all" + "?page=" + page).then((response) => {    
         this.reviews = response.data;
       });
     },

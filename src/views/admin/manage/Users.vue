@@ -246,7 +246,7 @@
                             },
                         });
 
-                        axios.delete("/user/ban/" + user.id).then(() => {
+                        axios.delete("/user/admin/ban/" + user.id).then(() => {
                             creating.close();
                             this.getUsers();
                             this.$swal.fire({
@@ -311,7 +311,7 @@
                     if (this.user_id == '') {
 
                         axios
-                            .post("/user/store", this.user_form)
+                            .post("/user/admin/store", this.user_form)
                             .then(() => {
                                 creating.close();
                                 this.$swal.fire({
@@ -343,7 +343,7 @@
                         this.user_form.id = this.user_id;
 
                         axios
-                            .put("/user/" + this.user_id + "/update", this.user_form)
+                            .put("/user/admin/" + this.user_id + "/update", this.user_form)
                             .then(() => {
                                 creating.close();
                                 this.$swal.fire({
@@ -378,7 +378,7 @@
 
             },
             getUsers(page = 1) {
-                axios.get("/user/users?page=" + page + "&q=" + this.search_text_bre).then((response) => {
+                axios.get("/user/admin/users?page=" + page + "&q=" + this.search_text_bre).then((response) => {
                     
                     if(isNaN(page)) {
                         this.current_page = 1;

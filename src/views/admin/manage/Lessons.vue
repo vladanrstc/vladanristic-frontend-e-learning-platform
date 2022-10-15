@@ -297,7 +297,7 @@
                 });
 
                 axios
-                    .post("/lessons/video", {
+                    .post("/lessons/admin/video", {
                         "lang": this.selected_lang,
                         "lesson_video_link": this.video_link.split(".be/")[1],
                         "lesson_id": this.lesson_managed.lesson_id
@@ -343,7 +343,7 @@
                 });
 
                 axios
-                    .post("/lessons/switch", lesson)
+                    .post("/lessons/admin/switch", lesson)
                     .then(() => {
                         updating.close();
 
@@ -400,7 +400,7 @@
                 });
 
                 axios
-                    .post("/lessons/order", {
+                    .post("/lessons/admin/order", {
                         lessons: this.lessons
                     })
                     .then(() => {
@@ -509,7 +509,7 @@
                         });
 
                         axios
-                            .delete("/lessons/" + lesson.lesson_id + "/delete")
+                            .delete("/lessons/admin/" + lesson.lesson_id + "/delete")
                             .then(() => {
                                 creating.close();
                                 this.getLessons();
@@ -584,7 +584,7 @@
 
                     if (this.lesson_id == "") {
                         axios
-                            .post("/lessons/store", formData,
+                            .post("/lessons/admin/store", formData,
                                 {
                                 headers: {
                                     'Content-Type': 'multipart/form-data'
@@ -630,7 +630,7 @@
                         formData.append('lang', this.selected_lang);
 
                         axios
-                            .post("/lessons/" + this.lesson_id + "/update", formData)
+                            .post("/lessons/admin/" + this.lesson_id + "/update", formData)
                             .then((res) => {
                                 creating.close();
                                 this.$swal.fire({
@@ -662,7 +662,7 @@
                 }
             },
             getLessons() {
-                axios.get("/lessons/section/" + this.section_id).then((response) => {
+                axios.get("/lessons/admin/section/" + this.section_id).then((response) => {
                     this.lessons = []
                     response.data.data.forEach(el => {
                         if (el.lesson_published == 1) {
