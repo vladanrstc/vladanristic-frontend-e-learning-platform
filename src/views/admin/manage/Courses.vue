@@ -22,8 +22,11 @@
         <div>
             <b-table striped hover :items="courses.data" :fields="fields">
 
-                <template v-slot:cell(count)="data">
-                    {{ (data.index + 1) + (10 * (current_page - 1)) }}
+                <template v-slot:cell(count)="data" class="row">
+                    <div class="d-flex align-items-center justify-content-center" style="vertical-align:middle">
+                        {{ (data.index + 1) + (10 * (current_page - 1)) }}
+                    </div>
+                    
                 </template>
 
                 <template v-slot:cell(edit)="data">

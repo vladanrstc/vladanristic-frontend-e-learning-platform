@@ -17,6 +17,7 @@
         <div>
             <b-table striped hover :items="users.data" :fields="fields">
 
+
                 <template v-slot:cell(count)="data">
                     {{ (data.index + 1) + (10 * (current_page - 1)) }}
                 </template>
@@ -390,7 +391,13 @@
             },
             getUsers(page = 1) {
                 axios.get("/user/users?page=" + page + "&q=" + this.search_text_bre).then((response) => {
-                    this.current_page = page;
+                    
+                    if(isNaN(page)) {
+                        this.current_page = 1;
+                    } else {
+                        this.current_page = page;
+                    }
+                    
                     this.users = response.data;
                 });
             },
