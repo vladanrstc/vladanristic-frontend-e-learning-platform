@@ -2,7 +2,7 @@
   <div class="container-fluid text-left">
     <div class="d-flex align-items-center mb-3" style="justify-content: space-between">
       <div class="d-flex align-items-center">
-        <i v-b-tooltip.hover.bottom title="Test ispunjava zahteve" v-if="this.test_verified == true" class="fa fa-check-circle text-success mr-3" aria-hidden="true"></i>
+        <i v-b-tooltip.hover.bottom title="Test ispunjava zahteve" v-if="this.lesson.meets_requirements == true" class="fa fa-check-circle text-success mr-3" aria-hidden="true"></i>
         <i v-b-tooltip.hover.bottom title="Test ne ispunjava zahteve" v-else class="fa fa-times-circle text-danger mr-3" aria-hidden="true"></i>
         <b-form-input
           style="max-width: 300px"
@@ -19,7 +19,7 @@
           <i class="fa fa-times-circle-o" aria-hidden="true"></i>
         </b-button>
       </div>
-      <b-button v-if="lesson.lesson_test_id > 0" @click="questionModal()" class="ml-3" variant="success">
+      <b-button v-if="lesson.lesson_test_id > 0" @click="questionModal()" class="ml-3" variant="outline-success">
           <i class="fa fa-plus-circle" aria-hidden="true"></i>
           Dodaj pitanje
       </b-button>
@@ -53,7 +53,7 @@
         <template v-slot:cell(question_text)="data">
 
           <b-button v-b-toggle="'collapse-a' + data.item.question_id" block variant="info">
-            {{data.item.question_text[selected_lang]}}
+            {{data.item.question_text[lang]}}
           </b-button>
 
           <b-collapse :id="'collapse-a'+data.item.question_id">
@@ -80,7 +80,7 @@
                   </td>
 
                   <td scope="row">
-                    {{ answer.answer_text[selected_lang] }}
+                    {{ answer.answer_text[lang] }}
                   </td>
 
                   <td v-if="answer.answer_true == 1" scope="row">
@@ -173,18 +173,19 @@ export default {
   },
   props: ["lesson", "lang"],
   mounted() {
-    this.selected_lang = this.lang
-    this.getQuestions();
-    if(this.lesson.lesson_test_id != null) {
-      this.get_test_data();
-    }
-    this.getTestStatus();
+    // this.getQuestions();
+    this.getTestData();
   },
   data() {
     return {
-      test_verified: false,
+      test: {
+        "test_name": {
+          "sr": "",
+          "en": ""
+        }
+      },
+      creating: null,
       answer_true: false,
-      selected_lang: "sr",
       test_name: "",
       fields: [
         {
@@ -229,7 +230,7 @@ export default {
     questionModal(question) {
 
       if(question != null && question != undefined) {
-        this.question_text = question.question_text[this.selected_lang]
+        this.question_text = question.question_text[this.lang]
         this.question_id = question.question_id
         this.modal_action = "Izmeni pitanje"
       } else {
@@ -241,7 +242,7 @@ export default {
     answerModal(answer, flag) {
 
       if(flag == false) {
-        this.answer_text = answer.answer_text[this.selected_lang]
+        this.answer_text = answer.answer_text[this.lang]
         this.answer_id = answer.answer_id
         this.answer_true = answer.answer_true
         this.question_id = answer.question_id
@@ -254,35 +255,18 @@ export default {
 
       this.$refs["answer_modal"].show();
     },
-    get_test_data() {
-      axios
-          .get("/tests/" + this.lesson.lesson_test_id)
-          .then(res => {
-            this.test_name = res.data.test_name[this.selected_lang];
-          })
-          .catch(()=> {
-            this.showErrorToast();
-        });
-    },
     addQuestion() {
 
-        let creating = this.$swal.fire({
-          toast: true,
-          position: "top-end",
-          title: "Molimo sačekajte..",
-          onBeforeOpen: () => {
-            this.$swal.showLoading();
-          },
-        });
+        this.showLoadingToast();
 
         if(this.question_id == '') {
           let question = null;
-          if(this.selected_lang == "sr") {
+          if(this.lang == "sr") {
             question = {
               "question_text": {
                 "sr": this.question_text
               },
-              "lang": this.selected_lang,
+              "lang": this.lang,
               "test": this.lesson.lesson_test_id
             }
           } else {
@@ -290,7 +274,7 @@ export default {
               "question_text": {
                 "en": this.question_text
               },
-              "lang": this.selected_lang,
+              "lang": this.lang,
               "test": this.lesson.lesson_test_id
             }
           }
@@ -298,10 +282,10 @@ export default {
           axios
           .post("/questions", question)
           .then(() => {
-            creating.close();
+            this.creating.close();          
             this.showSuccessMessage("Pitanje uspešno sačuvano!")
             this.getQuestions();
-            this.getTestStatus()
+            this.getTestData()
             this.$refs["question_modal"].hide();
             this.question_id = ''
           })
@@ -311,22 +295,15 @@ export default {
 
       } else {
 
-        let creating = this.$swal.fire({
-          toast: true,
-          position: "top-end",
-          title: "Molimo sačekajte..",
-          onBeforeOpen: () => {
-            this.$swal.showLoading();
-          },
-        });
+        this.showLoadingToast();
 
           let question = null;
-          if(this.selected_lang == "sr") {
+          if(this.lang == "sr") {
             question = {
               "question_text": {
                 "sr": this.question_text
               },
-              "lang": this.selected_lang,
+              "lang": this.lang,
               "question_id": this.question_id
             }
           } else {
@@ -334,7 +311,7 @@ export default {
               "question_text": {
                 "en": this.question_text
               },
-              "lang": this.selected_lang,
+              "lang": this.lang,
               "question_id": this.question_id
             }
           }
@@ -342,10 +319,10 @@ export default {
           axios
           .patch("/questions/" + this.question_id, question)
           .then(() => {
-            creating.close();
+            this.creating.close();            
             this.showSuccessMessage("Pitanje uspešno sačuvano!")
             this.getQuestions();
-            this.getTestStatus()
+            this.getTestData()
             this.$refs["question_modal"].hide();
             this.question_id = ''
           })
@@ -368,13 +345,13 @@ export default {
 
         if(this.answer_id == '') {
           let answer = null;
-          if(this.selected_lang == "sr") {
+          if(this.lang == "sr") {
             answer = {
               "answer_text": {
                 "sr": this.answer_text
               },
               "answer_true": this.answer_true,
-              "lang": this.selected_lang,
+              "lang": this.lang,
               "question": this.question_id
             }
           } else {
@@ -383,7 +360,7 @@ export default {
                 "en": this.answer_text
               },
               "answer_true": this.answer_true,
-              "lang": this.selected_lang,
+              "lang": this.lang,
               "question": this.question_id
             }
           }
@@ -391,10 +368,10 @@ export default {
           axios
           .post("/answers", answer)
           .then(() => {
-            creating.close();            
+            this.creating.close();                    
             this.showSuccessMessage("Odgovor uspešno sačuvan!")
             this.getQuestions();
-            this.getTestStatus()
+            this.getTestData()
             this.$refs["answer_modal"].hide();
           })
           .catch(() => {
@@ -403,23 +380,16 @@ export default {
 
       } else {
 
-        let creating = this.$swal.fire({
-          toast: true,
-          position: "top-end",
-          title: "Molimo sačekajte..",
-          onBeforeOpen: () => {
-            this.$swal.showLoading();
-          },
-        });
+        this.showLoadingToast();
 
           let answer = null;
-          if(this.selected_lang == "sr") {
+          if(this.lang == "sr") {
             answer = {
               "answer_text": {
                 "sr": this.answer_text
               },
               "answer_true": this.answer_true,
-              "lang": this.selected_lang,
+              "lang": this.lang,
               "question": this.question_id
             }
           } else {
@@ -428,7 +398,7 @@ export default {
                 "en": this.answer_text
               },
               "answer_true": this.answer_true,
-              "lang": this.selected_lang,
+              "lang": this.lang,
               "question": this.question_id
             }
           }
@@ -436,10 +406,10 @@ export default {
           axios
           .patch("/answers/" + this.answer_id, answer)
           .then(() => {
-            creating.close();
+            this.creating.close();            
             this.showSuccessMessage("Pitanje uspešno sačuvano!")
             this.getQuestions();
-            this.getTestStatus()
+            this.getTestData()
             this.$refs["answer_modal"].hide();
           })
           .catch(() => {
@@ -450,42 +420,22 @@ export default {
     },
     saveTest() {
 
-        let creating = this.$swal.fire({
-          toast: true,
-          position: "top-end",
-          title: "Molimo sačekajte..",
-          onBeforeOpen: () => {
-            this.$swal.showLoading();
+        this.showLoadingToast();
+
+        let test = {
+          "test_name": {
+            [this.lang]: this.test_name
           },
-        });
+          "lesson_id": this.lesson.lesson_id,
+          "lang": this.lang
+        }
 
-        let test = null;
-        let sel_lang = this.selected_lang;
-        if(this.lesson.lesson_test_id == undefined) {
-
-          if(this.selected_lang == "sr") {
-            test = {
-              "test_name": {
-                "sr": this.test_name
-              },
-              "lesson_id": this.lesson.lesson_id,
-              "lang": sel_lang
-            }
-          } else {
-            test = {
-              "test_name": {
-                "en": this.test_name
-              },
-              "lesson_id": this.lesson.lesson_id,
-              "lang": sel_lang
-            }
-          }
-
-          axios
-          .post("/tests/admin/store",test)
+        axios
+          .post("/tests/admin/store-or-update", test)
           .then(res => {
             this.lesson.lesson_test_id = res.data.test_id
-            creating.close();
+            this.test = res.data
+            this.creating.close();
             this.getQuestions();
             this.showSuccessMessage("Test uspešno sačuvan!")
           })
@@ -493,38 +443,6 @@ export default {
             this.showErrorToast();
           });
 
-        } else {
-
-          if(this.selected_lang == "en") {
-            test = {
-              "test_id": this.lesson_test_id,
-              "lang": sel_lang,
-              "test_name": {
-                "en": this.test_name
-              },
-            }
-          } else {
-            test = {
-              "test_id": this.lesson_test_id,
-              "lang": sel_lang,
-              "test_name": {
-                "sr": this.test_name
-              },
-            }
-          }
-
-          axios
-          .put("/tests/admin/" + this.lesson.lesson_test_id + "/update",test)
-          .then(res => {
-            console.log(res)
-            creating.close();
-            this.showSuccessMessage("Test izmenjen!")            
-          })
-          .catch(() => {
-            this.showErrorToast();
-        });
-
-      }
     },
     removeTest() {
       this.$swal({
@@ -537,21 +455,13 @@ export default {
         confirmButtonText: "Da, obriši!",
       }).then((result) => {
         if (result.value) {
-          let creating = this.$swal.fire({
-            toast: true,
-            position: "top-end",
-            title: "Molimo sačekajte..",
-            onBeforeOpen: () => {
-              this.$swal.showLoading();
-            },
-          });
+          this.showLoadingToast();
 
           axios
             .delete("/tests/" + this.lesson.lesson_test_id)
             .then(() => {
-              creating.close();
+              this.creating.close();
               this.lesson.lesson_test_id = ''
-              this.test_name = ''
               this.questions = []
               this.showSuccessMessage("Test obrisan!")
             })
@@ -572,21 +482,14 @@ export default {
         confirmButtonText: "Da, obriši!",
       }).then((result) => {
         if (result.value) {
-          let creating = this.$swal.fire({
-            toast: true,
-            position: "top-end",
-            title: "Molimo sačekajte..",
-            onBeforeOpen: () => {
-              this.$swal.showLoading();
-            },
-          });
+          
 
           axios
             .delete("/questions/" + question.question_id)
             .then(() => {
-              creating.close();
+              this.creating.close();              
               this.getQuestions();
-              this.getTestStatus()
+              this.getTestData()
               this.showSuccessMessage("Pitanje obrisano!")
             })
             .catch(() => {
@@ -606,21 +509,14 @@ export default {
         confirmButtonText: "Da, obriši!",
       }).then((result) => {
         if (result.value) {
-          let creating = this.$swal.fire({
-            toast: true,
-            position: "top-end",
-            title: "Molimo sačekajte..",
-            onBeforeOpen: () => {
-              this.$swal.showLoading();
-            },
-          });
+          this.showLoadingToast();
 
           axios
             .delete("/answers/" + answer.answer_id)
             .then(() => {
-              creating.close();
+              this.closeLoadingToast();
               this.getQuestions();
-              this.getTestStatus()
+              this.getTestData()
               this.showSuccessMessage("Odgovor obrisan!")
             })
             .catch(() => {
@@ -669,12 +565,12 @@ export default {
       this.answer_text = ''
       this.answer_true = false
     },
-    getTestStatus() {
-      console.log(this.lesson)
-      axios.get("/test/admin/" + this.lesson.lesson_test_id + "/show").then((response) => {
-          console.log("MUDA")
-          console.log(response)
-          this.test_verified = response.data.meets_requirements;
+    getTestData() {
+      axios.get("/tests/admin/" + this.lesson.lesson_id + "/show").then((response) => {
+        if(response.data != null) {
+          this.test = response.data.data
+          this.test_name = response.data.test_name
+        }
       });
     },
     showErrorToast() {
@@ -696,6 +592,19 @@ export default {
         title: messageText,
         showConfirmButton: false,
       });
+    },
+    showLoadingToast() {
+      this.creating = this.$swal.fire({
+        toast: true,
+        position: "top-end",
+        title: "Molimo sačekajte..",
+        onBeforeOpen: () => {
+          this.$swal.showLoading();
+        },
+      });
+    },
+    closeLoadingToast() {
+      this.creating.close();
     }
   },
   validations: {
