@@ -129,7 +129,6 @@ export default {
     },
     getReviews(page = 1) {
       axios.get("/reviews/admin/course/" + this.course.course_id + "/all" + "?page=" + page).then((response) => {    
-        console.log(response.data)
         this.reviews = response.data;
       });
     },

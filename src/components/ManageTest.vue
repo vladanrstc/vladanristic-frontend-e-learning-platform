@@ -11,7 +11,7 @@
           placeholder="Naslov testa"
           v-model="test_name"
         ></b-form-input>
-        <b-button @click="saveTest()" variant="success" style="min-width:150px">
+        <b-button @click="saveTest()" variant="outline-success" style="min-width:150px">
           <i class="fa fa-floppy-o" aria-hidden="true"></i>
             Sačuvaj naslov
         </b-button>
@@ -261,14 +261,7 @@ export default {
             this.test_name = res.data.test_name[this.selected_lang];
           })
           .catch(()=> {
-            this.$swal.fire({
-              toast: true,
-              position: "top-end",
-              icon: "error",
-              title: "Došlo je do greške. Molimo pokušajte ponovo",
-              showConfirmButton: false,
-              timer: 4500,
-            });
+            this.showErrorToast();
         });
     },
     addQuestion() {
@@ -306,28 +299,14 @@ export default {
           .post("/questions", question)
           .then(() => {
             creating.close();
-            this.$swal.fire({
-                toast: true,
-                timer: 3000,
-                position: "top-end",
-                icon: "success",
-                title: "Uspešno sačuvano pitanje!",
-                showConfirmButton: false,
-              });
+            this.showSuccessMessage("Pitanje uspešno sačuvano!")
             this.getQuestions();
             this.getTestStatus()
             this.$refs["question_modal"].hide();
             this.question_id = ''
           })
           .catch(() => {
-            this.$swal.fire({
-              toast: true,
-              position: "top-end",
-              icon: "error",
-              title: "Došlo je do greške. Molimo pokušajte ponovo",
-              showConfirmButton: false,
-              timer: 4500,
-            });
+            this.showErrorToast();
         });
 
       } else {
@@ -364,28 +343,14 @@ export default {
           .patch("/questions/" + this.question_id, question)
           .then(() => {
             creating.close();
-            this.$swal.fire({
-                toast: true,
-                timer: 3000,
-                position: "top-end",
-                icon: "success",
-                title: "Uspešno sačuvano pitanje!",
-                showConfirmButton: false,
-              });
+            this.showSuccessMessage("Pitanje uspešno sačuvano!")
             this.getQuestions();
             this.getTestStatus()
             this.$refs["question_modal"].hide();
             this.question_id = ''
           })
           .catch(() => {
-            this.$swal.fire({
-              toast: true,
-              position: "top-end",
-              icon: "error",
-              title: "Došlo je do greške. Molimo pokušajte ponovo",
-              showConfirmButton: false,
-              timer: 4500,
-            });
+            this.showErrorToast();
           });
 
       }
@@ -426,28 +391,14 @@ export default {
           axios
           .post("/answers", answer)
           .then(() => {
-            creating.close();
-            this.$swal.fire({
-                toast: true,
-                timer: 3000,
-                position: "top-end",
-                icon: "success",
-                title: "Uspešno sačuvan odgovor!",
-                showConfirmButton: false,
-              });
+            creating.close();            
+            this.showSuccessMessage("Odgovor uspešno sačuvan!")
             this.getQuestions();
             this.getTestStatus()
             this.$refs["answer_modal"].hide();
           })
           .catch(() => {
-            this.$swal.fire({
-              toast: true,
-              position: "top-end",
-              icon: "error",
-              title: "Došlo je do greške. Molimo pokušajte ponovo",
-              showConfirmButton: false,
-              timer: 4500,
-            });
+            this.showErrorToast();
         });
 
       } else {
@@ -486,27 +437,13 @@ export default {
           .patch("/answers/" + this.answer_id, answer)
           .then(() => {
             creating.close();
-            this.$swal.fire({
-                toast: true,
-                timer: 3000,
-                position: "top-end",
-                icon: "success",
-                title: "Uspešno sačuvano pitanje!",
-                showConfirmButton: false,
-              });
+            this.showSuccessMessage("Pitanje uspešno sačuvano!")
             this.getQuestions();
             this.getTestStatus()
             this.$refs["answer_modal"].hide();
           })
           .catch(() => {
-            this.$swal.fire({
-              toast: true,
-              position: "top-end",
-              icon: "error",
-              title: "Došlo je do greške. Molimo pokušajte ponovo",
-              showConfirmButton: false,
-              timer: 4500,
-            });
+            this.showErrorToast();
           });
 
       }
@@ -531,7 +468,6 @@ export default {
               "test_name": {
                 "sr": this.test_name
               },
-              "test_description": "-",
               "lesson_id": this.lesson.lesson_id,
               "lang": sel_lang
             }
@@ -540,36 +476,21 @@ export default {
               "test_name": {
                 "en": this.test_name
               },
-              "test_description": "-",
               "lesson_id": this.lesson.lesson_id,
               "lang": sel_lang
             }
           }
 
           axios
-          .post("/tests",test)
+          .post("/tests/admin/store",test)
           .then(res => {
             this.lesson.lesson_test_id = res.data.test_id
             creating.close();
             this.getQuestions();
-            this.$swal.fire({
-                toast: true,
-                timer: 3000,
-                position: "top-end",
-                icon: "success",
-                title: "Uspešno sačuvan test!",
-                showConfirmButton: false,
-              });
+            this.showSuccessMessage("Test uspešno sačuvan!")
           })
           .catch(() => {
-            this.$swal.fire({
-              toast: true,
-              position: "top-end",
-              icon: "error",
-              title: "Došlo je do greške. Molimo pokušajte ponovo",
-              showConfirmButton: false,
-              timer: 4500,
-            });
+            this.showErrorToast();
           });
 
         } else {
@@ -581,7 +502,6 @@ export default {
               "test_name": {
                 "en": this.test_name
               },
-              "test_description": "-"
             }
           } else {
             test = {
@@ -590,39 +510,21 @@ export default {
               "test_name": {
                 "sr": this.test_name
               },
-              "test_description": "-"
             }
           }
 
-
           axios
-          .patch("/tests/" + this.lesson.lesson_test_id,test)
+          .put("/tests/admin/" + this.lesson.lesson_test_id + "/update",test)
           .then(res => {
             console.log(res)
             creating.close();
-            this.$swal.fire({
-                toast: true,
-                timer: 3000,
-                position: "top-end",
-                icon: "success",
-                title: "Uspešno sačuvan test!",
-                showConfirmButton: false,
-              });
+            this.showSuccessMessage("Test izmenjen!")            
           })
           .catch(() => {
-            this.$swal.fire({
-              toast: true,
-              position: "top-end",
-              icon: "error",
-              title: "Došlo je do greške. Molimo pokušajte ponovo",
-              showConfirmButton: false,
-              timer: 4500,
-            });
+            this.showErrorToast();
         });
 
       }
-
-
     },
     removeTest() {
       this.$swal({
@@ -651,23 +553,11 @@ export default {
               this.lesson.lesson_test_id = ''
               this.test_name = ''
               this.questions = []
+              this.showSuccessMessage("Test obrisan!")
             })
             .catch(() => {
-              this.$swal.fire({
-                toast: true,
-                position: "top-end",
-                icon: "error",
-                title: "Došlo je do greške. Molimo pokušajte ponovo",
-                showConfirmButton: false,
-                timer: 4500,
-              });
+              this.showErrorToast();
             });
-
-          this.$swal(
-            "Obrisan test!",
-            '',
-            "success"
-          );
         }
       });
     },
@@ -697,23 +587,11 @@ export default {
               creating.close();
               this.getQuestions();
               this.getTestStatus()
+              this.showSuccessMessage("Pitanje obrisano!")
             })
             .catch(() => {
-              this.$swal.fire({
-                toast: true,
-                position: "top-end",
-                icon: "error",
-                title: "Došlo je do greške. Molimo pokušajte ponovo",
-                showConfirmButton: false,
-                timer: 4500,
-              });
+              this.showErrorToast();
             });
-
-          this.$swal(
-            "Obrisano pitanje!",
-            '',
-            "success"
-          );
         }
       });
     },
@@ -743,23 +621,11 @@ export default {
               creating.close();
               this.getQuestions();
               this.getTestStatus()
+              this.showSuccessMessage("Odgovor obrisan!")
             })
             .catch(() => {
-              this.$swal.fire({
-                toast: true,
-                position: "top-end",
-                icon: "error",
-                title: "Došlo je do greške. Molimo pokušajte ponovo",
-                showConfirmButton: false,
-                timer: 4500,
-              });
+              this.showErrorToast();
             });
-
-          this.$swal(
-            "Obrisan odgovor!",
-            '',
-            "success"
-          );
         }
       });
     },
@@ -804,10 +670,31 @@ export default {
       this.answer_true = false
     },
     getTestStatus() {
-      axios.get("/test/status/" + this.lesson.lesson_test_id).then((response) => {
+      console.log(this.lesson)
+      axios.get("/test/admin/" + this.lesson.lesson_test_id + "/show").then((response) => {
           console.log("MUDA")
           console.log(response)
           this.test_verified = response.data.meets_requirements;
+      });
+    },
+    showErrorToast() {
+        this.$swal.fire({
+          toast: true,
+          position: "top-end",
+          icon: "error",
+          title: "Došlo je do greške. Molimo pokušajte ponovo",
+          showConfirmButton: false,
+          timer: 4500,
+        });
+    },
+    showSuccessMessage(messageText) {
+      this.$swal.fire({
+        toast: true,
+        timer: 3000,
+        position: "top-end",
+        icon: "success",
+        title: messageText,
+        showConfirmButton: false,
       });
     }
   },
