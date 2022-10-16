@@ -130,7 +130,7 @@ export default {
                     this.$swal.showLoading();
                 },
             });
-            axios.post("/tests/test/submit",
+            axios.post("/tests/submit",
                 {
                     "answers": this.questions
                 })
@@ -162,7 +162,7 @@ export default {
                 });
         },
         getTestData() {
-            axios.get("/tests/test/data/" + this.lesson.lesson_id)
+            axios.get("/tests/data/" + this.lesson.lesson_id)
                 .then(response => {
                     this.test = response.data.data[0];
 
