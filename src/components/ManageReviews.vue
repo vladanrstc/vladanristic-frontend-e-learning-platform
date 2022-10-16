@@ -40,26 +40,31 @@ export default {
           key: "user.last_name",
           sortable: true,
           label: "Prezime",
+          tdClass: 'align-middle'
         },
         {
           key: "user.name",
           sortable: true,
           label: "Ime",
+          tdClass: 'align-middle'
         },
         {
           key: "user.email",
           label: "E-mail",
           sortable: true,
+          tdClass: 'align-middle'
         },
         {
           key: "user_course_started_review_mark",
           label: "Ocena",
           sortable: false,
+          tdClass: 'align-middle'
         },
         {
           key: "user_course_started_review_text",
           label: "Tekst",
           sortable: false,
+          tdClass: 'align-middle'
         },
         {
           key: "delete",
@@ -124,6 +129,7 @@ export default {
     },
     getReviews(page = 1) {
       axios.get("/reviews/admin/course/" + this.course.course_id + "/all" + "?page=" + page).then((response) => {    
+        console.log(response.data)
         this.reviews = response.data;
       });
     },
@@ -133,6 +139,7 @@ export default {
       if(value.length > 30) {
         return value.substring(0, 60) + "...";
       }
+      return value
     }
   }
 };

@@ -55,21 +55,25 @@
                         key: "last_name",
                         sortable: true,
                         label: "Prezime",
+                        tdClass: 'align-middle'
                     },
                     {
                         key: "name",
                         sortable: true,
                         label: "Ime",
+                        tdClass: 'align-middle'
                     },
                     {
                         key: "email",
                         label: "E-mail",
                         sortable: true,
+                        tdClass: 'align-middle'
                     },
                     {
                         key: "role",
                         label: "Rola",
                         sortable: true,
+                        tdClass: 'align-middle'
                     },
                 ],
                 users: {},

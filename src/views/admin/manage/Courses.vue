@@ -162,6 +162,7 @@
                         key: "count",
                         sortable: false,
                         label: "#",
+                        tdClass: 'align-middle'
                     },                                 
                     {
                         key: "course_name",

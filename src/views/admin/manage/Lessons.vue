@@ -39,11 +39,11 @@
                 <draggable v-model="lessons" @end="saveOrder()" tag="tbody">
                     <tr v-for="(lesson, index) in lessons" :key="lesson.lesson_id">
                                                                                             
-                        <td>{{ index + 1 }}</td>
+                        <td class="align-middle">{{ index + 1 }}</td>
                         
-                        <td>{{ lesson.lesson_title[selected_lang] }}</td>
+                        <td class="align-middle">{{ lesson.lesson_title[selected_lang] }}</td>
 
-                        <td scope="row">
+                        <td class="align-middle" scope="row">
                             <b-form-checkbox v-model="lessons[index].lesson_published" @change="switchLesson(lesson)"
                                              switch></b-form-checkbox>
                         </td>

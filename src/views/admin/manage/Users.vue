@@ -169,31 +169,37 @@
                         key: "count",
                         sortable: false,
                         label: "#",
+                        tdClass: 'align-middle'
                     },                
                     {
                         key: "last_name",
                         sortable: true,
                         label: "Prezime",
+                        tdClass: 'align-middle'
                     },
                     {
                         key: "name",
                         sortable: true,
                         label: "Ime",
+                        tdClass: 'align-middle'
                     },
                     {
                         key: "email",
                         label: "E-mail",
                         sortable: true,
+                        tdClass: 'align-middle'
                     },
                     {
                         key: "role",
                         label: "Rola",
                         sortable: true,
+                        tdClass: 'align-middle'
                     },
                     {
                         key: "language",
                         label: "Jezik",
                         sortable: false,
+                        tdClass: 'align-middle'
                     },                    
                     {
                         key: "edit",

@@ -34,11 +34,11 @@
         <draggable v-model="sections" @end="saveOrder()" tag="tbody">
           <tr v-for="(section, index) in sections" :key="section.section_id">
             
-            <td scope="row">
+            <td scope="row" class="align-middle">
               {{ index + 1}}
             </td>
 
-            <td>{{ section.section_name[selected_lang] }}</td>
+            <td class="align-middle">{{ section.section_name[selected_lang] }}</td>
 
             <td scope="row">
               <b-button variant="info" @click="goToLessons(section)">
@@ -129,6 +129,7 @@ export default {
           key: "section_name",
           sortable: true,
           label: "Naziv sekcije",
+          tdClass: 'align-middle'
         },
         {
           key: "edit",

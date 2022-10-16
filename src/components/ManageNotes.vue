@@ -47,22 +47,26 @@ export default {
           key: "user.last_name",
           sortable: true,
           label: "Prezime",
+          tdClass: 'align-middle'
         },
         {
           key: "user.name",
           sortable: true,
           label: "Ime",
+          tdClass: 'align-middle'
         },
         {
           key: "user.email",
           label: "E-mail",
           sortable: true,
+          tdClass: 'align-middle'
         },
         {
           key: "user_course_started_note_text",
           label: "Tekst",
           sortable: false,
-          class: "try-it"
+          class: "try-it",
+          tdClass: 'align-middle'
         },
         {
           key: "delete",
