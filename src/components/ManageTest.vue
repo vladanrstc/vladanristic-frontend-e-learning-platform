@@ -2,24 +2,24 @@
   <div class="container-fluid text-left">
     <div class="d-flex align-items-center mb-3" style="justify-content: space-between">
       <div class="d-flex align-items-center">
-        <i v-b-tooltip.hover.bottom title="Test ispunjava zahteve" v-if="this.lesson.meets_requirements == true" class="fa fa-check-circle text-success mr-3" aria-hidden="true"></i>
+        <i v-b-tooltip.hover.bottom title="Test ispunjava zahteve" v-if="test.meets_requirements" class="fa fa-check-circle text-success mr-3" aria-hidden="true"></i>
         <i v-b-tooltip.hover.bottom title="Test ne ispunjava zahteve" v-else class="fa fa-times-circle text-danger mr-3" aria-hidden="true"></i>
         <b-form-input
           style="max-width: 300px"
           class="mr-3"
           id="test-name"
           placeholder="Naslov testa"
-          v-model="test_name"
+          v-model="test_name[lang]"
         ></b-form-input>
         <b-button @click="saveTest()" variant="outline-success" style="min-width:150px">
           <i class="fa fa-floppy-o" aria-hidden="true"></i>
             Sačuvaj naslov
         </b-button>
-        <b-button v-if="lesson.lesson_test_id > 0" @click="removeTest()" class="ml-3" variant="danger">
+        <b-button v-if="test.meets_requirements != undefined" @click="removeTest()" class="ml-3" variant="danger">
           <i class="fa fa-times-circle-o" aria-hidden="true"></i>
         </b-button>
       </div>
-      <b-button v-if="lesson.lesson_test_id > 0" @click="questionModal()" class="ml-3" variant="outline-success">
+      <b-button v-if="test.meets_requirements != undefined" @click="questionModal()" class="ml-3" variant="outline-success">
           <i class="fa fa-plus-circle" aria-hidden="true"></i>
           Dodaj pitanje
       </b-button>
@@ -186,7 +186,10 @@ export default {
       },
       creating: null,
       answer_true: false,
-      test_name: "",
+      test_name: {
+        "sr": "",
+        "en": ""        
+      },
       fields: [
         {
           key: "delete",
@@ -423,9 +426,7 @@ export default {
         this.showLoadingToast();
 
         let test = {
-          "test_name": {
-            [this.lang]: this.test_name
-          },
+          "test_name": this.test_name,
           "lesson_id": this.lesson.lesson_id,
           "lang": this.lang
         }
@@ -436,8 +437,9 @@ export default {
             this.lesson.lesson_test_id = res.data.test_id
             this.test = res.data
             this.creating.close();
-            this.getQuestions();
+            // this.getQuestions();
             this.showSuccessMessage("Test uspešno sačuvan!")
+            this.getTestData();
           })
           .catch(() => {
             this.showErrorToast();
@@ -447,10 +449,10 @@ export default {
     removeTest() {
       this.$swal({
         title: "Da li ste sigurni da želite da obrišete test?",
-        icon: "warning",
+        icon: "question",
         showCancelButton: true,
-        confirmButtonColor: "#d33",
-        cancelButtonColor: "#3085d6",
+        confirmButtonColor: "#28a745",
+        cancelButtonColor: "#d33",
         cancelButtonText: "Ne",
         confirmButtonText: "Da, obriši!",
       }).then((result) => {
@@ -458,12 +460,13 @@ export default {
           this.showLoadingToast();
 
           axios
-            .delete("/tests/" + this.lesson.lesson_test_id)
+            .delete("/tests/admin/" + this.test.test_id + "/delete")
             .then(() => {
               this.creating.close();
               this.lesson.lesson_test_id = ''
               this.questions = []
               this.showSuccessMessage("Test obrisan!")
+              this.getTestData();
             })
             .catch(() => {
               this.showErrorToast();
@@ -566,11 +569,17 @@ export default {
       this.answer_true = false
     },
     getTestData() {
+      this.showLoadingToast();
       axios.get("/tests/admin/" + this.lesson.lesson_id + "/show").then((response) => {
-        if(response.data != null) {
+        if(response.data != null && response.data != "") {
           this.test = response.data.data
-          this.test_name = response.data.test_name
+          try {
+            this.test_name[this.lang] = response.data.data.test_name[this.lang]
+          } catch(e) {
+
+          }
         }
+        this.closeLoadingToast();
       });
     },
     showErrorToast() {
