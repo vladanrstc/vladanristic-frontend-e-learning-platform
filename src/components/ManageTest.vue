@@ -52,7 +52,7 @@
 
         <template v-slot:cell(question_text)="data">
 
-          <b-button v-b-toggle="'collapse-a' + data.item.question_id" block variant="info">
+          <b-button v-b-toggle="'collapse-a' + data.item.question_id" block variant="info" class="mb-1">
             {{data.item.question_text[lang]}}
           </b-button>
 
@@ -566,7 +566,9 @@ export default {
   .question-col > button {
     min-height: 38px;
   }
-  .btn-info {
-    background-color: #4c78dd !important;
+  .question-col > .btn-info {
+    background-color: #343a40 !important;
+    border: transparent;
+    border-radius: 0px;
   }
 </style>
