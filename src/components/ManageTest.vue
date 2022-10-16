@@ -173,7 +173,6 @@ export default {
   },
   props: ["lesson", "lang"],
   mounted() {
-    // this.getQuestions();
     this.getTestData();
   },
   data() {
@@ -262,28 +261,19 @@ export default {
 
         this.showLoadingToast();
 
+        let question = {
+          "question_text": {
+            [this.lang]: this.question_text
+          },
+          "lang": this.lang,
+        }
+
         if(this.question_id == '') {
-          let question = null;
-          if(this.lang == "sr") {
-            question = {
-              "question_text": {
-                "sr": this.question_text
-              },
-              "lang": this.lang,
-              "test": this.lesson.lesson_test_id
-            }
-          } else {
-            question = {
-              "question_text": {
-                "en": this.question_text
-              },
-              "lang": this.lang,
-              "test": this.lesson.lesson_test_id
-            }
-          }
+
+          question['test'] = this.lesson.lesson_test_id;
 
           axios
-          .post("/questions", question)
+          .post("/questions/admin/store", question)
           .then(() => {
             this.creating.close();          
             this.showSuccessMessage("Pitanje uspešno sačuvano!")
@@ -300,51 +290,27 @@ export default {
 
         this.showLoadingToast();
 
-          let question = null;
-          if(this.lang == "sr") {
-            question = {
-              "question_text": {
-                "sr": this.question_text
-              },
-              "lang": this.lang,
-              "question_id": this.question_id
-            }
-          } else {
-            question = {
-              "question_text": {
-                "en": this.question_text
-              },
-              "lang": this.lang,
-              "question_id": this.question_id
-            }
-          }
-          console.log(question)
-          axios
-          .patch("/questions/" + this.question_id, question)
-          .then(() => {
-            this.creating.close();            
-            this.showSuccessMessage("Pitanje uspešno sačuvano!")
-            this.getQuestions();
-            this.getTestData()
-            this.$refs["question_modal"].hide();
-            this.question_id = ''
-          })
-          .catch(() => {
-            this.showErrorToast();
-          });
+        question["question_id"] = this.question_id        
+        
+        axios
+        .put("/questions/admin/" + this.question_id + "/update", question)
+        .then(() => {
+          this.creating.close();            
+          this.showSuccessMessage("Pitanje uspešno sačuvano!")
+          this.getQuestions();
+          this.getTestData()
+          this.$refs["question_modal"].hide();
+          this.question_id = ''
+        })
+        .catch(() => {
+          this.showErrorToast();
+        });
 
       }
     },
     addAnswer() {
 
-        let creating = this.$swal.fire({
-          toast: true,
-          position: "top-end",
-          title: "Molimo sačekajte..",
-          onBeforeOpen: () => {
-            this.$swal.showLoading();
-          },
-        });
+        this.showLoadingToast()
 
         if(this.answer_id == '') {
           let answer = null;
@@ -437,7 +403,7 @@ export default {
             this.lesson.lesson_test_id = res.data.test_id
             this.test = res.data
             this.creating.close();
-            // this.getQuestions();
+            this.getQuestions();
             this.showSuccessMessage("Test uspešno sačuvan!")
             this.getTestData();
           })
@@ -477,18 +443,17 @@ export default {
     deleteQuestion(question) {
       this.$swal({
         title: "Da li ste sigurni da želite da obrišete pitanje?",
-        icon: "warning",
+        icon: "question",
         showCancelButton: true,
-        confirmButtonColor: "#d33",
-        cancelButtonColor: "#3085d6",
+        confirmButtonColor: "#28a745",
+        cancelButtonColor: "#d33",
         cancelButtonText: "Ne",
         confirmButtonText: "Da, obriši!",
       }).then((result) => {
-        if (result.value) {
-          
+        if (result.value) {          
 
           axios
-            .delete("/questions/" + question.question_id)
+            .delete("/questions/admin/" + question.question_id + "/delete")
             .then(() => {
               this.creating.close();              
               this.getQuestions();
@@ -545,9 +510,7 @@ export default {
       return $dirty ? !$error : null;
     },
     getQuestions() {
-      axios.get("/questions/test/" + this.lesson.lesson_test_id).then((response) => {
-        console.log("---------")
-        console.log(response)
+      axios.get("/questions/admin/test/" + this.lesson.lesson_test_id).then((response) => {
         this.questions = response;
       });
     },
@@ -573,6 +536,7 @@ export default {
       axios.get("/tests/admin/" + this.lesson.lesson_id + "/show").then((response) => {
         if(response.data != null && response.data != "") {
           this.test = response.data.data
+          this.getQuestions();
           try {
             this.test_name[this.lang] = response.data.data.test_name[this.lang]
           } catch(e) {
