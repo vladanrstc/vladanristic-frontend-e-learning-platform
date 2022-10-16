@@ -312,68 +312,35 @@ export default {
 
         this.showLoadingToast()
 
-        if(this.answer_id == '') {
-          let answer = null;
-          if(this.lang == "sr") {
-            answer = {
-              "answer_text": {
-                "sr": this.answer_text
-              },
-              "answer_true": this.answer_true,
-              "lang": this.lang,
-              "question": this.question_id
-            }
-          } else {
-            answer = {
-              "answer_text": {
-                "en": this.answer_text
-              },
-              "answer_true": this.answer_true,
-              "lang": this.lang,
-              "question": this.question_id
-            }
-          }
-          console.log(answer)
-          axios
-          .post("/answers", answer)
-          .then(() => {
-            this.creating.close();                    
-            this.showSuccessMessage("Odgovor uspešno sačuvan!")
-            this.getQuestions();
-            this.getTestData()
-            this.$refs["answer_modal"].hide();
-          })
-          .catch(() => {
-            this.showErrorToast();
-        });
+        let answer = {
+          "answer_text": {
+            [this.lang]: this.answer_text
+          },
+          "answer_true": this.answer_true,
+          "lang": this.lang,
+          "question": this.question_id
+        }
 
-      } else {
+        if(this.answer_id == '') {
+          axios
+            .post("/answers/admin/store", answer)
+            .then(() => {
+              this.creating.close();                    
+              this.showSuccessMessage("Odgovor uspešno sačuvan!")
+              this.getQuestions();
+              this.getTestData()
+              this.$refs["answer_modal"].hide();
+            })
+            .catch(() => {
+              this.showErrorToast();
+          });
+
+        } else {
 
         this.showLoadingToast();
-
-          let answer = null;
-          if(this.lang == "sr") {
-            answer = {
-              "answer_text": {
-                "sr": this.answer_text
-              },
-              "answer_true": this.answer_true,
-              "lang": this.lang,
-              "question": this.question_id
-            }
-          } else {
-            answer = {
-              "answer_text": {
-                "en": this.answer_text
-              },
-              "answer_true": this.answer_true,
-              "lang": this.lang,
-              "question": this.question_id
-            }
-          }
-          console.log(answer)
+          
           axios
-          .patch("/answers/" + this.answer_id, answer)
+          .put("/answers/admin/" + this.answer_id + "/update", answer)
           .then(() => {
             this.creating.close();            
             this.showSuccessMessage("Pitanje uspešno sačuvano!")
@@ -469,10 +436,10 @@ export default {
     deleteAnswer(answer) {
       this.$swal({
         title: "Da li ste sigurni da želite da obrišete odgovor?",
-        icon: "warning",
+        icon: "question",
         showCancelButton: true,
-        confirmButtonColor: "#d33",
-        cancelButtonColor: "#3085d6",
+        confirmButtonColor: "#28a745",
+        cancelButtonColor: "#d33",
         cancelButtonText: "Ne",
         confirmButtonText: "Da, obriši!",
       }).then((result) => {
@@ -480,7 +447,7 @@ export default {
           this.showLoadingToast();
 
           axios
-            .delete("/answers/" + answer.answer_id)
+            .delete("/answers/admin/" + answer.answer_id + "/delete")
             .then(() => {
               this.closeLoadingToast();
               this.getQuestions();
@@ -492,18 +459,6 @@ export default {
             });
         }
       });
-    },
-    editUser(question) {
-      this.question_form.name = question.name;
-      this.question_form.last_name = question.last_name;
-      this.question_form.email = question.email;
-      this.question_form.role = question.role;
-
-      this.question_id = question.id;
-
-      this.modal_action = "Izmeni pitanje";
-
-      this.$refs["create_question"].show();
     },
     validateState(name) {
       const { $dirty, $error } = this.$v.question_form[name];
@@ -610,5 +565,8 @@ export default {
   }
   .question-col > button {
     min-height: 38px;
+  }
+  .btn-info {
+    background-color: #4c78dd !important;
   }
 </style>
