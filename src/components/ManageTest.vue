@@ -466,7 +466,7 @@ export default {
     },
     getQuestions() {
       axios.get("/questions/admin/test/" + this.lesson.lesson_test_id).then((response) => {
-        this.questions = response;
+        this.questions = response.data;
       });
     },
     resetModal() {

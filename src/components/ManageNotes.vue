@@ -131,7 +131,7 @@ export default {
     },
     getNotes(page = 1) {
       axios.get("/notes/admin/course/" + this.course.course_id + "?page=" + page).then((response) => {      
-        this.notes = response.data;
+        this.notes = response.data.data;
       });
     },
   }

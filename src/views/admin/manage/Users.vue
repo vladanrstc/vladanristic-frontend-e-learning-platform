@@ -392,7 +392,7 @@
                         this.current_page = page;
                     }
                     
-                    this.users = response.data;
+                    this.users = response.data.data;
                 });
             },
             resetModal() {
