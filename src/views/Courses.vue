@@ -30,7 +30,7 @@
                 <b-row>
                     <!-- v-for="lesson in lessons" -->
                     <b-col v-for="course in this.courses_not_started" :key="course.course_id" cols="12" sm="6" md="4" lg="3" class="p-3">
-                        <b-card @click="goTo(course.course_slug)"
+                        <b-card @click="goTo(course.course_slug, true, course)"
                                 :title="course.course_name[lang]"
                                 :img-src="$hostname + '/storage/' + course.course_image"
                                 img-alt="Course Image"
@@ -80,59 +80,23 @@
                     this.is_logged_param = false;
                 }
             },
-            startCourse(course) {
-                if(this.is_logged_param == false) {
-                    this.$swal.fire({
-                        toast: false,
-                        position: "center",
-                        icon: "info",
-                        title: this.$t("notifications.login_notification"),
-                        showConfirmButton: true
-                    });
-                    return
-                }
-                this.$swal({
-                    title: this.$t('questions.start_course'),
-                    icon: "info",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3273a8",
-                    cancelButtonText: this.$t('answers.no'),
-                    confirmButtonText: this.$t('answers.yes'),
-                }).then((result) => {
-
-                    if (result.value) {
-
-                        let creating = this.$swal.fire({
+            goTo(slug, enroll = false, course = null) {
+                if(enroll && this.is_logged_param) {
+                    axios.post("/coursestart/enroll", course).then(() => {
+                        this.$router.push('/lessons/' + slug);
+                    }).catch(() => {
+                        this.$swal.fire({
                             toast: true,
                             position: "top-end",
-                            title: this.$t('notifications.wait'),
-                            onBeforeOpen: () => {
-                                this.$swal.showLoading();
-                            },
+                            icon: "error",
+                            title: this.$t("notifications.general_error"),
+                            showConfirmButton: false,
+                            timer: 4500,
                         });
-
-                        axios.post("/coursestart/enroll", course).then(() => {
-                            creating.close();
-                            this.getNotStartedCourses();
-                            this.getStartedCourses();
-                            this.goTo(course.course_slug);
-                        }).catch(() => {
-                            this.$swal.fire({
-                                toast: true,
-                                position: "top-end",
-                                icon: "error",
-                                title: this.$t("notifications.general_error"),
-                                showConfirmButton: false,
-                                timer: 4500,
-                            });
-                        });
-
-                    }
-
-                });
-            },
-            goTo(slug) {
-                this.$router.push('/lessons/' + slug);
+                    });
+                } else {
+                    this.$router.push('/lessons/' + slug);
+                }
             },
             getStartedCourses() {
                 axios.get("/coursestart/started")

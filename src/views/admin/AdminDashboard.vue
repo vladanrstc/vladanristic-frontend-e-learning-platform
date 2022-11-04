@@ -130,7 +130,7 @@
         },
         mounted() {
 
-            axios.get("/stats/admin/overall-status").then(response => {
+            axios.get("/stats/overall-status").then(response => {
                 this.stats = response.data.data
 
             this.$refs.logsChart.updateSeries([{

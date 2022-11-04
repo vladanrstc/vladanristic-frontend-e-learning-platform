@@ -77,7 +77,7 @@
                         if(value.lesson_video_link[primary_lang] != undefined && value.lesson_video_link[primary_lang] != null) {
                             lang_to_use = primary_lang;
                         } else {
-                            lang_to_use = $secondary_lang;
+                            lang_to_use = secondary_lang;
                         }
 
                         let obj = {
@@ -86,6 +86,7 @@
                         }
                         this.videos.push(obj)                        
                     });
+                    console.log(this.videos)
                 }).catch(error => {
                     console.log(error)
                 })
